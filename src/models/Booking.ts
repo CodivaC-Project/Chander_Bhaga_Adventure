@@ -67,7 +67,6 @@ const BookingSchema = new Schema<IBooking>(
   { timestamps: true }
 );
 
-BookingSchema.index({ bookingId: 1 });
 BookingSchema.index({ userId: 1 });
 BookingSchema.index({ status: 1 });
 BookingSchema.index({ createdAt: -1 });

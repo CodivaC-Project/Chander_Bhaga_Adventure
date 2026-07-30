@@ -32,7 +32,6 @@ const DestinationSchema = new Schema<IDestination>(
   { timestamps: true }
 );
 
-DestinationSchema.index({ slug: 1 });
 DestinationSchema.index({ featured: 1 });
 
 const Destination: Model<IDestination> =

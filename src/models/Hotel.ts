@@ -58,7 +58,6 @@ const HotelSchema = new Schema<IHotel>(
   { timestamps: true }
 );
 
-HotelSchema.index({ slug: 1 });
 HotelSchema.index({ stars: 1 });
 HotelSchema.index({ featured: 1 });
 

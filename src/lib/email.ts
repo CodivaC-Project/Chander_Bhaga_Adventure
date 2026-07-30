@@ -1,6 +1,13 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+let resend: Resend;
+
+function getResend(): Resend {
+  if (!resend) {
+    resend = new Resend(process.env.RESEND_API_KEY);
+  }
+  return resend;
+}
 
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "Chander Bhaga Adventure <onboarding@resend.dev>";
 
@@ -14,7 +21,7 @@ export async function sendVerificationEmail({
   url: string;
 }) {
   try {
-    await resend.emails.send({
+    await getResend().emails.send({
       from: FROM_EMAIL,
       to: email,
       subject: "Verify your email address",
@@ -92,7 +99,7 @@ export async function sendPasswordResetEmail({
   url: string;
 }) {
   try {
-    await resend.emails.send({
+    await getResend().emails.send({
       from: FROM_EMAIL,
       to: email,
       subject: "Reset your password",

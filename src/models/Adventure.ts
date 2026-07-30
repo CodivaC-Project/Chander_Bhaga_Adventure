@@ -63,7 +63,6 @@ const AdventureSchema = new Schema<IAdventure>(
   { timestamps: true }
 );
 
-AdventureSchema.index({ slug: 1 });
 AdventureSchema.index({ category: 1 });
 AdventureSchema.index({ featured: 1 });
 

@@ -77,7 +77,6 @@ const TourPackageSchema = new Schema<ITourPackage>(
   { timestamps: true }
 );
 
-TourPackageSchema.index({ slug: 1 });
 TourPackageSchema.index({ destination: 1 });
 TourPackageSchema.index({ featured: 1 });
 TourPackageSchema.index({ price: 1 });

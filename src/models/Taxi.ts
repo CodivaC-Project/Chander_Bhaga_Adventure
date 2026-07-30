@@ -35,7 +35,6 @@ const TaxiSchema = new Schema<ITaxi>(
   { timestamps: true }
 );
 
-TaxiSchema.index({ slug: 1 });
 TaxiSchema.index({ type: 1 });
 TaxiSchema.index({ available: 1 });
 
