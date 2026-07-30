@@ -1,7 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { siteConfig } from "@/lib/config";
 import {
-  Mountain,
   Phone,
   Mail,
   MapPin,
@@ -76,8 +76,13 @@ export function Footer() {
           {/* Brand column */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-[var(--color-accent)] flex items-center justify-center">
-                <Mountain className="w-7 h-7 text-white" />
+              <div className="relative w-12 h-12 rounded-full overflow-hidden">
+                <Image
+                  src="/logo.jpeg"
+                  alt="Chander Bhaga Adventure Logo"
+                  fill
+                  className="object-contain"
+                />
               </div>
               <div>
                 <span className="font-bold text-xl text-white block">

@@ -6,6 +6,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { siteConfig } from "@/lib/config";
 import { useSessionContext } from "@/components/auth/SessionProvider";
 import { signOut } from "@/lib/auth-client";
+import Image from "next/image";
 import {
   Menu,
   X,
@@ -103,9 +104,14 @@ export function Navbar() {
         <div className="container-custom flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative w-10 h-10 rounded-xl bg-[var(--color-primary)] flex items-center justify-center overflow-hidden">
-              <Mountain className="w-6 h-6 text-white transition-transform duration-300 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-[var(--color-accent)]/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="relative w-12 h-12 rounded-full overflow-hidden transition-transform duration-300 group-hover:scale-105">
+              <Image
+                src="/logo.jpeg"
+                alt="Chander Bhaga Adventure Logo"
+                fill
+                className="object-contain"
+                priority
+              />
             </div>
             <div className="flex flex-col">
               <span className="font-bold text-lg leading-tight text-[var(--color-primary)]">
