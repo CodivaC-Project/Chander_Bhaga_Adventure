@@ -49,7 +49,7 @@ const destinations = [
 
 export function FeaturedDestinations() {
   return (
-    <section className="section-padding">
+    <section className="section-padding section-bg-pine grain relative">
       <div className="container-custom">
         <SectionHeader
           title="Explore Destinations"

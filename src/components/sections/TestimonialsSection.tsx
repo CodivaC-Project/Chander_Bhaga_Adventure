@@ -54,21 +54,20 @@ export function TestimonialsSection() {
     setCurrent((c) => (c - 1 + testimonials.length) % testimonials.length);
 
   return (
-    <section className="section-padding bg-[var(--color-primary)] relative overflow-hidden">
-      {/* Decorative background */}
-      <div className="absolute inset-0 opacity-10">
-        <svg className="absolute top-0 left-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <circle cx="20" cy="20" r="40" fill="white" />
-          <circle cx="80" cy="80" r="30" fill="white" />
+    <section className="section-padding section-bg-pine relative overflow-hidden grain">
+      {/* Decorative mountain silhouette */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
+        <svg className="absolute bottom-0 left-0 w-full" viewBox="0 0 1440 200" fill="none" preserveAspectRatio="none">
+          <path d="M0 200V120L240 180L480 80L720 160L960 60L1200 140L1440 80V200H0Z" fill="var(--color-primary)" />
         </svg>
       </div>
 
       <div className="container-custom relative z-10">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
             What Our Travelers Say
           </h2>
-          <p className="mt-4 text-lg text-white/60 max-w-2xl mx-auto">
+          <p className="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">
             Don&apos;t just take our word for it — hear from thousands of happy
             travelers who explored Kashmir with us.
           </p>
@@ -76,8 +75,8 @@ export function TestimonialsSection() {
 
         <div className="relative max-w-4xl mx-auto">
           {/* Testimonial card */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-white/20">
-            <Quote className="w-12 h-12 text-[var(--color-accent)] mb-6" />
+          <div className="bg-white rounded-3xl p-8 md:p-12 shadow-[var(--shadow-medium)] border border-gray-100/60">
+            <Quote className="w-10 h-10 text-[var(--color-accent)]/40 mb-6" />
 
             <div className="flex items-center gap-1 mb-4">
               {Array.from({ length: testimonials[current].rating }, (_, i) => (
@@ -88,23 +87,23 @@ export function TestimonialsSection() {
               ))}
             </div>
 
-            <p className="text-xl md:text-2xl text-white leading-relaxed mb-8">
+            <p className="text-xl md:text-2xl text-gray-700 leading-relaxed mb-8 font-[var(--font-playfair)] italic">
               &ldquo;{testimonials[current].text}&rdquo;
             </p>
 
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white font-bold text-lg">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-pine)] flex items-center justify-center text-white font-bold text-lg">
                   {testimonials[current].avatar}
                 </div>
                 <div>
-                  <div className="font-semibold text-white">
+                  <div className="font-semibold text-gray-900">
                     {testimonials[current].name}
                   </div>
-                  <div className="text-sm text-white/60">
+                  <div className="text-sm text-gray-500">
                     {testimonials[current].location}
                   </div>
-                  <div className="text-xs text-[var(--color-accent)] mt-0.5">
+                  <div className="text-xs text-[var(--color-accent)] mt-0.5 font-medium">
                     {testimonials[current].package}
                   </div>
                 </div>
@@ -114,13 +113,15 @@ export function TestimonialsSection() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={prev}
-                  className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white/10 transition-colors"
+                  className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-colors"
+                  aria-label="Previous testimonial"
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </button>
                 <button
                   onClick={next}
-                  className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white/10 transition-colors"
+                  className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-colors"
+                  aria-label="Next testimonial"
                 >
                   <ChevronRight className="w-5 h-5" />
                 </button>
@@ -134,11 +135,12 @@ export function TestimonialsSection() {
               <button
                 key={i}
                 onClick={() => setCurrent(i)}
-                className={`w-2.5 h-2.5 rounded-full transition-all ${
+                className={`h-2.5 rounded-full transition-all duration-500 ${
                   i === current
                     ? "bg-[var(--color-accent)] w-8"
-                    : "bg-white/30 hover:bg-white/50"
+                    : "bg-gray-300 hover:bg-gray-400 w-2.5"
                 }`}
+                aria-label={`Go to testimonial ${i + 1}`}
               />
             ))}
           </div>

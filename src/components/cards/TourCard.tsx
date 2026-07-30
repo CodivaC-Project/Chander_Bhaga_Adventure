@@ -32,7 +32,7 @@ export function TourCard({
 }: TourCardProps) {
   return (
     <Link href={`/tours/${slug}`} className="group block">
-      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-[var(--shadow-soft)] card-hover h-full flex flex-col">
+      <div className="bg-white rounded-2xl overflow-hidden shadow-[var(--shadow-soft)] card-hover h-full flex flex-col">
         {/* Image */}
         <div className="relative h-56 overflow-hidden">
           <img

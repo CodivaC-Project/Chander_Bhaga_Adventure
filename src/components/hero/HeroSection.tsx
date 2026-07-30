@@ -3,7 +3,8 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { siteConfig } from "@/lib/config";
-import { TextReveal, LineReveal, WordReveal } from "@/components/ui/TextReveal";
+import { TextReveal, LineReveal } from "@/components/ui/TextReveal";
+import { MagicText } from "@/components/ui/MagicText";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import gsap from "gsap";
 import {
@@ -115,7 +116,11 @@ export function HeroSection() {
             <div className="space-y-4">
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
                 <TextReveal text="Discover the" delay={0.5} className="block" />
-                <TextReveal text="Magic of Kashmir" delay={0.8} className="block text-[var(--color-accent)]" />
+                <MagicText
+                  text="Magic of Kashmir"
+                  delay={0.8}
+                  className="block text-[var(--color-accent)] text-5xl md:text-6xl lg:text-7xl font-bold"
+                />
               </h1>
               <LineReveal delay={1.2}>
                 <p className="text-xl text-white/70 max-w-lg leading-relaxed">
@@ -189,13 +194,13 @@ export function HeroSection() {
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <Badge variant="accent">Featured</Badge>
-                    <Badge variant="primary">Best Seller</Badge>
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-[var(--color-accent)]/10 text-[var(--color-accent-dark)]">Featured</span>
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-[var(--color-primary)]/10 text-[var(--color-primary)]">Best Seller</span>
                   </div>
-                  <h3 className="text-2xl font-bold text-[var(--color-primary)]">
+                  <h3 className="text-2xl font-bold text-[var(--color-primary)] font-[var(--font-playfair)]">
                     Kashmir Explorer
                   </h3>
-                  <p className="text-gray-600 mt-2">
+                  <p className="text-gray-600 mt-2 text-sm">
                     6 Days / 5 Nights of pure magic through Gulmarg, Pahalgam &amp; Srinagar
                   </p>
                   <div className="flex items-center justify-between mt-4">
@@ -207,7 +212,7 @@ export function HeroSection() {
                     </div>
                     <Link
                       href="/tours/kashmir-explorer"
-                      className="btn-primary !rounded-xl"
+                      className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[var(--color-primary)] text-white font-semibold rounded-xl hover:bg-[var(--color-primary-light)] transition-all shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-medium)] hover:-translate-y-0.5 text-sm"
                     >
                       View Details
                     </Link>
@@ -229,23 +234,4 @@ export function HeroSection() {
   );
 }
 
-function Badge({
-  children,
-  variant,
-}: {
-  children: React.ReactNode;
-  variant: string;
-}) {
-  const variants: Record<string, string> = {
-    accent: "bg-[var(--color-accent)]/10 text-[var(--color-accent-dark)]",
-    primary: "bg-[var(--color-primary)]/10 text-[var(--color-primary)]",
-  };
 
-  return (
-    <span
-      className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${variants[variant] || variants.primary}`}
-    >
-      {children}
-    </span>
-  );
-}

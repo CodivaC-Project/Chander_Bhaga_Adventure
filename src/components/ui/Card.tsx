@@ -13,7 +13,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={`
-          bg-white rounded-2xl border border-gray-100 overflow-hidden
+          bg-white rounded-2xl overflow-hidden
           ${hover ? "card-hover" : ""}
           ${glass ? "glass" : "shadow-[var(--shadow-soft)]"}
           ${className}

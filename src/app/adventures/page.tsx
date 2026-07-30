@@ -88,6 +88,19 @@ const allAdventures = [
     reviewCount: 45,
     featured: true,
   },
+  {
+    title: "Chenab River Rafting",
+    slug: "chenab-river-rafting",
+    category: "rafting",
+    location: "Chenab Valley",
+    price: 4200,
+    duration: "6 Hours",
+    difficulty: "challenging",
+    image: "https://images.unsplash.com/photo-1611516491426-03025e6043c8?w=800&q=80",
+    rating: 4.7,
+    reviewCount: 92,
+    featured: true,
+  },
 ];
 
 export default function AdventuresPage() {

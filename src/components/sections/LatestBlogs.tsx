@@ -39,7 +39,7 @@ const latestBlogs = [
 
 export function LatestBlogs() {
   return (
-    <section className="section-padding">
+    <section className="section-padding overflow-hidden">
       <div className="container-custom">
         <SectionHeader
           title="Travel Stories & Tips"

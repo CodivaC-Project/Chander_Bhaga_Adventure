@@ -41,8 +41,12 @@ const features = [
 
 export function WhyChooseUs() {
   return (
-    <section className="section-padding bg-[var(--color-surface-alt)]">
-      <div className="container-custom">
+    <section className="section-padding section-bg-pine grain relative overflow-hidden">
+      {/* Decorative accent */}
+      <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-[var(--color-accent)]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[30rem] h-[30rem] bg-[var(--color-primary)]/5 rounded-full blur-3xl pointer-events-none" />
+      
+      <div className="container-custom relative z-10">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
             Why Choose <span className="text-gradient">Chander Bhaga</span>
