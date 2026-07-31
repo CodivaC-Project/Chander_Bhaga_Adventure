@@ -86,6 +86,16 @@ export async function POST() {
       { id: uuid(), serviceType: "tour", serviceId: tourIds[2], userId: reviewUserIds[2] || reviewUserIds[0] || "seed-user-sneha", userName: "Neha Gupta", rating: 4, title: "Amazing skiing but needs more beginner slopes", comment: "Gulmarg skiing was incredible. The gondola ride itself is worth the trip. Would love more beginner-friendly slopes though.", verified: false, helpful: 8, createdAt: daysAgo(1), updatedAt: now },
     ];
 
+    // ── Gallery (stable ids so re-running the seed upserts instead of duplicating) ──
+    const gallery = [
+      { id: "gallery-dal-lake-sunset", title: "Dal Lake Sunset", description: "A golden evening over Dal Lake, Srinagar.", imageUrl: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=1200&q=80", category: "Srinagar", featured: true, order: 1, createdAt: now, updatedAt: now },
+      { id: "gallery-gulmarg-skiing", title: "Gulmarg Skiing", description: "World-class slopes in the snow-capped meadows of Gulmarg.", imageUrl: "https://images.unsplash.com/photo-1605540436563-5bca919ae766?w=1200&q=80", category: "Gulmarg", featured: true, order: 2, createdAt: now, updatedAt: now },
+      { id: "gallery-mountain-peaks", title: "Mountain Peaks", description: "Towering peaks of the Pir Panjal range.", imageUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80", category: "Pahalgam", featured: false, order: 3, createdAt: now, updatedAt: now },
+      { id: "gallery-houseboat", title: "Houseboat on Dal Lake", description: "Stay on a traditional Kashmiri houseboat.", imageUrl: "https://images.unsplash.com/photo-1587214086729-2d724e209f4d?w=1200&q=80", category: "Srinagar", featured: false, order: 4, createdAt: now, updatedAt: now },
+      { id: "gallery-vaishno-devi", title: "Vaishno Devi Bhawan", description: "The holy shrine of Shri Mata Vaishno Devi at Katra.", imageUrl: "https://images.unsplash.com/photo-1548013146-72479768bada?w=1200&q=80", category: "Katra", featured: true, order: 5, createdAt: now, updatedAt: now },
+      { id: "gallery-kahwa", title: "Kashmiri Kahwa", description: "Traditional saffron tea served in a copper samovar.", imageUrl: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=1200&q=80", category: "Culture", featured: false, order: 6, createdAt: now, updatedAt: now },
+    ];
+
     // ── Upsert all ──
     const results: Record<string, string> = {};
 
@@ -112,6 +122,65 @@ export async function POST() {
 
     const { error: e8 } = await supabaseAdmin.from("reviews").upsert(reviews);
     results.reviews = e8 ? e8.message : `${reviews.length} reviews`;
+
+    const { error: e8b } = await supabaseAdmin.from("gallery").upsert(gallery, { onConflict: "id" });
+    results.gallery = e8b ? e8b.message : `${gallery.length} gallery images`;
+
+    // ── Itineraries & room types ──
+    // Tours/hotels upsert by slug, so look up the actual row IDs to link child tables
+    const { data: seededTours } = await supabaseAdmin.from("tour_packages").select("id, slug");
+    const tourIdBySlug = Object.fromEntries((seededTours || []).map((t) => [t.slug, t.id]));
+    const { data: seededHotels } = await supabaseAdmin.from("hotels").select("id, slug");
+    const hotelIdBySlug = Object.fromEntries((seededHotels || []).map((h) => [h.slug, h.id]));
+
+    const itineraryRows = [
+      // Kashmir Explorer (6 days)
+      { tourPackageId: tourIdBySlug["kashmir-explorer"], day: 1, title: "Arrival in Srinagar", description: "Arrive at Srinagar airport and transfer to your Dal Lake houseboat. Evening shikara ride on the lake.", accommodation: "Houseboat, Dal Lake", meals: "Welcome dinner" },
+      { tourPackageId: tourIdBySlug["kashmir-explorer"], day: 2, title: "Srinagar – Mughal Gardens", description: "Visit Shalimar Bagh, Nishat Bagh and the iconic Chashme Shahi. Afternoon at leisure in the old city.", accommodation: "Hotel in Srinagar", meals: "Breakfast, Lunch" },
+      { tourPackageId: tourIdBySlug["kashmir-explorer"], day: 3, title: "Gulmarg Day Trip", description: "Drive to Gulmarg. Gondola ride to Kongdoori Mountain and snow activities (seasonal).", accommodation: "Hotel in Srinagar", meals: "Breakfast, Lunch" },
+      { tourPackageId: tourIdBySlug["kashmir-explorer"], day: 4, title: "Pahalgam Excursion", description: "Full-day excursion to Pahalgam with the Lidder River valley and Betaab Valley.", accommodation: "Hotel in Pahalgam", meals: "Breakfast, Lunch" },
+      { tourPackageId: tourIdBySlug["kashmir-explorer"], day: 5, title: "Sonamarg & Thajiwas Glacier", description: "Drive to Sonamarg, pony ride to Thajiwas Glacier. Return to Srinagar for the night.", accommodation: "Hotel in Srinagar", meals: "Breakfast, Lunch" },
+      { tourPackageId: tourIdBySlug["kashmir-explorer"], day: 6, title: "Departure", description: "Breakfast, shikara ride at sunrise, transfer to airport for departure.", accommodation: "—", meals: "Breakfast" },
+      // Vaishno Devi Yatra (3 days)
+      { tourPackageId: tourIdBySlug["vaishno-devi-yatra"], day: 1, title: "Arrival at Katra", description: "Arrive in Katra, check in and get your Yatra registration. Evening aarti at Bhairon Temple viewpoint.", accommodation: "Hotel in Katra", meals: "Dinner" },
+      { tourPackageId: tourIdBySlug["vaishno-devi-yatra"], day: 2, title: "Vaishno Devi Yatra", description: "Start the trek to the Bhawan (13 km). Darshan at the sanctum, visit Ardhkuwari cave on the way back.", accommodation: "Hotel in Katra", meals: "Breakfast, Packed lunch, Dinner" },
+      { tourPackageId: tourIdBySlug["vaishno-devi-yatra"], day: 3, title: "Departure", description: "Morning aarti, breakfast, and departure with holy prasad.", accommodation: "—", meals: "Breakfast" },
+      // Gulmarg Skiing (5 days)
+      { tourPackageId: tourIdBySlug["gulmarg-skiing"], day: 1, title: "Arrival in Gulmarg", description: "Arrive and settle into your resort. Equipment fitting and a brief orientation session.", accommodation: "Ski resort in Gulmarg", meals: "Dinner" },
+      { tourPackageId: tourIdBySlug["gulmarg-skiing"], day: 2, title: "Beginner Slopes", description: "Full-day beginner lessons on the gentle slopes with certified instructors.", accommodation: "Ski resort in Gulmarg", meals: "Breakfast, Lunch" },
+      { tourPackageId: tourIdBySlug["gulmarg-skiing"], day: 3, title: "Gondola & Intermediate Trails", description: "Ride the gondola to Kongdoori Mountain and ski the intermediate trails.", accommodation: "Ski resort in Gulmarg", meals: "Breakfast, Lunch" },
+      { tourPackageId: tourIdBySlug["gulmarg-skiing"], day: 4, title: "Backcountry Session", description: "Guided off-piste session for the confident skier with avalanche-safety briefing.", accommodation: "Ski resort in Gulmarg", meals: "Breakfast, Lunch" },
+      { tourPackageId: tourIdBySlug["gulmarg-skiing"], day: 5, title: "Departure", description: "Morning ski before checkout, then transfer to Srinagar airport.", accommodation: "—", meals: "Breakfast" },
+    ].filter((r) => r.tourPackageId);
+
+    const roomTypeRows = [
+      // The Lalit Grand Palace
+      { hotelId: hotelIdBySlug["lalit-grand-palace"], type: "Deluxe Room", price: 15999, capacity: 2, available: 5 },
+      { hotelId: hotelIdBySlug["lalit-grand-palace"], type: "Heritage Suite", price: 24999, capacity: 3, available: 2 },
+      { hotelId: hotelIdBySlug["lalit-grand-palace"], type: "Lakeside Villa", price: 38999, capacity: 4, available: 1 },
+      // Kahwa House
+      { hotelId: hotelIdBySlug["kahwa-house"], type: "Standard Room", price: 8999, capacity: 2, available: 6 },
+      { hotelId: hotelIdBySlug["kahwa-house"], type: "Garden Suite", price: 12999, capacity: 3, available: 2 },
+    ].filter((r) => r.hotelId);
+
+    if (itineraryRows.length) {
+      // Explicit ids: some Supabase instances don't have the gen_random_uuid() default on id
+      const { error: e9 } = await supabaseAdmin
+        .from("itineraries")
+        .upsert(itineraryRows.map((r) => ({ id: uuid(), ...r })), { onConflict: "tourPackageId,day" });
+      results.itineraries = e9 ? e9.message : `${itineraryRows.length} itinerary days`;
+    } else {
+      results.itineraries = "skipped — no tour IDs found";
+    }
+
+    if (roomTypeRows.length) {
+      const { error: e10 } = await supabaseAdmin
+        .from("room_types")
+        .upsert(roomTypeRows.map((r) => ({ id: uuid(), ...r })), { onConflict: "hotelId,type" });
+      results.roomTypes = e10 ? e10.message : `${roomTypeRows.length} room types`;
+    } else {
+      results.roomTypes = "skipped — no hotel IDs found";
+    }
 
     return NextResponse.json({ success: true, results });
   } catch (error) {

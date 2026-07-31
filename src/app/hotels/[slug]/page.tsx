@@ -39,24 +39,31 @@ export default async function HotelDetailPage({ params }: { params: Promise<{ sl
     );
   }
 
+  // Room types live in their own table keyed by hotelId
+  const { data: roomTypes } = await supabase
+    .from("room_types")
+    .select("type, price, capacity, available")
+    .eq("hotelId", hotel.id)
+    .order("price", { ascending: true });
+
   return (
     <>
       <DetailHero
-        image={hotel.gallery[0]}
+        image={(hotel.gallery || [])[0]}
         title={hotel.name}
         backHref="/hotels"
         backLabel="Back to Hotels"
         badges={
           <div className="flex items-center gap-1">
             {Array.from({ length: hotel.stars }, (_, i) => (
-              <Star key={i} className="w-5 h-5 fill-[var(--color-accent)] text-[var(--color-accent)]" />
+              <Star key={i} className="w-5 h-5 fill-[var(--color-brass)] text-[var(--color-brass)]" />
             ))}
           </div>
         }
         meta={
           <>
             <span className="flex items-center gap-2"><MapPin className="w-5 h-5" />{hotel.location}</span>
-            <span className="flex items-center gap-2"><Star className="w-5 h-5 fill-[var(--color-accent)] text-[var(--color-accent)]" />{hotel.rating} ({hotel.reviewCount} reviews)</span>
+            <span className="flex items-center gap-2"><Star className="w-5 h-5 fill-[var(--color-brass)] text-[var(--color-brass)]" />{hotel.rating} ({hotel.reviewCount} reviews)</span>
           </>
         }
       />
@@ -66,37 +73,37 @@ export default async function HotelDetailPage({ params }: { params: Promise<{ sl
           <div className="grid lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2 space-y-12">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">About {hotel.name}</h2>
-                <p className="text-gray-600 leading-relaxed">{hotel.description}</p>
+                <h2 className="text-2xl font-bold text-[var(--color-ink)] mb-4">About {hotel.name}</h2>
+                <p className="text-[var(--color-ink-soft)] leading-relaxed">{hotel.description}</p>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Amenities</h2>
+                <h2 className="text-2xl font-bold text-[var(--color-ink)] mb-4">Amenities</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {hotel.amenities.map((amenity: string) => (
-                    <div key={amenity} className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
-                      <span className="text-[var(--color-primary)]">{amenityIcons[amenity] || <Check className="w-5 h-5" />}</span>
-                      <span className="font-medium text-gray-700">{amenity}</span>
+                  {(hotel.amenities || []).map((amenity: string) => (
+                    <div key={amenity} className="flex items-center gap-3 p-4 bg-[var(--color-paper)] rounded-lg">
+                      <span className="text-[var(--color-pine)]">{amenityIcons[amenity] || <Check className="w-5 h-5" />}</span>
+                      <span className="font-medium text-[var(--color-ink)]">{amenity}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Room Types</h2>
+                <h2 className="text-2xl font-bold text-[var(--color-ink)] mb-6">Room Types</h2>
                 <div className="space-y-4">
-                  {hotel.roomTypes.map((room: any) => (
-                    <div key={room.type} className="bg-white rounded-2xl border border-gray-100 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  {(roomTypes || []).map((room: any) => (
+                    <div key={room.type} className="bg-white rounded-lg border border-[var(--color-line)] p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
                       <div>
-                        <h3 className="text-lg font-bold text-gray-900">{room.type}</h3>
-                        <p className="text-sm text-gray-500 mt-1">👤 Up to {room.capacity} guests • {room.available > 0 ? `✅ ${room.available} rooms available` : "❌ Sold out"}</p>
+                        <h3 className="text-lg font-bold text-[var(--color-ink)]">{room.type}</h3>
+                        <p className="text-sm text-[var(--color-ink-faint)] mt-1">👤 Up to {room.capacity} guests • {room.available > 0 ? `✅ ${room.available} rooms available` : "❌ Sold out"}</p>
                       </div>
                       <div className="flex items-center gap-4">
                         <div className="text-right">
-                          <span className="text-2xl font-bold text-[var(--color-primary)]">₹{room.price.toLocaleString("en-IN")}</span>
-                          <span className="text-sm text-gray-500 block">/night</span>
+                          <span className="text-2xl font-bold text-[var(--color-pine)]">₹{room.price.toLocaleString("en-IN")}</span>
+                          <span className="text-sm text-[var(--color-ink-soft)] block">/night</span>
                         </div>
-                        <button className="btn-primary !rounded-xl" disabled={room.available === 0}>Book Now</button>
+                        <button className="btn-primary !rounded-lg" disabled={room.available === 0}>Book Now</button>
                       </div>
                     </div>
                   ))}
@@ -104,9 +111,9 @@ export default async function HotelDetailPage({ params }: { params: Promise<{ sl
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Gallery</h2>
+                <h2 className="text-2xl font-bold text-[var(--color-ink)] mb-6">Gallery</h2>
                 <ImageGallery
-                  images={hotel.gallery.map((img: string, i: number) => ({ src: img, alt: `${hotel.name} ${i + 1}` }))}
+                  images={(hotel.gallery || []).map((img: string, i: number) => ({ src: img, alt: `${hotel.name} ${i + 1}` }))}
                   animation="fade"
                   columns={2}
                 />
@@ -114,15 +121,15 @@ export default async function HotelDetailPage({ params }: { params: Promise<{ sl
             </div>
 
             <div className="lg:col-span-1">
-              <div className="sticky top-24 bg-white rounded-2xl border border-gray-100 shadow-[var(--shadow-medium)] p-6">
+              <div className="sticky top-24 bg-white rounded-lg border border-[var(--color-line)] p-6">
                 <div className="text-center mb-6">
-                  <span className="text-sm text-gray-500">Starting from</span>
-                  <div className="text-3xl font-bold text-[var(--color-primary)]">₹{hotel.pricePerNight.toLocaleString("en-IN")}</div>
-                  <span className="text-sm text-gray-500">/night</span>
+                  <span className="text-sm text-[var(--color-ink-soft)]">Starting from</span>
+                  <div className="text-3xl font-bold text-[var(--color-pine)]">₹{hotel.pricePerNight.toLocaleString("en-IN")}</div>
+                  <span className="text-sm text-[var(--color-ink-soft)]">/night</span>
                 </div>
-                <a href={`tel:${siteConfig.phone}`} className="btn-primary w-full !rounded-xl mb-3">Book via Call</a>
-                <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer" className="btn-secondary w-full !rounded-xl">Book via WhatsApp</a>
-                <p className="text-center text-sm text-gray-500 mt-4">📞 {siteConfig.phone.replace("91", "+91 ")}</p>
+                <a href={`tel:${siteConfig.phone}`} className="btn-primary w-full !rounded-lg mb-3">Book via Call</a>
+                <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer" className="btn-secondary w-full !rounded-lg">Book via WhatsApp</a>
+                <p className="text-center text-sm text-[var(--color-ink-soft)] mt-4">📞 {siteConfig.phone.replace("91", "+91 ")}</p>
               </div>
             </div>
           </div>

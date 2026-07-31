@@ -1,6 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
+import { ImageUploader } from "@/components/admin/ImageUploader";
 import { useEffect, useState } from "react";
 import { Plus, Edit, Trash2, Loader2, Search, FileText, X, Save } from "lucide-react";
 
@@ -12,13 +13,14 @@ interface BlogPost {
   category: string;
   excerpt: string;
   content: string;
+  coverImage: string;
   published: boolean;
   views: number;
   createdAt: string;
 }
 
 const emptyPost: Partial<BlogPost> = {
-  title: "", slug: "", author: "", category: "", excerpt: "", content: "", published: false,
+  title: "", slug: "", author: "", category: "", excerpt: "", content: "", coverImage: "", published: false,
 };
 
 export default function BlogPage() {
@@ -133,6 +135,11 @@ export default function BlogPage() {
               <button onClick={() => { setShowModal(false); setEditing(null); }} className="p-1 hover:bg-[var(--color-paper)] rounded-lg"><X className="w-5 h-5" /></button>
             </div>
             <div className="p-6 space-y-4">
+              <ImageUploader
+                value={editing.coverImage || ""}
+                onChange={(coverImage) => setEditing({ ...editing, coverImage })}
+                label="Cover Image"
+              />
               <div className="grid grid-cols-2 gap-4">
                 <div><label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Title</label>
                   <input value={editing.title || ""} onChange={(e) => setEditing({ ...editing, title: e.target.value })} className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm" /></div>

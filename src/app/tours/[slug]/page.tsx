@@ -13,13 +13,12 @@ import { DetailHero } from "@/components/ui/DetailHero";
 import { ImageGallery } from "@/components/ui/ImageReveal";
 import { BookingWidget } from "@/components/booking/BookingWidget";
 import { CTASection } from "@/components/sections/CTASection";
-import { siteConfig } from "@/lib/config";
 import { supabase } from "@/lib/supabase";
 
 const difficultyColors: Record<string, string> = {
-  easy: "bg-green-100 text-green-700",
-  moderate: "bg-yellow-100 text-yellow-700",
-  challenging: "bg-orange-100 text-orange-700",
+  easy: "bg-[var(--color-pine)]/10 text-[var(--color-pine)]",
+  moderate: "bg-[var(--color-brass)]/10 text-[var(--color-brass)]",
+  challenging: "bg-red-50 text-red-700",
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -34,10 +33,17 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
   const { data: tour } = await supabase.from("tour_packages").select("*").eq("slug", slug).single();
   if (!tour) notFound();
 
+  // Itinerary lives in its own table keyed by tourPackageId
+  const { data: itinerary } = await supabase
+    .from("itineraries")
+    .select("day, title, description, accommodation, meals")
+    .eq("tourPackageId", tour.id)
+    .order("day", { ascending: true });
+
   return (
     <>
       <DetailHero
-        image={tour.gallery[0]}
+        image={(tour.gallery || [])[0]}
         title={tour.title}
         backHref="/tours"
         backLabel="Back to Tours"
@@ -47,7 +53,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
               {tour.difficulty}
             </span>
             {tour.featured && (
-              <span className="px-3 py-1 bg-[var(--color-accent)] text-white text-xs font-bold rounded-full">⭐ Featured</span>
+              <span className="px-3 py-1 bg-[var(--color-brass)] text-white text-xs font-bold rounded-full">⭐ Featured</span>
             )}
           </>
         }
@@ -56,7 +62,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
             <span className="flex items-center gap-2"><MapPin className="w-5 h-5" />{tour.destination}</span>
             <span className="flex items-center gap-2"><Clock className="w-5 h-5" />{tour.duration}</span>
             <span className="flex items-center gap-2"><Users className="w-5 h-5" />Max {tour.maxGroupSize} people</span>
-            <span className="flex items-center gap-2"><Star className="w-5 h-5 fill-[var(--color-accent)] text-[var(--color-accent)]" />{tour.rating} ({tour.reviewCount} reviews)</span>
+            <span className="flex items-center gap-2"><Star className="w-5 h-5 fill-[var(--color-brass)] text-[var(--color-brass)]" />{tour.rating} ({tour.reviewCount} reviews)</span>
           </>
         }
       />
@@ -66,34 +72,34 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
           <div className="grid lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2 space-y-12">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">About This Tour</h2>
-                <p className="text-gray-600 leading-relaxed">{tour.description}</p>
+                <h2 className="text-2xl font-bold text-[var(--color-ink)] mb-4">About This Tour</h2>
+                <p className="text-[var(--color-ink-soft)] leading-relaxed">{tour.description}</p>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Highlights</h2>
+                <h2 className="text-2xl font-bold text-[var(--color-ink)] mb-4">Highlights</h2>
                 <div className="grid sm:grid-cols-2 gap-3">
-                  {tour.highlights.map((h: string) => (
-                    <div key={h} className="flex items-center gap-3 p-3 bg-green-50 rounded-xl">
-                      <Check className="w-5 h-5 text-green-600 flex-shrink-0" />
-                      <span className="text-gray-700">{h}</span>
+                  {(tour.highlights || []).map((h: string) => (
+                    <div key={h} className="flex items-center gap-3 p-3 bg-[var(--color-pine)]/10 rounded-lg">
+                      <Check className="w-5 h-5 text-[var(--color-pine)] flex-shrink-0" />
+                      <span className="text-[var(--color-ink)]">{h}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Day-by-Day Itinerary</h2>
+                <h2 className="text-2xl font-bold text-[var(--color-ink)] mb-6">Day-by-Day Itinerary</h2>
                 <div className="space-y-4">
-                  {tour.itinerary.map((day: any) => (
-                    <div key={day.day} className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+                  {(itinerary || []).map((day: any) => (
+                    <div key={day.day} className="bg-white rounded-lg p-6 border border-[var(--color-line)]">
                       <div className="flex items-center gap-3 mb-3">
-                        <div className="w-10 h-10 bg-[var(--color-primary)] text-white rounded-xl flex items-center justify-center font-bold">{day.day}</div>
-                        <h3 className="text-lg font-bold text-gray-900">{day.title}</h3>
+                        <div className="w-10 h-10 bg-[var(--color-pine)] text-white rounded-lg flex items-center justify-center font-bold">{day.day}</div>
+                        <h3 className="text-lg font-bold text-[var(--color-ink)]">{day.title}</h3>
                       </div>
-                      <p className="text-gray-600 ml-13">{day.description}</p>
+                      <p className="text-[var(--color-ink-soft)] ml-13">{day.description}</p>
                       {(day.accommodation || day.meals) && (
-                        <div className="flex flex-wrap gap-4 mt-3 ml-13 text-sm text-gray-500">
+                        <div className="flex flex-wrap gap-4 mt-3 ml-13 text-sm text-[var(--color-ink-faint)]">
                           {day.accommodation && <span>🏨 {day.accommodation}</span>}
                           {day.meals && <span>🍽️ {day.meals}</span>}
                         </div>
@@ -104,9 +110,9 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Gallery</h2>
+                <h2 className="text-2xl font-bold text-[var(--color-ink)] mb-6">Gallery</h2>
                 <ImageGallery
-                  images={tour.gallery.map((img: string, i: number) => ({ src: img, alt: `${tour.title} ${i + 1}` }))}
+                  images={(tour.gallery || []).map((img: string, i: number) => ({ src: img, alt: `${tour.title} ${i + 1}` }))}
                   animation="clip-path"
                   columns={2}
                 />
@@ -114,23 +120,23 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
 
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">What&apos;s Included</h3>
+                  <h3 className="text-xl font-bold text-[var(--color-ink)] mb-4">What&apos;s Included</h3>
                   <ul className="space-y-3">
-                    {tour.includes.map((item: string) => (
+                    {(tour.includes || []).map((item: string) => (
                       <li key={item} className="flex items-center gap-3">
-                        <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
-                        <span className="text-gray-600">{item}</span>
+                        <Check className="w-5 h-5 text-[var(--color-pine)] flex-shrink-0" />
+                        <span className="text-[var(--color-ink-soft)]">{item}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">What&apos;s Excluded</h3>
+                  <h3 className="text-xl font-bold text-[var(--color-ink)] mb-4">What&apos;s Excluded</h3>
                   <ul className="space-y-3">
-                    {tour.excludes.map((item: string) => (
+                    {(tour.excludes || []).map((item: string) => (
                       <li key={item} className="flex items-center gap-3">
                         <X className="w-5 h-5 text-red-500 flex-shrink-0" />
-                        <span className="text-gray-600">{item}</span>
+                        <span className="text-[var(--color-ink-soft)]">{item}</span>
                       </li>
                     ))}
                   </ul>

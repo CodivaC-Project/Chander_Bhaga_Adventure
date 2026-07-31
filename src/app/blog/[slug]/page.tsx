@@ -42,6 +42,9 @@ export default async function BlogDetailPage({
     );
   }
 
+  // readTime isn't a column — derive it from content length (200 wpm)
+  const readTime = Math.max(1, Math.ceil((post.content || "").trim().split(/\s+/).length / 200));
+
   return (
     <>
       {/* Hero */}
@@ -60,7 +63,7 @@ export default async function BlogDetailPage({
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
           </Link>
-          <span className="px-3 py-1 bg-[var(--color-accent)] text-white text-xs font-bold rounded-full w-fit mb-4">
+          <span className="px-3 py-1 bg-[var(--color-brass)] text-white text-xs font-bold rounded-full w-fit mb-4">
             {post.category}
           </span>
           <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 max-w-3xl">
@@ -73,7 +76,7 @@ export default async function BlogDetailPage({
             </span>
             <span className="flex items-center gap-2">
               <Calendar className="w-4 h-4" />
-              {new Date(post.publishedAt).toLocaleDateString("en-IN", {
+              {new Date(post.publishedAt || post.createdAt || new Date()).toLocaleDateString("en-IN", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
@@ -81,7 +84,7 @@ export default async function BlogDetailPage({
             </span>
             <span className="flex items-center gap-2">
               <Clock className="w-4 h-4" />
-              {post.readTime} min read
+              {readTime} min read
             </span>
           </div>
         </div>
@@ -93,12 +96,12 @@ export default async function BlogDetailPage({
           <div className="max-w-3xl mx-auto">
             {/* Article content */}
             <article className="prose prose-lg max-w-none">
-              {post.content.split("\n").map((line: string, i: number) => {
+              {(post.content || "").split("\n").map((line: string, i: number) => {
                 if (line.startsWith("## ")) {
                   return (
                     <h2
                       key={i}
-                      className="text-2xl font-bold text-gray-900 mt-10 mb-4"
+                      className="text-2xl font-bold text-[var(--color-ink)] mt-10 mb-4"
                     >
                       {line.replace("## ", "")}
                     </h2>
@@ -106,7 +109,7 @@ export default async function BlogDetailPage({
                 }
                 if (line.startsWith("**Best for:**")) {
                   return (
-                    <p key={i} className="text-gray-600 mb-2">
+                    <p key={i} className="text-[var(--color-ink-soft)] mb-2">
                       <strong>{line.split("**")[1]}</strong>
                       {line.split("**")[2]}
                     </p>
@@ -114,7 +117,7 @@ export default async function BlogDetailPage({
                 }
                 if (line.startsWith("**Temperature:**")) {
                   return (
-                    <p key={i} className="text-gray-600 mb-4">
+                    <p key={i} className="text-[var(--color-ink-soft)] mb-4">
                       <strong>{line.split("**")[1]}</strong>
                       {line.split("**")[2]}
                     </p>
@@ -125,7 +128,7 @@ export default async function BlogDetailPage({
                 }
                 if (line.trim() === "") return <br key={i} />;
                 return (
-                  <p key={i} className="text-gray-600 leading-relaxed mb-4">
+                  <p key={i} className="text-[var(--color-ink-soft)] leading-relaxed mb-4">
                     {line}
                   </p>
                 );
@@ -133,13 +136,13 @@ export default async function BlogDetailPage({
             </article>
 
             {/* Tags */}
-            <div className="mt-12 pt-8 border-t border-gray-100">
+            <div className="mt-12 pt-8 border-t border-[var(--color-line)]">
               <div className="flex items-center gap-2 flex-wrap">
-                <Tag className="w-4 h-4 text-gray-400" />
-                {post.tags.map((tag: string) => (
+                <Tag className="w-4 h-4 text-[var(--color-ink-faint)]" />
+                {(post.tags || []).map((tag: string) => (
                   <span
                     key={tag}
-                    className="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full hover:bg-[var(--color-primary)]/10 hover:text-[var(--color-primary)] transition-colors cursor-pointer"
+                    className="px-3 py-1 bg-[var(--color-paper)] text-[var(--color-ink-soft)] text-sm rounded-full border border-[var(--color-line)] hover:bg-[var(--color-pine)]/10 hover:text-[var(--color-pine)] transition-colors cursor-pointer"
                   >
                     {tag}
                   </span>
@@ -148,9 +151,9 @@ export default async function BlogDetailPage({
             </div>
 
             {/* Share */}
-            <div className="mt-8 p-6 bg-gray-50 rounded-2xl flex items-center justify-between">
-              <span className="font-medium text-gray-700">Share this article</span>
-              <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors">
+            <div className="mt-8 p-6 bg-[var(--color-paper)] rounded-lg border border-[var(--color-line)] flex items-center justify-between">
+              <span className="font-medium text-[var(--color-ink)]">Share this article</span>
+              <button className="flex items-center gap-2 px-4 py-2 bg-white border border-[var(--color-line)] rounded-lg text-sm font-medium hover:bg-[var(--color-paper)] transition-colors">
                 <Share2 className="w-4 h-4" />
                 Share
               </button>

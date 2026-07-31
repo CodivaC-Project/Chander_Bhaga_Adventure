@@ -5,14 +5,13 @@ import { DetailHero } from "@/components/ui/DetailHero";
 import { ImageGallery } from "@/components/ui/ImageReveal";
 import { BookingWidget } from "@/components/booking/BookingWidget";
 import { CTASection } from "@/components/sections/CTASection";
-import { siteConfig } from "@/lib/config";
 import { supabase } from "@/lib/supabase";
 
 const difficultyColors: Record<string, string> = {
-  easy: "bg-green-100 text-green-700",
-  moderate: "bg-yellow-100 text-yellow-700",
-  challenging: "bg-orange-100 text-orange-700",
-  extreme: "bg-red-100 text-red-700",
+  easy: "bg-[var(--color-pine)]/10 text-[var(--color-pine)]",
+  moderate: "bg-[var(--color-brass)]/10 text-[var(--color-brass)]",
+  challenging: "bg-red-50 text-red-700",
+  extreme: "bg-red-50 text-red-700",
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -41,14 +40,14 @@ export default async function AdventureDetailPage({ params }: { params: Promise<
   return (
     <>
       <DetailHero
-        image={adventure.gallery[0]}
+        image={(adventure.gallery || [])[0]}
         title={adventure.title}
         backHref="/adventures"
         backLabel="Back to Adventures"
         badges={
           <>
             <span className={`px-3 py-1 rounded-full text-xs font-semibold capitalize ${difficultyColors[adventure.difficulty]}`}>{adventure.difficulty}</span>
-            <span className="px-3 py-1 bg-white/20 text-white text-xs font-semibold rounded-full capitalize">{adventure.category.replace("-", " ")}</span>
+            <span className="px-3 py-1 bg-white/20 text-white text-xs font-semibold rounded-full capitalize">{(adventure.category || "").replace("-", " ")}</span>
           </>
         }
         meta={
@@ -66,38 +65,38 @@ export default async function AdventureDetailPage({ params }: { params: Promise<
           <div className="grid lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2 space-y-12">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">About This Activity</h2>
-                <p className="text-gray-600 leading-relaxed">{adventure.description}</p>
+                <h2 className="text-2xl font-bold text-[var(--color-ink)] mb-4">About This Activity</h2>
+                <p className="text-[var(--color-ink-soft)] leading-relaxed">{adventure.description}</p>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">What&apos;s Included</h2>
+                <h2 className="text-2xl font-bold text-[var(--color-ink)] mb-4">What&apos;s Included</h2>
                 <div className="grid sm:grid-cols-2 gap-3">
-                  {adventure.includes.map((item: string) => (
-                    <div key={item} className="flex items-center gap-3 p-3 bg-green-50 rounded-xl">
-                      <Check className="w-5 h-5 text-green-600 flex-shrink-0" />
-                      <span className="text-gray-700">{item}</span>
+                  {(adventure.includes || []).map((item: string) => (
+                    <div key={item} className="flex items-center gap-3 p-3 bg-[var(--color-pine)]/10 rounded-lg">
+                      <Check className="w-5 h-5 text-[var(--color-pine)] flex-shrink-0" />
+                      <span className="text-[var(--color-ink)]">{item}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Safety Measures</h2>
+                <h2 className="text-2xl font-bold text-[var(--color-ink)] mb-4">Safety Measures</h2>
                 <div className="space-y-3">
-                  {adventure.safetyMeasures.map((item: string) => (
-                    <div key={item} className="flex items-center gap-3 p-4 bg-blue-50 rounded-xl">
-                      <Shield className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                      <span className="text-gray-700">{item}</span>
+                  {(adventure.safetyMeasures || []).map((item: string) => (
+                    <div key={item} className="flex items-center gap-3 p-4 bg-[var(--color-brass)]/10 rounded-lg">
+                      <Shield className="w-5 h-5 text-[var(--color-brass)] flex-shrink-0" />
+                      <span className="text-[var(--color-ink)]">{item}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Gallery</h2>
+                <h2 className="text-2xl font-bold text-[var(--color-ink)] mb-6">Gallery</h2>
                 <ImageGallery
-                  images={adventure.gallery.map((img: string, i: number) => ({ src: img, alt: `${adventure.title} ${i + 1}` }))}
+                  images={(adventure.gallery || []).map((img: string, i: number) => ({ src: img, alt: `${adventure.title} ${i + 1}` }))}
                   animation="scale"
                   columns={2}
                 />

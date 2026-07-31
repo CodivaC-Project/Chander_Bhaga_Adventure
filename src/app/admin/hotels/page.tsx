@@ -1,6 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
+import { GalleryInput } from "@/components/admin/GalleryInput";
 import { useEffect, useState } from "react";
 import { Plus, Edit, Trash2, Loader2, Search, Star, X, Save } from "lucide-react";
 
@@ -15,12 +16,13 @@ interface Hotel {
   rating: number;
   reviewCount: number;
   amenities: string[];
+  gallery: string[];
   description: string;
   shortDescription: string;
   address: string;
 }
 
-const emptyHotel: Partial<Hotel> = { name: "", slug: "", location: "", stars: 4, pricePerNight: 0, featured: false, amenities: [], description: "", shortDescription: "", address: "" };
+const emptyHotel: Partial<Hotel> = { name: "", slug: "", location: "", stars: 4, pricePerNight: 0, featured: false, amenities: [], gallery: [], description: "", shortDescription: "", address: "" };
 
 export default function HotelsPage() {
   const [hotels, setHotels] = useState<Hotel[]>([]);
@@ -150,6 +152,11 @@ export default function HotelsPage() {
                 <input value={editingHotel.shortDescription || ""} onChange={(e) => setEditingHotel({ ...editingHotel, shortDescription: e.target.value })} className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm" /></div>
               <div><label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Description</label>
                 <textarea rows={3} value={editingHotel.description || ""} onChange={(e) => setEditingHotel({ ...editingHotel, description: e.target.value })} className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm" /></div>
+              <GalleryInput
+                value={editingHotel.gallery || []}
+                onChange={(gallery) => setEditingHotel({ ...editingHotel, gallery })}
+                label="Gallery Images"
+              />
               <label className="flex items-center gap-2"><input type="checkbox" checked={editingHotel.featured || false} onChange={(e) => setEditingHotel({ ...editingHotel, featured: e.target.checked })} className="rounded" /><span className="text-sm text-[var(--color-ink)]">Featured</span></label>
             </div>
             <div className="flex justify-end gap-3 p-6 border-t">

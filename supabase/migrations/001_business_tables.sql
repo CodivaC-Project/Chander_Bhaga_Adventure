@@ -170,6 +170,8 @@ CREATE TABLE IF NOT EXISTS room_types (
   available INTEGER DEFAULT 0
 );
 
+CREATE UNIQUE INDEX IF NOT EXISTS room_types_hotelid_type_key ON room_types ("hotelId", type);
+
 -- Reviews
 CREATE TABLE IF NOT EXISTS reviews (
   id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
@@ -252,6 +254,8 @@ CREATE TABLE IF NOT EXISTS itineraries (
   accommodation TEXT,
   meals TEXT
 );
+
+CREATE UNIQUE INDEX IF NOT EXISTS itineraries_tourpackageid_day_key ON itineraries ("tourPackageId", day);
 
 -- Payments
 CREATE TABLE IF NOT EXISTS payments (

@@ -1,6 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
+import { GalleryInput } from "@/components/admin/GalleryInput";
 import { useEffect, useState } from "react";
 import { Loader2, Search, Car, Plus, Edit2, Trash2, X, CheckCircle, XCircle } from "lucide-react";
 
@@ -45,7 +46,6 @@ export default function TaxiPage() {
   const [saving, setSaving] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [featureInput, setFeatureInput] = useState("");
-  const [galleryInput, setGalleryInput] = useState("");
 
   useEffect(() => {
     fetchTaxis();
@@ -133,18 +133,6 @@ export default function TaxiPage() {
     }
   };
 
-  const addGalleryImage = () => {
-    if (galleryInput.trim() && form.gallery) {
-      setForm({ ...form, gallery: [...form.gallery, galleryInput.trim()] });
-      setGalleryInput("");
-    }
-  };
-
-  const removeGalleryImage = (index: number) => {
-    if (form.gallery) {
-      setForm({ ...form, gallery: form.gallery.filter((_, i) => i !== index) });
-    }
-  };
 
   return (
     <AdminLayout>
@@ -380,47 +368,11 @@ export default function TaxiPage() {
                   ))}
                 </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Gallery Images</label>
-                <div className="flex gap-2 mb-2">
-                  <input
-                    type="text"
-                    value={galleryInput}
-                    onChange={(e) => setGalleryInput(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addGalleryImage())}
-                    placeholder="Paste image URL and press Enter"
-                    className="flex-1 px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
-                  />
-                  <button onClick={addGalleryImage} type="button" className="px-3 py-2 bg-[var(--color-paper)] text-[var(--color-ink-soft)] border border-[var(--color-line)] rounded-lg text-sm hover:bg-white">
-                    Add
-                  </button>
-                </div>
-                {form.gallery && form.gallery.length > 0 && (
-                  <div className="grid grid-cols-3 gap-2">
-                    {form.gallery.map((url, i) => (
-                      <div key={i} className="relative group">
-                        <img
-                          src={url}
-                          alt={`Gallery ${i + 1}`}
-                          className="w-full h-24 object-cover rounded-lg border border-[var(--color-line)]"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect fill='%23f3f4f6' width='100' height='100'/%3E%3Ctext fill='%239ca3af' font-family='sans-serif' font-size='12' x='50' y='55' text-anchor='middle'%3EBroken%3C/text%3E%3C/svg%3E";
-                          }}
-                        />
-                        <button
-                          onClick={() => removeGalleryImage(i)}
-                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {(!form.gallery || form.gallery.length === 0) && (
-                  <p className="text-xs text-[var(--color-ink-soft)] mt-1">No images added yet. Paste an image URL above.</p>
-                )}
-              </div>
+              <GalleryInput
+                value={form.gallery || []}
+                onChange={(gallery) => setForm({ ...form, gallery })}
+                label="Gallery Images"
+              />
               <div className="flex items-center gap-2">
                 <input
                   type="checkbox"

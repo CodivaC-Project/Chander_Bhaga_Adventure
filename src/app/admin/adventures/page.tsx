@@ -1,6 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
+import { GalleryInput } from "@/components/admin/GalleryInput";
 import { useEffect, useState } from "react";
 import { Plus, Edit, Trash2, Loader2, Search, Mountain, X, Save } from "lucide-react";
 
@@ -16,6 +17,7 @@ interface Adventure {
   featured: boolean;
   rating: number;
   reviewCount: number;
+  gallery: string[];
   description: string;
   shortDescription: string;
   createdAt: string;
@@ -24,7 +26,7 @@ interface Adventure {
 const emptyAdventure: Partial<Adventure> = {
   title: "", slug: "", category: "", location: "", price: 0,
   duration: "", difficulty: "moderate", featured: false,
-  description: "", shortDescription: "",
+  gallery: [], description: "", shortDescription: "",
 };
 
 export default function AdventuresPage() {
@@ -165,6 +167,11 @@ export default function AdventuresPage() {
                 <input value={editing.shortDescription || ""} onChange={(e) => setEditing({ ...editing, shortDescription: e.target.value })} className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm" /></div>
               <div><label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Description</label>
                 <textarea rows={3} value={editing.description || ""} onChange={(e) => setEditing({ ...editing, description: e.target.value })} className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm" /></div>
+              <GalleryInput
+                value={editing.gallery || []}
+                onChange={(gallery) => setEditing({ ...editing, gallery })}
+                label="Gallery Images"
+              />
               <label className="flex items-center gap-2"><input type="checkbox" checked={editing.featured || false} onChange={(e) => setEditing({ ...editing, featured: e.target.checked })} className="rounded" /><span className="text-sm text-[var(--color-ink)]">Featured</span></label>
             </div>
             <div className="flex justify-end gap-3 p-6 border-t">

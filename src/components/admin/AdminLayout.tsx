@@ -21,6 +21,7 @@ import {
   Loader2,
   Menu,
   X,
+  Images,
 } from "lucide-react";
 
 const adminLinks = [
@@ -29,6 +30,7 @@ const adminLinks = [
   { label: "Adventures", href: "/admin/adventures", icon: MapPin },
   { label: "Hotels", href: "/admin/hotels", icon: Hotel },
   { label: "Taxi Fleet", href: "/admin/taxi", icon: Car },
+  { label: "Gallery", href: "/admin/gallery", icon: Images },
   { label: "Bookings", href: "/admin/bookings", icon: Calendar },
   { label: "Users", href: "/admin/users", icon: Users },
   { label: "Consultations", href: "/admin/consultations", icon: MessageCircle },

@@ -1,6 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
+import { GalleryInput } from "@/components/admin/GalleryInput";
 import { useEffect, useState } from "react";
 import { Plus, Edit, Trash2, Loader2, Search, Star, X, Save } from "lucide-react";
 
@@ -17,12 +18,13 @@ interface Tour {
   rating: number;
   reviewCount: number;
   maxGroupSize: number;
+  gallery: string[];
   description: string;
   shortDescription: string;
   createdAt: string;
 }
 
-const emptyTour: Partial<Tour> = { title: "", slug: "", destination: "", price: 0, duration: "", difficulty: "moderate", featured: false, maxGroupSize: 15, description: "", shortDescription: "" };
+const emptyTour: Partial<Tour> = { title: "", slug: "", destination: "", price: 0, duration: "", difficulty: "moderate", featured: false, maxGroupSize: 15, gallery: [], description: "", shortDescription: "" };
 
 export default function ToursPage() {
   const [tours, setTours] = useState<Tour[]>([]);
@@ -162,6 +164,11 @@ export default function ToursPage() {
                 <input value={editingTour.shortDescription || ""} onChange={(e) => setEditingTour({ ...editingTour, shortDescription: e.target.value })} className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm" /></div>
               <div><label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Description</label>
                 <textarea rows={3} value={editingTour.description || ""} onChange={(e) => setEditingTour({ ...editingTour, description: e.target.value })} className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm" /></div>
+              <GalleryInput
+                value={editingTour.gallery || []}
+                onChange={(gallery) => setEditingTour({ ...editingTour, gallery })}
+                label="Gallery Images"
+              />
               <label className="flex items-center gap-2"><input type="checkbox" checked={editingTour.featured || false} onChange={(e) => setEditingTour({ ...editingTour, featured: e.target.checked })} className="rounded" /><span className="text-sm text-[var(--color-ink)]">Featured</span></label>
             </div>
             <div className="flex justify-end gap-3 p-6 border-t">
