@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { BlogCard } from "@/components/cards/BlogCard";
 import { CTASection } from "@/components/sections/CTASection";
+import { supabase } from "@/lib/supabase";
 
 export const metadata: Metadata = {
   title: "Travel Blog",
@@ -8,78 +9,27 @@ export const metadata: Metadata = {
     "Read travel guides, tips, and stories about Kashmir. Expert advice for planning your perfect trip.",
 };
 
-const blogs = [
-  {
-    title: "Best Time to Visit Kashmir: A Complete Seasonal Guide",
-    slug: "best-time-to-visit-kashmir",
-    excerpt:
-      "Planning a trip to Kashmir? Here's everything you need to know about the best time to visit, from spring blossoms to winter snow.",
-    coverImage: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800&q=80",
-    author: "Sidhant Sharma",
-    category: "Travel Guide",
-    publishedAt: "2024-01-15",
-    readTime: 8,
-  },
-  {
-    title: "Top 10 Adventure Activities You Can't Miss in Kashmir",
-    slug: "top-10-adventure-activities-kashmir",
-    excerpt:
-      "From trekking in pristine valleys to white water rafting, discover the most thrilling adventures Kashmir has to offer.",
-    coverImage: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&q=80",
-    author: "Sidhant Sharma",
-    category: "Adventure",
-    publishedAt: "2024-01-10",
-    readTime: 6,
-  },
-  {
-    title: "Vaishno Devi Yatra: Complete Guide for First-Time Visitors",
-    slug: "vaishno-devi-yatra-guide",
-    excerpt:
-      "Everything you need to know about the sacred Vaishno Devi pilgrimage — from booking to what to pack and the best route.",
-    coverImage: "https://images.unsplash.com/photo-1571401835393-8c5f35328320?w=800&q=80",
-    author: "Sidhant Sharma",
-    category: "Pilgrimage",
-    publishedAt: "2024-01-05",
-    readTime: 10,
-  },
-  {
-    title: "Gulmarg in Winter: A Snow Lover's Paradise",
-    slug: "gulmarg-winter-guide",
-    excerpt:
-      "Experience the magic of Gulmarg when it transforms into a winter wonderland. Skiing, Gondola rides, and more.",
-    coverImage: "https://images.unsplash.com/photo-1605540436563-5bca919ae766?w=800&q=80",
-    author: "Sidhant Sharma",
-    category: "Seasonal",
-    publishedAt: "2023-12-20",
-    readTime: 7,
-  },
-  {
-    title: "Kashmiri Cuisine: Must-Try Dishes on Your Trip",
-    slug: "kashmiri-cuisine-guide",
-    excerpt:
-      "From Rogan Josh to Kahwa, discover the rich flavors of Kashmiri cuisine and where to find the best local food.",
-    coverImage: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800&q=80",
-    author: "Sidhant Sharma",
-    category: "Food & Culture",
-    publishedAt: "2023-12-15",
-    readTime: 5,
-  },
-  {
-    title: "Packing List for Kashmir: What to Bring in Every Season",
-    slug: "kashmir-packing-list",
-    excerpt:
-      "Don't know what to pack for Kashmir? Our comprehensive seasonal packing list covers everything you need.",
-    coverImage: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80",
-    author: "Sidhant Sharma",
-    category: "Tips",
-    publishedAt: "2023-12-10",
-    readTime: 4,
-  },
-];
+const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800&q=80";
 
-const categories = ["All", "Travel Guide", "Adventure", "Pilgrimage", "Seasonal", "Food & Culture", "Tips"];
+export default async function BlogPage() {
+  const { data: rawBlogs } = await supabase
+    .from("blogs")
+    .select("*")
+    .eq("published", true)
+    .order("createdAt", { ascending: false });
 
-export default function BlogPage() {
+  const blogs = (rawBlogs || []).map((blog) => ({
+    title: blog.title,
+    slug: blog.slug,
+    excerpt: blog.excerpt,
+    coverImage: blog.coverImage || DEFAULT_IMAGE,
+    author: blog.author,
+    category: blog.category,
+    publishedAt: blog.publishedAt || blog.createdAt,
+    readTime: Math.ceil((blog.content?.length || 500) / 1000),
+  }));
+
+  const categories = ["All", ...new Set(blogs.map((b) => b.category).filter(Boolean))];
   return (
     <>
       {/* Hero */}

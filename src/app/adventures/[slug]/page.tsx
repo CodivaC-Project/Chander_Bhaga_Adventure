@@ -6,30 +6,7 @@ import { ImageGallery } from "@/components/ui/ImageReveal";
 import { BookingWidget } from "@/components/booking/BookingWidget";
 import { CTASection } from "@/components/sections/CTASection";
 import { siteConfig } from "@/lib/config";
-
-const adventures: Record<string, any> = {
-  "aru-valley-trek": {
-    title: "Aru Valley Trek",
-    slug: "aru-valley-trek",
-    description: "Trek through the breathtaking Aru Valley in Pahalgam, one of Kashmir's most pristine destinations.",
-    category: "trekking",
-    location: "Pahalgam, Kashmir",
-    price: 5999,
-    duration: "2 Days",
-    difficulty: "moderate",
-    minAge: 14,
-    maxGroupSize: 15,
-    rating: 4.9,
-    reviewCount: 67,
-    featured: true,
-    includes: ["Professional Trek Guide", "Camping Equipment", "Meals", "Transport from Pahalgam", "First Aid Kit", "Permits"],
-    safetyMeasures: ["Certified and experienced guides", "First aid kit and emergency communication", "Weather monitoring before departure", "Safety briefing before trek starts", "Emergency evacuation plan"],
-    gallery: [
-      "https://images.unsplash.com/photo-1551632811-561732d1e306?w=1200&q=80",
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80",
-    ],
-  },
-};
+import { supabase } from "@/lib/supabase";
 
 const difficultyColors: Record<string, string> = {
   easy: "bg-green-100 text-green-700",
@@ -40,14 +17,14 @@ const difficultyColors: Record<string, string> = {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const adventure = adventures[slug];
+  const { data: adventure } = await supabase.from("adventures").select("*").eq("slug", slug).single();
   if (!adventure) return { title: "Adventure Not Found" };
   return { title: adventure.title, description: adventure.description };
 }
 
 export default async function AdventureDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const adventure = adventures[slug];
+  const { data: adventure } = await supabase.from("adventures").select("*").eq("slug", slug).single();
 
   if (!adventure) {
     return (

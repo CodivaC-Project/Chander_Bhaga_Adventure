@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { TaxiCard } from "@/components/cards/TaxiCard";
 import { CTASection } from "@/components/sections/CTASection";
 import { siteConfig } from "@/lib/config";
+import { supabase } from "@/lib/supabase";
 
 export const metadata: Metadata = {
   title: "Taxi & Cab Service",
@@ -9,76 +10,25 @@ export const metadata: Metadata = {
     "Book reliable taxi and cab services in Kashmir. Sedans, SUVs, Tempo Travellers, and buses available for airport transfers and sightseeing.",
 };
 
-const vehicles = [
-  {
-    vehicleName: "Toyota Etios / Swift Dzire",
-    slug: "sedan",
-    type: "sedan",
-    capacity: 4,
-    pricePerKm: 12,
-    pricePerDay: 2500,
-    features: ["AC", "Music System", "GPS Tracking", "Experienced Driver"],
-    image: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800&q=80",
-    available: true,
-  },
-  {
-    vehicleName: "Toyota Innova Crysta",
-    slug: "innova",
-    type: "suv",
-    capacity: 7,
-    pricePerKm: 18,
-    pricePerDay: 4000,
-    features: ["AC", "Music System", "GPS Tracking", "Spacious Boot", "Experienced Driver"],
-    image: "https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=800&q=80",
-    available: true,
-  },
-  {
-    vehicleName: "Mahindra Scorpio",
-    slug: "scorpio",
-    type: "suv",
-    capacity: 7,
-    pricePerKm: 16,
-    pricePerDay: 3500,
-    features: ["AC", "Music System", "4x4 Available", "Experienced Driver"],
-    image: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800&q=80",
-    available: true,
-  },
-  {
-    vehicleName: "Tempo Traveller 12 Seater",
-    slug: "tempo-12",
-    type: "tempo",
-    capacity: 12,
-    pricePerKm: 22,
-    pricePerDay: 5500,
-    features: ["AC", "Pushback Seats", "Music System", "Luggage Space", "First Aid"],
-    image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=800&q=80",
-    available: true,
-  },
-  {
-    vehicleName: "Tempo Traveller 17 Seater",
-    slug: "tempo-17",
-    type: "tempo",
-    capacity: 17,
-    pricePerKm: 28,
-    pricePerDay: 7000,
-    features: ["AC", "Pushback Seats", "Music System", "Large Luggage Space", "First Aid"],
-    image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=800&q=80",
-    available: true,
-  },
-  {
-    vehicleName: "Bus 35 Seater",
-    slug: "bus",
-    type: "bus",
-    capacity: 35,
-    pricePerKm: 45,
-    pricePerDay: 12000,
-    features: ["AC", "Comfortable Seats", "Music System", "Luggage Compartment", "First Aid Kit"],
-    image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80",
-    available: false,
-  },
-];
+const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800&q=80";
 
-export default function TaxiPage() {
+export default async function TaxiPage() {
+  const { data: rawVehicles } = await supabase
+    .from("taxis")
+    .select("*")
+    .order("createdAt", { ascending: false });
+
+  const vehicles = (rawVehicles || []).map((v) => ({
+    vehicleName: v.vehicleName,
+    slug: v.slug,
+    type: v.type,
+    capacity: v.capacity,
+    pricePerKm: v.pricePerKm,
+    pricePerDay: v.pricePerDay,
+    features: v.features || [],
+    image: v.gallery?.[0] || DEFAULT_IMAGE,
+    available: v.available,
+  }));
   return (
     <>
       {/* Hero */}

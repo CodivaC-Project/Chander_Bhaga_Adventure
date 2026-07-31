@@ -14,41 +14,7 @@ import { ImageGallery } from "@/components/ui/ImageReveal";
 import { BookingWidget } from "@/components/booking/BookingWidget";
 import { CTASection } from "@/components/sections/CTASection";
 import { siteConfig } from "@/lib/config";
-
-const tourPackages: Record<string, any> = {
-  "kashmir-explorer": {
-    title: "Kashmir Explorer",
-    slug: "kashmir-explorer",
-    description:
-      "Embark on a magical journey through the heart of Kashmir. From the serene Dal Lake to the snowy peaks of Gulmarg, this 6-day tour covers the best of what Kashmir has to offer.",
-    destination: "Kashmir",
-    duration: "6 Days / 5 Nights",
-    price: 24999,
-    discountPrice: 19999,
-    featured: true,
-    difficulty: "easy",
-    maxGroupSize: 20,
-    rating: 4.9,
-    reviewCount: 234,
-    itinerary: [
-      { day: 1, title: "Arrival in Srinagar", description: "Airport pickup, transfer to houseboat. Evening Shikara ride on Dal Lake.", accommodation: "Houseboat on Dal Lake", meals: "Dinner" },
-      { day: 2, title: "Srinagar Sightseeing", description: "Visit Mughal Gardens — Nishat Bagh, Shalimar Bagh, Chashme Shahi.", accommodation: "Houseboat on Dal Lake", meals: "Breakfast, Dinner" },
-      { day: 3, title: "Gulmarg Excursion", description: "Full day trip to Gulmarg. Gondola ride to Khilanmarg.", accommodation: "Hotel in Gulmarg", meals: "Breakfast, Dinner" },
-      { day: 4, title: "Pahalgam via Srinagar", description: "Drive to Pahalgam through lush green valleys and pine forests.", accommodation: "Hotel in Pahalgam", meals: "Breakfast, Dinner" },
-      { day: 5, title: "Pahalgam Exploration", description: "Visit Aru Valley, Betaab Valley. Enjoy local cuisine.", accommodation: "Hotel in Pahalgam", meals: "Breakfast, Dinner" },
-      { day: 6, title: "Departure", description: "Transfer to airport. Tour concludes with beautiful memories.", accommodation: "N/A", meals: "Breakfast" },
-    ],
-    includes: ["Hotel/Accommodation", "Daily Breakfast & Dinner", "All Transfers", "Shikara Ride", "Gondola Ticket", "Sightseeing Tours", "Driver Allowances"],
-    excludes: ["Flight Tickets", "Lunch", "Personal Expenses", "Travel Insurance", "Tips & Gratuities"],
-    highlights: ["Stay in traditional houseboat", "Gondola ride in Gulmarg", "Mughal Gardens tour", "Shikara ride on Dal Lake", "Visit Aru Valley"],
-    gallery: [
-      "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=1200&q=80",
-      "https://images.unsplash.com/photo-1605540436563-5bca919ae766?w=1200&q=80",
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80",
-      "https://images.unsplash.com/photo-1571401835393-8c5f35328320?w=1200&q=80",
-    ],
-  },
-};
+import { supabase } from "@/lib/supabase";
 
 const difficultyColors: Record<string, string> = {
   easy: "bg-green-100 text-green-700",
@@ -58,14 +24,14 @@ const difficultyColors: Record<string, string> = {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const tour = tourPackages[slug];
+  const { data: tour } = await supabase.from("tour_packages").select("*").eq("slug", slug).single();
   if (!tour) return { title: "Tour Not Found" };
   return { title: tour.title, description: tour.description };
 }
 
 export default async function TourDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const tour = tourPackages[slug];
+  const { data: tour } = await supabase.from("tour_packages").select("*").eq("slug", slug).single();
   if (!tour) notFound();
 
   return (

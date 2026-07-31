@@ -5,6 +5,7 @@ import { DetailHero } from "@/components/ui/DetailHero";
 import { ImageGallery } from "@/components/ui/ImageReveal";
 import { CTASection } from "@/components/sections/CTASection";
 import { siteConfig } from "@/lib/config";
+import { supabase } from "@/lib/supabase";
 
 const amenityIcons: Record<string, React.ReactNode> = {
   WiFi: <Wifi className="w-5 h-5" />,
@@ -16,42 +17,16 @@ const amenityIcons: Record<string, React.ReactNode> = {
   Gym: <Dumbbell className="w-5 h-5" />,
 };
 
-const hotels: Record<string, any> = {
-  "highland-resort": {
-    name: "The Highland Resort",
-    slug: "highland-resort",
-    description: "Nestled in the heart of Gulmarg, The Highland Resort offers luxury accommodation with stunning views of the snow-capped Pir Panjal range.",
-    location: "Gulmarg, Kashmir",
-    address: "Gulmarg Main Road, Gulmarg 193403",
-    stars: 5,
-    pricePerNight: 12999,
-    amenities: ["WiFi", "Restaurant", "Spa", "Parking", "Room Service", "Pool", "Gym"],
-    rating: 4.9,
-    reviewCount: 156,
-    featured: true,
-    roomTypes: [
-      { type: "Deluxe Room", price: 12999, capacity: 2, available: 10 },
-      { type: "Premium Suite", price: 18999, capacity: 2, available: 5 },
-      { type: "Family Suite", price: 24999, capacity: 4, available: 3 },
-      { type: "Presidential Suite", price: 39999, capacity: 4, available: 1 },
-    ],
-    gallery: [
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80",
-      "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1200&q=80",
-    ],
-  },
-};
-
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const hotel = hotels[slug];
+  const { data: hotel } = await supabase.from("hotels").select("*").eq("slug", slug).single();
   if (!hotel) return { title: "Hotel Not Found" };
   return { title: hotel.name, description: hotel.description };
 }
 
 export default async function HotelDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const hotel = hotels[slug];
+  const { data: hotel } = await supabase.from("hotels").select("*").eq("slug", slug).single();
 
   if (!hotel) {
     return (

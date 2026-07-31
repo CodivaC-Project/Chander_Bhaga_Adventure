@@ -1,52 +1,58 @@
-"use client";
-
-import { useState } from "react";
 import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
-const testimonials = [
-  {
-    name: "Rahul Sharma",
-    location: "Delhi",
-    rating: 5,
-    text: "Absolutely incredible experience! The Kashmir Explorer package exceeded all our expectations. The team was professional, and every detail was taken care of.",
-    package: "Kashmir Explorer",
-    avatar: "RS",
-  },
-  {
-    name: "Priya Patel",
-    location: "Mumbai",
-    rating: 5,
-    text: "Best adventure trip ever! The trekking experience in Pahalgam was breathtaking. Our guide was knowledgeable and made the journey unforgettable.",
-    package: "Pahalgam Trek",
-    avatar: "PP",
-  },
-  {
-    name: "Amit Kumar",
-    location: "Bangalore",
-    rating: 5,
-    text: "We booked a family trip to Vaishno Devi. The arrangements were perfect — from hotel to transport. Highly recommended for families!",
-    package: "Vaishno Devi Yatra",
-    avatar: "AK",
-  },
-  {
-    name: "Sneha Reddy",
-    location: "Hyderabad",
-    rating: 5,
-    text: "The hotel they booked for us in Gulmarg was stunning with mountain views. The skiing lessons were a bonus! Will definitely come back.",
-    package: "Gulmarg Adventure",
-    avatar: "SR",
-  },
-  {
-    name: "Vikram Singh",
-    location: "Jaipur",
-    rating: 5,
-    text: "Professional service from start to finish. The WhatsApp updates and dedicated support made us feel secure throughout the trip.",
-    package: "Kashmir Explorer",
-    avatar: "VS",
-  },
-];
+interface Testimonial {
+  name: string;
+  location: string;
+  rating: number;
+  text: string;
+  package: string;
+  avatar: string;
+}
 
-export function TestimonialsSection() {
+export async function TestimonialsSection() {
+  const { data: reviews } = await supabase
+    .from("reviews")
+    .select("*")
+    .eq("verified", true)
+    .order("rating", { ascending: false })
+    .limit(10);
+
+  const testimonials: Testimonial[] = (reviews || []).map((review) => ({
+    name: review.userName || "Anonymous",
+    location: "Kashmir",
+    rating: review.rating,
+    text: review.comment || review.title || "",
+    package: review.serviceType || "Tour",
+    avatar: (review.userName || "A").charAt(0).toUpperCase(),
+  }));
+
+  // Fallback if no reviews exist
+  if (testimonials.length === 0) {
+    testimonials.push(
+      {
+        name: "Priya Sharma",
+        location: "Delhi",
+        rating: 5,
+        text: "Absolutely incredible experience! The Kashmir Explorer package exceeded all our expectations. The team was professional, and every detail was taken care of.",
+        package: "Kashmir Explorer",
+        avatar: "PS",
+      },
+      {
+        name: "Amit Kumar",
+        location: "Mumbai",
+        rating: 5,
+        text: "We booked a family trip to Vaishno Devi. The arrangements were perfect — from hotel to transport. Highly recommended for families!",
+        package: "Vaishno Devi Yatra",
+        avatar: "AK",
+      }
+    );
+  }
+
+  return <TestimonialsClient testimonials={testimonials} />;
+}
+
+function TestimonialsClient({ testimonials }: { testimonials: Testimonial[] }) {
   const [current, setCurrent] = useState(0);
 
   const next = () => setCurrent((c) => (c + 1) % testimonials.length);
@@ -149,3 +155,5 @@ export function TestimonialsSection() {
     </section>
   );
 }
+
+import { useState } from "react";

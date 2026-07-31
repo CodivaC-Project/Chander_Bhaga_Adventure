@@ -3,49 +3,7 @@ import Link from "next/link";
 import { ArrowLeft, Clock, User, Calendar, Share2, Tag } from "lucide-react";
 import { CTASection } from "@/components/sections/CTASection";
 import { siteConfig } from "@/lib/config";
-
-const blogPosts: Record<string, any> = {
-  "best-time-to-visit-kashmir": {
-    title: "Best Time to Visit Kashmir: A Complete Seasonal Guide",
-    slug: "best-time-to-visit-kashmir",
-    content: `
-Kashmir, often called "Paradise on Earth," is a year-round destination with each season offering a unique experience. Whether you're chasing spring blossoms, summer meadows, autumn colors, or winter snow, here's your complete guide.
-
-## Spring (March to May)
-Spring is when Kashmir awakens from its winter slumber. The gardens of Srinagar bloom with tulips and roses, and the valleys turn vibrant green. This is the best time for sightseeing and photography.
-
-**Best for:** Garden tours, Shikara rides, Sightseeing
-**Temperature:** 10°C to 20°C
-
-## Summer (June to August)
-Summer is peak tourist season. The weather is pleasant, making it ideal for trekking, camping, and adventure activities. Gulmarg and Pahalgam are particularly beautiful during this time.
-
-**Best for:** Trekking, Camping, Adventure Activities
-**Temperature:** 15°C to 30°C
-
-## Autumn (September to November)
-Autumn paints Kashmir in golden and amber hues. The chinar trees turn brilliant shades of red and orange. This is arguably the most photogenic season in Kashmir.
-
-**Best for:** Photography, Nature Walks, Peaceful Retreats
-**Temperature:** 5°C to 20°C
-
-## Winter (December to February)
-Winter transforms Kashmir into a snow-covered wonderland. Gulmarg becomes a world-class skiing destination, and the frozen Dal Lake is a sight to behold.
-
-**Best for:** Skiing, Snow Activities, Honeymoon
-**Temperature:** -5°C to 10°C
-
-## Our Recommendation
-For first-time visitors, **March to May** or **September to November** offer the best balance of pleasant weather, fewer crowds, and stunning natural beauty.
-    `,
-    author: "Sidhant Sharma",
-    category: "Travel Guide",
-    publishedAt: "2024-01-15",
-    readTime: 8,
-    coverImage: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=1200&q=80",
-    tags: ["Kashmir", "Travel Guide", "Best Time to Visit", "Seasonal"],
-  },
-};
+import { supabase } from "@/lib/supabase";
 
 export async function generateMetadata({
   params,
@@ -53,11 +11,11 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = blogPosts[slug];
+  const { data: post } = await supabase.from("blogs").select("*").eq("slug", slug).single();
   if (!post) return { title: "Blog Post Not Found" };
   return {
     title: post.title,
-    description: post.content.substring(0, 160),
+    description: post.excerpt || post.content?.substring(0, 160) || "",
   };
 }
 
@@ -67,7 +25,7 @@ export default async function BlogDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = blogPosts[slug];
+  const { data: post } = await supabase.from("blogs").select("*").eq("slug", slug).single();
 
   if (!post) {
     return (
