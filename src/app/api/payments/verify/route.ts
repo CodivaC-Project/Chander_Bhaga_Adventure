@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { supabase } from "@/lib/supabase";
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,10 +20,20 @@ export async function POST(request: NextRequest) {
     const isValid = true;
 
     if (isValid) {
-      // Update booking and payment status in MongoDB
-      // await connectDB();
-      // await Booking.findOneAndUpdate({ bookingId }, { paymentStatus: "paid", status: "confirmed" });
-      // await Payment.create({ bookingId, razorpayOrderId: razorpay_order_id, razorpayPaymentId: razorpay_payment_id, razorpaySignature: razorpay_signature, status: "captured", amount: 0 });
+      // Update booking and payment status in Supabase
+      await supabase
+        .from("bookings")
+        .update({ paymentStatus: "paid", status: "confirmed" })
+        .eq("bookingId", bookingId);
+
+      await supabase.from("payments").insert({
+        bookingId,
+        razorpayOrderId: razorpay_order_id,
+        razorpayPaymentId: razorpay_payment_id,
+        razorpaySignature: razorpay_signature,
+        status: "captured",
+        amount: 0,
+      });
 
       return NextResponse.json({ verified: true, message: "Payment verified successfully" });
     }

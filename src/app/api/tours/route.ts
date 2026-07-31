@@ -1,31 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectDB } from "@/lib/mongodb";
-import TourPackage from "@/models/TourPackage";
+import { supabase } from "@/lib/supabase";
 
 export async function GET(request: NextRequest) {
   try {
-    await connectDB();
     const { searchParams } = new URL(request.url);
     const destination = searchParams.get("destination");
     const difficulty = searchParams.get("difficulty");
     const featured = searchParams.get("featured");
     const limit = parseInt(searchParams.get("limit") || "20");
     const page = parseInt(searchParams.get("page") || "1");
-
-    const query: Record<string, unknown> = {};
-    if (destination) query.destination = destination;
-    if (difficulty) query.difficulty = difficulty;
-    if (featured === "true") query.featured = true;
-
     const skip = (page - 1) * limit;
-    const [packages, total] = await Promise.all([
-      TourPackage.find(query).skip(skip).limit(limit).sort({ createdAt: -1 }),
-      TourPackage.countDocuments(query),
-    ]);
+
+    let query = supabase.from("tour_packages").select("*", { count: "exact" }).order("createdAt", { ascending: false }).range(skip, skip + limit - 1);
+
+    if (destination) query = query.eq("destination", destination);
+    if (difficulty) query = query.eq("difficulty", difficulty);
+    if (featured === "true") query = query.eq("featured", true);
+
+    const { data: packages, error, count } = await query;
+    if (error) throw error;
 
     return NextResponse.json({
       packages,
-      pagination: { total, page, pages: Math.ceil(total / limit), limit },
+      pagination: { total: count || 0, page, pages: Math.ceil((count || 0) / limit), limit },
     });
   } catch (error) {
     console.error("Failed to fetch tour packages:", error);
@@ -35,9 +32,9 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    await connectDB();
     const body = await request.json();
-    const pkg = await TourPackage.create(body);
+    const { data: pkg, error } = await supabase.from("tour_packages").insert(body).select().single();
+    if (error) throw error;
     return NextResponse.json(pkg, { status: 201 });
   } catch (error) {
     console.error("Failed to create tour package:", error);

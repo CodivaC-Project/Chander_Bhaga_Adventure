@@ -1,20 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectDB } from "@/lib/mongodb";
-import Blog from "@/models/Blog";
+import { supabase } from "@/lib/supabase";
 
 export async function GET(request: NextRequest) {
   try {
-    await connectDB();
     const { searchParams } = new URL(request.url);
     const category = searchParams.get("category");
     const published = searchParams.get("published");
     const limit = parseInt(searchParams.get("limit") || "20");
 
-    const query: Record<string, unknown> = {};
-    if (category) query.category = category;
-    if (published === "true") query.published = true;
+    let query = supabase.from("blogs").select("*").order("createdAt", { ascending: false }).limit(limit);
 
-    const posts = await Blog.find(query).limit(limit).sort({ createdAt: -1 });
+    if (category) query = query.eq("category", category);
+    if (published === "true") query = query.eq("published", true);
+
+    const { data: posts, error } = await query;
+    if (error) throw error;
     return NextResponse.json({ posts });
   } catch (error) {
     console.error("Failed to fetch blog posts:", error);
@@ -24,9 +24,9 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    await connectDB();
     const body = await request.json();
-    const post = await Blog.create(body);
+    const { data: post, error } = await supabase.from("blogs").insert(body).select().single();
+    if (error) throw error;
     return NextResponse.json(post, { status: 201 });
   } catch (error) {
     console.error("Failed to create blog post:", error);

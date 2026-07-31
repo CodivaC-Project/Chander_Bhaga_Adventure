@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectDB } from "@/lib/mongodb";
-import ContactMessage from "@/models/ContactMessage";
+import { supabase } from "@/lib/supabase";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    await connectDB();
-    const messages = await ContactMessage.find().sort({ createdAt: -1 });
+    const { data: messages, error } = await supabase
+      .from("contact_messages")
+      .select("*")
+      .order("createdAt", { ascending: false });
+    if (error) throw error;
     return NextResponse.json({ messages });
   } catch (error) {
     console.error("Failed to fetch messages:", error);
@@ -15,9 +17,9 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    await connectDB();
     const body = await request.json();
-    const message = await ContactMessage.create(body);
+    const { data: message, error } = await supabase.from("contact_messages").insert(body).select().single();
+    if (error) throw error;
     return NextResponse.json(message, { status: 201 });
   } catch (error) {
     console.error("Failed to send message:", error);

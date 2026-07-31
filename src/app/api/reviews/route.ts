@@ -1,19 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectDB } from "@/lib/mongodb";
-import Review from "@/models/Review";
+import { supabase } from "@/lib/supabase";
 
 export async function GET(request: NextRequest) {
   try {
-    await connectDB();
     const { searchParams } = new URL(request.url);
     const serviceType = searchParams.get("serviceType");
     const serviceId = searchParams.get("serviceId");
 
-    const query: Record<string, unknown> = {};
-    if (serviceType) query.serviceType = serviceType;
-    if (serviceId) query.serviceId = serviceId;
+    let query = supabase.from("reviews").select("*").order("createdAt", { ascending: false });
 
-    const reviews = await Review.find(query).sort({ createdAt: -1 });
+    if (serviceType) query = query.eq("serviceType", serviceType);
+    if (serviceId) query = query.eq("serviceId", serviceId);
+
+    const { data: reviews, error } = await query;
+    if (error) throw error;
     return NextResponse.json({ reviews });
   } catch (error) {
     console.error("Failed to fetch reviews:", error);
@@ -23,9 +23,9 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    await connectDB();
     const body = await request.json();
-    const review = await Review.create(body);
+    const { data: review, error } = await supabase.from("reviews").insert(body).select().single();
+    if (error) throw error;
     return NextResponse.json(review, { status: 201 });
   } catch (error) {
     console.error("Failed to create review:", error);

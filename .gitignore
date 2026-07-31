@@ -36,6 +36,14 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
+next-env.d.ts.MASTER_PRD_Chander_Bhaga_Adventure_MongoDB.md
 
-.MASTER_PRD_Chander_Bhaga_Adventure_MongoDB.md
+# Prisma generated
+/src/generated/prisma
+
+# Agent tooling
+.agents/
+.claude/
+.freebuff/
+.windsurf/
+skills-lock.json

@@ -1,63 +1,18 @@
 import { SectionHeader } from "./SectionHeader";
 import { TourCard } from "@/components/cards/TourCard";
+import { supabase } from "@/lib/supabase";
 
-const featuredPackages = [
-  {
-    title: "Kashmir Explorer",
-    slug: "kashmir-explorer",
-    destination: "Kashmir",
-    duration: "6 Days / 5 Nights",
-    price: 24999,
-    discountPrice: 19999,
-    image: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800&q=80",
-    rating: 4.9,
-    reviewCount: 234,
-    featured: true,
-    difficulty: "easy" as const,
-  },
-  {
-    title: "Vaishno Devi Yatra",
-    slug: "vaishno-devi-yatra",
-    destination: "Katra",
-    duration: "3 Days / 2 Nights",
-    price: 12999,
-    image: "https://images.unsplash.com/photo-1571401835393-8c5f35328320?w=800&q=80",
-    rating: 4.8,
-    reviewCount: 189,
-    featured: true,
-    difficulty: "moderate" as const,
-  },
-  {
-    title: "Gulmarg Skiing Adventure",
-    slug: "gulmarg-skiing",
-    destination: "Gulmarg",
-    duration: "5 Days / 4 Nights",
-    price: 34999,
-    discountPrice: 29999,
-    image: "https://images.unsplash.com/photo-1605540436563-5bca919ae766?w=800&q=80",
-    rating: 4.7,
-    reviewCount: 156,
-    featured: false,
-    difficulty: "challenging" as const,
-  },
-  {
-    title: "Pahalgam Valley Trek",
-    slug: "pahalgam-trek",
-    destination: "Pahalgam",
-    duration: "4 Days / 3 Nights",
-    price: 18999,
-    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80",
-    rating: 4.8,
-    reviewCount: 142,
-    featured: false,
-    difficulty: "moderate" as const,
-  },
-];
+export async function FeaturedPackages() {
+  const { data: packages } = await supabase
+    .from("tour_packages")
+    .select("*")
+    .order("createdAt", { ascending: false })
+    .limit(4);
 
-export function FeaturedPackages() {
+  if (!packages || packages.length === 0) return null;
+
   return (
     <section className="section-padding relative overflow-hidden">
-      {/* Subtle decorative background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[30rem] h-[30rem] bg-[var(--color-accent)]/3 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-[20rem] h-[20rem] bg-[var(--color-primary)]/3 rounded-full blur-3xl" />
@@ -72,8 +27,21 @@ export function FeaturedPackages() {
         />
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {featuredPackages.map((pkg) => (
-            <TourCard key={pkg.slug} {...pkg} />
+          {packages.map((pkg) => (
+            <TourCard
+              key={pkg.slug}
+              title={pkg.title}
+              slug={pkg.slug}
+              destination={pkg.destination}
+              duration={pkg.duration}
+              price={pkg.price}
+              discountPrice={pkg.discountPrice}
+              image={pkg.gallery?.[0] || "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800&q=80"}
+              rating={pkg.rating}
+              reviewCount={pkg.reviewCount}
+              featured={pkg.featured}
+              difficulty={pkg.difficulty}
+            />
           ))}
         </div>
       </div>

@@ -1,18 +1,20 @@
 import { betterAuth } from "better-auth";
-import { MongoClient } from "mongodb";
-import { mongodbAdapter } from "better-auth/adapters/mongodb";
+import { Pool } from "pg";
 import { sendVerificationEmail, sendPasswordResetEmail } from "./email";
 
-const client = new MongoClient(process.env.MONGODB_URI || "mongodb://localhost:27017/chander-bhaga-adventure");
-const db = client.db();
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+});
 
 export const auth = betterAuth({
-  database: mongodbAdapter(db, {
-    client,
-  }),
+  database: pool,
+  baseURL: process.env.BETTER_AUTH_URL || process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
   emailAndPassword: {
     enabled: true,
-    requireEmailVerification: true,
+    requireEmailVerification: false,
     sendResetPassword: async ({ user, url, token }) => {
       await sendPasswordResetEmail({
         email: user.email,
@@ -22,7 +24,7 @@ export const auth = betterAuth({
     },
   },
   emailVerification: {
-    sendOnSignUp: true,
+    sendOnSignUp: false,
     autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, url, token }) => {
       await sendVerificationEmail({

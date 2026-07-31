@@ -1,34 +1,43 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "@/lib/auth-client";
 import { Mountain, Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
-      const { error: signInError } = await signIn.email({
+      const { data, error: signInError } = await signIn.email({
         email,
         password,
       });
 
       if (signInError) {
         setError(signInError.message || "Invalid email or password");
-      } else {
-        router.push("/dashboard");
+      } else if (data?.user) {
+        // Cast to any since Better Auth types don't include custom fields
+        const user = data.user as any;
+        const userRole = user.role;
+        if (userRole === "admin") {
+          router.push("/admin");
+        } else {
+          router.push(callbackUrl);
+        }
         router.refresh();
       }
     } catch (err) {
@@ -36,7 +45,7 @@ export default function LoginPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [email, password, callbackUrl, router]);
 
   return (
     <div className="min-h-[calc(100vh-200px)] flex items-center justify-center bg-[var(--color-surface-alt)] px-4">
@@ -164,5 +173,19 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-[calc(100vh-200px)] flex items-center justify-center">
+          <div className="animate-spin h-8 w-8 border-4 border-gray-200 border-t-[var(--color-primary)] rounded-full" />
+        </div>
+      }
+    >
+      <LoginForm />
+    </Suspense>
   );
 }

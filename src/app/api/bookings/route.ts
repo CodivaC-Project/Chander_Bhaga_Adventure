@@ -1,20 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectDB } from "@/lib/mongodb";
-import Booking from "@/models/Booking";
+import { supabase } from "@/lib/supabase";
 
 export async function GET(request: NextRequest) {
   try {
-    await connectDB();
     const { searchParams } = new URL(request.url);
     const status = searchParams.get("status");
     const serviceType = searchParams.get("serviceType");
     const limit = parseInt(searchParams.get("limit") || "20");
 
-    const query: Record<string, unknown> = {};
-    if (status) query.status = status;
-    if (serviceType) query.serviceType = serviceType;
+    let query = supabase.from("bookings").select("*").order("createdAt", { ascending: false }).limit(limit);
 
-    const bookings = await Booking.find(query).limit(limit).sort({ createdAt: -1 });
+    if (status) query = query.eq("status", status);
+    if (serviceType) query = query.eq("serviceType", serviceType);
+
+    const { data: bookings, error } = await query;
+    if (error) throw error;
     return NextResponse.json({ bookings });
   } catch (error) {
     console.error("Failed to fetch bookings:", error);
@@ -24,9 +24,9 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    await connectDB();
     const body = await request.json();
-    const booking = await Booking.create(body);
+    const { data: booking, error } = await supabase.from("bookings").insert(body).select().single();
+    if (error) throw error;
     return NextResponse.json(booking, { status: 201 });
   } catch (error) {
     console.error("Failed to create booking:", error);
