@@ -5,7 +5,7 @@ import { Shield, Lock, Eye, Database, Mail, UserCheck } from "lucide-react";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "Privacy Policy for Chander Bhaga Adventure — Learn how we collect, use, and protect your personal information.",
+    "Privacy Policy for Shri Mata Vaishno Devi — Learn how we collect, use, and protect your personal information.",
 };
 
 const sections = [
@@ -111,7 +111,7 @@ export default function PrivacyPage() {
           {/* Introduction */}
           <div className="mb-12">
             <p className="text-gray-600 leading-relaxed text-lg">
-              Chander Bhaga Adventure (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is committed to protecting your
+              Shri Mata Vaishno Devi (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is committed to protecting your
               privacy. This Privacy Policy explains how we collect, use, disclose,
               and safeguard your information when you visit our website
               (chanderbhaga.com) and use our tourism, adventure, and travel

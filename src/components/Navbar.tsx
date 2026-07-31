@@ -107,7 +107,7 @@ export function Navbar() {
             <div className="relative w-12 h-12 rounded-full overflow-hidden transition-transform duration-300 group-hover:scale-105">
               <Image
                 src="/logo.jpeg"
-                alt="Chander Bhaga Adventure Logo"
+                alt="Shri Mata Vaishno Devi Logo"
                 fill
                 className="object-contain"
                 priority
@@ -115,10 +115,7 @@ export function Navbar() {
             </div>
             <div className="flex flex-col">
               <span className="font-bold text-lg leading-tight text-[var(--color-primary)]">
-                Chander Bhaga
-              </span>
-              <span className="text-[10px] tracking-[0.2em] uppercase text-[var(--color-accent)] font-medium">
-                Adventure
+                Shri Mata Vaishno Devi
               </span>
             </div>
           </Link>

@@ -79,17 +79,14 @@ export function Footer() {
               <div className="relative w-12 h-12 rounded-full overflow-hidden">
                 <Image
                   src="/logo.jpeg"
-                  alt="Chander Bhaga Adventure Logo"
+                  alt="Shri Mata Vaishno Devi Logo"
                   fill
                   className="object-contain"
                 />
               </div>
               <div>
                 <span className="font-bold text-xl text-white block">
-                  Chander Bhaga
-                </span>
-                <span className="text-xs tracking-[0.2em] uppercase text-[var(--color-accent)]">
-                  Adventure
+                  Shri Mata Vaishno Devi
                 </span>
               </div>
             </Link>
@@ -176,7 +173,7 @@ export function Footer() {
       <div className="border-t border-white/10">
         <div className="container-custom py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-white/40 text-sm">
-            © {new Date().getFullYear()} Chander Bhaga Adventure. All rights reserved.
+            © {new Date().getFullYear()} Shri Mata Vaishno Devi. All rights reserved.
             License: {siteConfig.license}
           </p>
           <p className="text-white/40 text-sm">

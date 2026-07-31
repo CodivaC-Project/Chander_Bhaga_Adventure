@@ -89,7 +89,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden p-1">
               {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
-            <span className="font-semibold">Admin Panel — Chander Bhaga Adventure</span>
+            <span className="font-semibold">Admin Panel — Shri Mata Vaishno Devi</span>
           </div>
           <div className="flex items-center gap-4">
             <span className="text-sm text-white/70 hidden sm:inline">{(user as any)?.email}</span>

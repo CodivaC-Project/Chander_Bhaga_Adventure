@@ -5,7 +5,7 @@ import { XCircle, Clock, AlertTriangle, CreditCard, RefreshCcw, Phone } from "lu
 export const metadata: Metadata = {
   title: "Cancellation Policy",
   description:
-    "Cancellation and refund policy for tours, adventures, and services booked with Chander Bhaga Adventure.",
+    "Cancellation and refund policy for tours, adventures, and services booked with Shri Mata Vaishno Devi.",
 };
 
 const cancellationTiers = [
@@ -117,7 +117,7 @@ export default function CancellationPage() {
           {/* Introduction */}
           <div className="mb-12 max-w-4xl">
             <p className="text-gray-600 leading-relaxed text-lg">
-              At Chander Bhaga Adventure, we understand that plans can change.
+              At Shri Mata Vaishno Devi, we understand that plans can change.
               Our cancellation policy is designed to be fair while accounting for
               the non-recoverable costs we incur when reservations are made on
               your behalf. We strongly recommend purchasing comprehensive travel

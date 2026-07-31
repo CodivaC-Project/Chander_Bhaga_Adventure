@@ -58,10 +58,7 @@ function LoginForm() {
             </div>
             <div>
               <span className="font-bold text-xl text-[var(--color-primary)] block">
-                Chander Bhaga
-              </span>
-              <span className="text-xs tracking-[0.2em] uppercase text-[var(--color-accent)]">
-                Adventure
+                Shri Mata Vaishno Devi
               </span>
             </div>
           </Link>

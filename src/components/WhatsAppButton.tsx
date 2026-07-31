@@ -5,7 +5,7 @@ import { siteConfig } from "@/lib/config";
 
 export function WhatsAppButton() {
   const url = `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(
-    "Hi! I'm interested in booking an adventure with Chander Bhaga Adventure. Can you help me?"
+    "Hi! I'm interested in booking an adventure with Shri Mata Vaishno Devi. Can you help me?"
   )}`;
 
   return (

@@ -49,7 +49,7 @@ export function WhyChooseUs() {
       <div className="container-custom relative z-10">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-            Why Choose <span className="text-gradient">Chander Bhaga</span>
+            Why Choose <span className="text-gradient">Shri Mata Vaishno Devi</span>
           </h2>
           <p className="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">
             We don&apos;t just plan trips — we craft unforgettable experiences in

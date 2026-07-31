@@ -30,8 +30,8 @@ export async function POST() {
 
     // ── Blogs ──
     const blogs = [
-      { id: uuid(), title: "Top 10 Things to Do in Kashmir", slug: "top-10-things-to-do-in-kashmir", content: "Kashmir is a paradise on earth offering countless experiences. From houseboat stays on Dal Lake to trekking in Sonamarg, here are the top 10 things you must do.", excerpt: "Best experiences in Kashmir.", author: "Chander Bhaga Team", coverImage: "", tags: ["travel", "kashmir"], category: "Travel Guide", published: true, views: 1250, createdAt: now, updatedAt: now },
-      { id: uuid(), title: "Best Time to Visit Kashmir", slug: "best-time-to-visit-kashmir", content: "Kashmir is beautiful year-round but each season offers a unique experience. Spring brings tulip gardens, summer is perfect for trekking, autumn has golden chinar trees, and winter offers skiing.", excerpt: "Seasonal guide.", author: "Chander Bhaga Team", coverImage: "", tags: ["travel", "tips"], category: "Travel Tips", published: true, views: 980, createdAt: now, updatedAt: now },
+      { id: uuid(), title: "Top 10 Things to Do in Kashmir", slug: "top-10-things-to-do-in-kashmir", content: "Kashmir is a paradise on earth offering countless experiences. From houseboat stays on Dal Lake to trekking in Sonamarg, here are the top 10 things you must do.", excerpt: "Best experiences in Kashmir.", author: "Shri Mata Vaishno Devi Team", coverImage: "", tags: ["travel", "kashmir"], category: "Travel Guide", published: true, views: 1250, createdAt: now, updatedAt: now },
+      { id: uuid(), title: "Best Time to Visit Kashmir", slug: "best-time-to-visit-kashmir", content: "Kashmir is beautiful year-round but each season offers a unique experience. Spring brings tulip gardens, summer is perfect for trekking, autumn has golden chinar trees, and winter offers skiing.", excerpt: "Seasonal guide.", author: "Shri Mata Vaishno Devi Team", coverImage: "", tags: ["travel", "tips"], category: "Travel Tips", published: true, views: 980, createdAt: now, updatedAt: now },
     ];
 
     // ── Taxis ──

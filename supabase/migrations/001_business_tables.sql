@@ -1,5 +1,5 @@
 -- ============================================
--- Business Tables Migration for Chander Bhaga Adventure
+-- Business Tables Migration for Shri Mata Vaishno Devi
 -- Run this in Supabase SQL Editor or via CLI
 -- ============================================
 

@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     "adventure activities India",
     "hotel booking Kashmir",
     "taxi service Jammu",
-    "Chander Bhaga Adventure",
+    "Shri Mata Vaishno Devi",
   ],
   authors: [{ name: siteConfig.name }],
   creator: siteConfig.name,

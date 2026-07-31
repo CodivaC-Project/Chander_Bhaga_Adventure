@@ -324,7 +324,7 @@ export default function ContactPage() {
           allowFullScreen
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
-          title="Chander Bhaga Adventure Location"
+          title="Shri Mata Vaishno Devi Location"
         />
       </section>
     </>

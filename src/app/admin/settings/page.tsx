@@ -9,7 +9,7 @@ interface SettingsMap {
 }
 
 const defaultSettings: SettingsMap = {
-  siteName: "Chander Bhaga Adventure",
+  siteName: "Shri Mata Vaishno Devi",
   tagline: "Your Gateway to Kashmir's Untouched Beauty",
   phone: "+91 6006465184",
   email: "Sharmasidhant129@gmail.com",

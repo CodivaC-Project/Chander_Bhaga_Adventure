@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "Chander Bhaga Adventure",
+  name: "Shri Mata Vaishno Devi",
   tagline: "Your Gateway to Kashmir's Untouched Beauty",
   description:
     "Premium tourism, adventure, hotel, taxi, and consultation booking platform for exploring Kashmir and beyond.",

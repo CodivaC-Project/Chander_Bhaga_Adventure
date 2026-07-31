@@ -5,7 +5,7 @@ import { FileText, CreditCard, MapPin, AlertTriangle, Scale, Users } from "lucid
 export const metadata: Metadata = {
   title: "Terms & Conditions",
   description:
-    "Terms and Conditions for booking tours, adventures, and services with Chander Bhaga Adventure in Kashmir.",
+    "Terms and Conditions for booking tours, adventures, and services with Shri Mata Vaishno Devi in Kashmir.",
 };
 
 const sections = [
@@ -13,7 +13,7 @@ const sections = [
     icon: FileText,
     title: "General Terms",
     content: [
-      "By booking any tour, adventure activity, hotel, taxi service, or consultation with Chander Bhaga Adventure, you agree to be bound by these Terms and Conditions.",
+      "By booking any tour, adventure activity, hotel, taxi service, or consultation with Shri Mata Vaishno Devi, you agree to be bound by these Terms and Conditions.",
       "**Eligibility:** You must be at least 18 years old to make a booking. Participants under 18 must be accompanied by a parent or legal guardian who accepts these terms on their behalf.",
       "**Accuracy of Information:** You are responsible for providing accurate and complete information during booking. We are not liable for issues arising from incorrect or incomplete information.",
       "**Authority:** The person making the booking confirms they have the authority to accept these terms on behalf of all travelers in the group.",
@@ -61,7 +61,7 @@ const sections = [
     content: [
       "**Force Majeure:** We are not liable for delays, cancellations, or changes caused by events beyond our control, including but not limited to natural disasters, weather conditions, political unrest, pandemics, government actions, or strikes.",
       "**Third-Party Services:** While we carefully select our partners (hotels, transporters, activity providers), we act as an intermediary. We are not liable for the acts, errors, or omissions of these third-party service providers.",
-      "**Personal Risk:** Adventure activities carry inherent risks. While we take every precaution to ensure safety, Chander Bhaga Adventure is not liable for injuries resulting from failure to follow safety instructions, pre-existing medical conditions, or circumstances beyond our control.",
+      "**Personal Risk:** Adventure activities carry inherent risks. While we take every precaution to ensure safety, Shri Mata Vaishno Devi is not liable for injuries resulting from failure to follow safety instructions, pre-existing medical conditions, or circumstances beyond our control.",
       "**Maximum Liability:** Our total liability shall not exceed the total amount paid by the traveler for the specific booking in question.",
       "**Insurance:** We strongly recommend comprehensive travel insurance covering medical emergencies, trip cancellation, and personal belongings. We are not a substitute for travel insurance.",
     ],
@@ -105,7 +105,7 @@ export default function TermsPage() {
           {/* Introduction */}
           <div className="mb-12">
             <p className="text-gray-600 leading-relaxed text-lg">
-              Welcome to Chander Bhaga Adventure. These Terms and Conditions
+              Welcome to Shri Mata Vaishno Devi. These Terms and Conditions
               (&quot;Terms&quot;) govern your use of our website, services, and
               booking of tour packages, adventure activities, hotel accommodations,
               taxi services, and consultation services. By engaging with our

@@ -9,7 +9,7 @@ function getResend(): Resend {
   return resend;
 }
 
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "Chander Bhaga Adventure <onboarding@resend.dev>";
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "Shri Mata Vaishno Devi <onboarding@resend.dev>";
 
 export async function sendVerificationEmail({
   email,
@@ -40,7 +40,7 @@ export async function sendVerificationEmail({
                   <!-- Header -->
                   <tr>
                     <td style="background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8e 50%, #e8a838 100%); padding: 40px; text-align: center;">
-                      <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: bold;">🏔️ Chander Bhaga Adventure</h1>
+                      <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: bold;">🏔️ Shri Mata Vaishno Devi</h1>
                       <p style="color: rgba(255,255,255,0.8); margin: 8px 0 0 0; font-size: 14px;">Your Gateway to Kashmir's Untouched Beauty</p>
                     </td>
                   </tr>
@@ -50,7 +50,7 @@ export async function sendVerificationEmail({
                       <h2 style="color: #1e3a5f; margin: 0 0 16px 0; font-size: 24px;">Verify Your Email</h2>
                       <p style="color: #64748b; line-height: 1.6; margin: 0 0 24px 0;">
                         Hi ${name || "there"},<br><br>
-                        Welcome to Chander Bhaga Adventure! Please verify your email address to start exploring Kashmir's incredible tour packages and adventures.
+                        Welcome to Shri Mata Vaishno Devi! Please verify your email address to start exploring Kashmir's incredible tour packages and adventures.
                       </p>
                       <table width="100%" cellpadding="0" cellspacing="0">
                         <tr>
@@ -69,7 +69,7 @@ export async function sendVerificationEmail({
                   <tr>
                     <td style="padding: 24px 40px; background-color: #f8fafc; border-top: 1px solid #e2e8f0;">
                       <p style="color: #94a3b8; font-size: 12px; margin: 0; text-align: center;">
-                        Chander Bhaga Adventure | Katra, Vaishno Devi, Jammu & Kashmir<br>
+                        Shri Mata Vaishno Devi | Katra, Vaishno Devi, Jammu & Kashmir<br>
                         License: JKAT00003494 | Phone: +91 6006465184
                       </p>
                     </td>
@@ -118,7 +118,7 @@ export async function sendPasswordResetEmail({
                   <!-- Header -->
                   <tr>
                     <td style="background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8e 50%, #e8a838 100%); padding: 40px; text-align: center;">
-                      <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: bold;">🏔️ Chander Bhaga Adventure</h1>
+                      <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: bold;">🏔️ Shri Mata Vaishno Devi</h1>
                       <p style="color: rgba(255,255,255,0.8); margin: 8px 0 0 0; font-size: 14px;">Password Reset Request</p>
                     </td>
                   </tr>
@@ -128,7 +128,7 @@ export async function sendPasswordResetEmail({
                       <h2 style="color: #1e3a5f; margin: 0 0 16px 0; font-size: 24px;">Reset Your Password</h2>
                       <p style="color: #64748b; line-height: 1.6; margin: 0 0 24px 0;">
                         Hi ${name || "there"},<br><br>
-                        We received a request to reset the password for your Chander Bhaga Adventure account. Click the button below to set a new password.
+                        We received a request to reset the password for your Shri Mata Vaishno Devi account. Click the button below to set a new password.
                       </p>
                       <table width="100%" cellpadding="0" cellspacing="0">
                         <tr>
@@ -150,7 +150,7 @@ export async function sendPasswordResetEmail({
                   <tr>
                     <td style="padding: 24px 40px; background-color: #f8fafc; border-top: 1px solid #e2e8f0;">
                       <p style="color: #94a3b8; font-size: 12px; margin: 0; text-align: center;">
-                        Chander Bhaga Adventure | Katra, Vaishno Devi, Jammu & Kashmir<br>
+                        Shri Mata Vaishno Devi | Katra, Vaishno Devi, Jammu & Kashmir<br>
                         License: JKAT00003494 | Phone: +91 6006465184
                       </p>
                     </td>

@@ -16,7 +16,7 @@ import {
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Learn about Chander Bhaga Adventure — Kashmir's trusted tourism partner with 8+ years of experience in creating unforgettable travel experiences.",
+    "Learn about Shri Mata Vaishno Devi — Kashmir's trusted tourism partner with 8+ years of experience in creating unforgettable travel experiences.",
 };
 
 const team = [
@@ -35,7 +35,7 @@ export default function AboutPage() {
       <section className="hero-bg py-20">
         <div className="container-custom relative z-10 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            About Chander Bhaga Adventure
+            About Shri Mata Vaishno Devi
           </h1>
           <p className="text-xl text-white/70 max-w-2xl mx-auto">
             Your gateway to Kashmir&apos;s untouched beauty since 2016
@@ -53,7 +53,7 @@ export default function AboutPage() {
               </h2>
               <div className="space-y-4 text-gray-600 leading-relaxed">
                 <p>
-                  Founded in 2016, Chander Bhaga Adventure began with a simple
+                  Founded in 2016, Shri Mata Vaishno Devi began with a simple
                   mission — to share the breathtaking beauty of Kashmir with the
                   world. What started as a small family-run tour operation has
                   grown into one of Kashmir&apos;s most trusted tourism companies.
