@@ -2,7 +2,8 @@ import { NextRequest } from "next/server";
 import { Pool } from "pg";
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.POSTGRES_URL_NON_POOLING || process.env.DATABASE_URL,
+  // Supabase poolers need rejectUnauthorized: false for their cert chain
   ssl: { rejectUnauthorized: false },
 });
 
@@ -21,9 +22,11 @@ export async function verifyAdminAuth(request: NextRequest): Promise<{ user: Adm
   }
 
   try {
+    // Better Auth cookie format: {token}.{signature}
+    // The session table stores just the token portion
     const token = sessionCookie.value.split(".")[0];
     const sessionResult = await pool.query(
-      'SELECT s."userId", u.role FROM session s JOIN "user" u ON s."userId" = u.id WHERE s.token LIKE $1 || \'%\'',
+      'SELECT s."userId", u.role FROM session s JOIN "user" u ON s."userId" = u.id WHERE s.token = $1',
       [token]
     );
 

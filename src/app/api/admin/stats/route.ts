@@ -1,32 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
-import { Pool } from "pg";
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
-});
+import { verifyAdminAuth } from "@/lib/admin-auth";
 
 export async function GET(request: NextRequest) {
   try {
-    // Auth check: verify session cookie exists
-    const sessionCookie =
-      request.cookies.get("better-auth.session_token") ||
-      request.cookies.get("__Secure-better-auth.session_token");
-
-    if (!sessionCookie) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    // Verify session and check admin role
-    const token = sessionCookie.value.split(".")[0]; // Extract token part
-    const sessionResult = await pool.query(
-      'SELECT s."userId", u.role FROM session s JOIN "user" u ON s."userId" = u.id WHERE s.token LIKE $1 || \'%\'',
-      [token]
-    );
-
-    if (sessionResult.rows.length === 0 || sessionResult.rows[0].role !== "admin") {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    const auth = await verifyAdminAuth(request);
+    if ("error" in auth) {
+      return NextResponse.json({ error: auth.error }, { status: auth.status });
     }
 
     // Fetch all stats in parallel

@@ -5,14 +5,14 @@ export const siteConfig = {
     "Premium tourism, adventure, hotel, taxi, and consultation booking platform for exploring Kashmir and beyond.",
   phone: process.env.NEXT_PUBLIC_PHONE || "916006465184",
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "916006465184",
-  email: "Sharmasidhant129@gmail.com",
+  email: process.env.NEXT_PUBLIC_EMAIL || "Sharmasidhant129@gmail.com",
   address: "Katra, Vaishno Devi, Jammu & Kashmir",
   license: "JKAT00003494",
   url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
   social: {
-    facebook: "https://facebook.com/chanderbhagaadventure",
-    instagram: "https://instagram.com/chanderbhagaadventure",
-    youtube: "https://youtube.com/@chanderbhagaadventure",
+    facebook: process.env.NEXT_PUBLIC_FACEBOOK_URL || "https://facebook.com/shrimatavaishnodevi",
+    instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://instagram.com/shrimatavaishnodevi",
+    youtube: process.env.NEXT_PUBLIC_YOUTUBE_URL || "https://youtube.com/@shrimatavaishnodevi",
   },
   navLinks: [
     { label: "Home", href: "/" },

@@ -165,8 +165,8 @@ export default function TermsPage() {
               years of age and accept these Terms and Conditions in full. If you
               do not agree with any part of these terms, please do not use our
               services. For any questions, contact us at{" "}
-              <a href="mailto:info@chanderbhaga.com" className="text-[var(--color-primary)] font-medium hover:underline">
-                info@chanderbhaga.com
+              <a href="mailto:contact@shrimatavaishnodevi.com" className="text-[var(--color-primary)] font-medium hover:underline">
+                contact@shrimatavaishnodevi.com
               </a>
               .
             </p>

@@ -57,7 +57,7 @@ const sections = [
       "**Deletion:** You can request deletion of your personal data, subject to our legal retention obligations.",
       "**Opt-Out:** You can opt out of marketing communications by clicking the unsubscribe link in any email or contacting us directly.",
       "**Data Portability:** You can request your data in a commonly used, machine-readable format.",
-      "To exercise any of these rights, please contact us at **info@chanderbhaga.com** or call **+91 6006465184**.",
+      "To exercise any of these rights, please contact us at **contact@shrimatavaishnodevi.com** or call **+91 6006465184**.",
     ],
   },
   {
@@ -114,7 +114,7 @@ export default function PrivacyPage() {
               Shri Mata Vaishno Devi (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is committed to protecting your
               privacy. This Privacy Policy explains how we collect, use, disclose,
               and safeguard your information when you visit our website
-              (chanderbhaga.com) and use our tourism, adventure, and travel
+              (shrimatavaishnodevi.com) and use our tourism, adventure, and travel
               services. Registered under Jammu &amp; Kashmir tourism license
               <strong> JKAT00003494</strong>.
             </p>
@@ -173,11 +173,11 @@ export default function PrivacyPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="mailto:info@chanderbhaga.com"
+                href="mailto:contact@shrimatavaishnodevi.com"
                 className="btn-primary inline-flex items-center gap-2"
               >
                 <Mail className="w-4 h-4" />
-                info@chanderbhaga.com
+                contact@shrimatavaishnodevi.com
               </a>
               <a href="tel:+916006465184" className="btn-secondary inline-flex items-center gap-2">
                 +91 6006465184

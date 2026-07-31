@@ -184,7 +184,7 @@ export default function CancellationPage() {
                   <p className="text-gray-500 text-sm">
                     Call us at <strong>+91 6006465184</strong>, message on
                     WhatsApp, or email{" "}
-                    <strong>info@chanderbhaga.com</strong> with your booking ID.
+                    <strong>contact@shrimatavaishnodevi.com</strong> with your booking ID.
                   </p>
                 </div>
                 <div className="text-center">
@@ -324,10 +324,10 @@ export default function CancellationPage() {
               insurance. For any questions about our cancellation policy, please
               contact us at{" "}
               <a
-                href="mailto:info@chanderbhaga.com"
+                href="mailto:contact@shrimatavaishnodevi.com"
                 className="text-[var(--color-primary)] font-medium hover:underline"
               >
-                info@chanderbhaga.com
+                contact@shrimatavaishnodevi.com
               </a>{" "}
               or call{" "}
               <a
