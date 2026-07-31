@@ -7,6 +7,7 @@ export async function GET(request: NextRequest) {
   const auth = await verifyAdminAuth(request);
   if ("error" in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
   try {
+
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get("limit") || "50");
     const search = searchParams.get("search");
@@ -20,8 +21,8 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
     if (error) throw error;
     return NextResponse.json({ bookings: data });
-  } catch (error) {
-    return NextResponse.json({ error: String(error) }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error?.message || String(error) }, { status: 500 });
   }
 }
 
@@ -31,15 +32,16 @@ export async function POST(request: NextRequest) {
   if ("error" in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
   try {
     const body = await request.json();
+    const { notes, ...rest } = body;
     const { data, error } = await supabaseAdmin
       .from("bookings")
-      .insert({ ...body, id: crypto.randomUUID(), createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() })
+      .insert({ ...rest, specialRequests: body.specialRequests ?? notes ?? null, id: crypto.randomUUID(), createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() })
       .select()
       .single();
     if (error) throw error;
     return NextResponse.json(data, { status: 201 });
-  } catch (error) {
-    return NextResponse.json({ error: String(error) }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error?.message || String(error) }, { status: 500 });
   }
 }
 
@@ -53,16 +55,17 @@ export async function PUT(request: NextRequest) {
     if (!id) return NextResponse.json({ error: "ID required" }, { status: 400 });
 
     const body = await request.json();
+    const { notes, ...rest } = body;
     const { data, error } = await supabaseAdmin
       .from("bookings")
-      .update({ ...body, updatedAt: new Date().toISOString() })
+      .update({ ...rest, specialRequests: body.specialRequests ?? notes ?? null, updatedAt: new Date().toISOString() })
       .eq("id", id)
       .select()
       .single();
     if (error) throw error;
     return NextResponse.json(data);
-  } catch (error) {
-    return NextResponse.json({ error: String(error) }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error?.message || String(error) }, { status: 500 });
   }
 }
 
@@ -78,7 +81,7 @@ export async function DELETE(request: NextRequest) {
     const { error } = await supabaseAdmin.from("bookings").delete().eq("id", id);
     if (error) throw error;
     return NextResponse.json({ success: true });
-  } catch (error) {
-    return NextResponse.json({ error: String(error) }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error?.message || String(error) }, { status: 500 });
   }
 }

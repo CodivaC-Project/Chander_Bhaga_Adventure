@@ -76,7 +76,8 @@ export default function BookingsPage() {
 
   const handleEdit = (booking: Booking) => {
     setEditingId(booking.id);
-    setForm(booking);
+    // DB stores specialRequests; the form uses notes
+    setForm({ ...booking, notes: (booking as any).specialRequests || booking.notes || "" });
     setShowModal(true);
   };
 
@@ -117,38 +118,38 @@ export default function BookingsPage() {
   };
 
   const statusColors: Record<string, string> = {
-    pending: "bg-yellow-100 text-yellow-700",
-    confirmed: "bg-green-100 text-green-700",
-    cancelled: "bg-red-100 text-red-700",
-    completed: "bg-blue-100 text-blue-700",
+    pending: "bg-[var(--color-accent)]/10 text-[var(--color-accent-deep)]",
+    confirmed: "bg-[var(--color-pine)]/10 text-[var(--color-pine)]",
+    cancelled: "bg-red-50 text-red-700",
+    completed: "bg-[var(--color-paper)] text-[var(--color-ink-soft)] border border-[var(--color-line)]",
   };
 
   const paymentColors: Record<string, string> = {
-    pending: "bg-yellow-100 text-yellow-700",
-    paid: "bg-green-100 text-green-700",
-    failed: "bg-red-100 text-red-700",
-    refunded: "bg-purple-100 text-purple-700",
+    pending: "bg-[var(--color-accent)]/10 text-[var(--color-accent-deep)]",
+    paid: "bg-[var(--color-pine)]/10 text-[var(--color-pine)]",
+    failed: "bg-red-50 text-red-700",
+    refunded: "bg-[var(--color-paper)] text-[var(--color-ink-soft)] border border-[var(--color-line)]",
   };
 
   return (
     <AdminLayout>
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Bookings</h1>
+        <h1 className="text-2xl font-bold text-[var(--color-ink)]">Bookings</h1>
         <div className="flex items-center gap-3">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--color-ink-soft)]" />
             <input
               type="text"
               placeholder="Search bookings..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+              className="pl-10 pr-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
             />
           </div>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+            className="px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
           >
             <option value="all">All Status</option>
             <option value="pending">Pending</option>
@@ -171,62 +172,62 @@ export default function BookingsPage() {
           <Loader2 className="animate-spin h-8 w-8 text-[var(--color-primary)]" />
         </div>
       ) : bookings.length === 0 ? (
-        <div className="bg-white rounded-xl border border-gray-100 p-12 text-center">
-          <Calendar className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">No bookings found</h3>
-          <p className="text-gray-500">Bookings will appear here once customers start booking.</p>
+        <div className="bg-white rounded-lg border border-[var(--color-line)] p-12 text-center">
+          <Calendar className="w-16 h-16 text-[var(--color-line)] mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-[var(--color-ink)] mb-2">No bookings found</h3>
+          <p className="text-[var(--color-ink-soft)]">Bookings will appear here once customers start booking.</p>
         </div>
       ) : (
-        <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-lg border border-[var(--color-line)] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-100">
+              <thead className="bg-[var(--color-paper)] border-b border-[var(--color-line)]">
                 <tr>
-                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Booking ID</th>
-                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Guest</th>
-                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Service</th>
-                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Date</th>
-                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Amount</th>
-                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Status</th>
-                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Payment</th>
-                  <th className="text-right px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Actions</th>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-[var(--color-ink-soft)] uppercase">Booking ID</th>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-[var(--color-ink-soft)] uppercase">Guest</th>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-[var(--color-ink-soft)] uppercase">Service</th>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-[var(--color-ink-soft)] uppercase">Date</th>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-[var(--color-ink-soft)] uppercase">Amount</th>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-[var(--color-ink-soft)] uppercase">Status</th>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-[var(--color-ink-soft)] uppercase">Payment</th>
+                  <th className="text-right px-6 py-3 text-xs font-semibold text-[var(--color-ink-soft)] uppercase">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50">
+              <tbody className="divide-y divide-[var(--color-line)]">
                 {bookings.map((booking) => (
-                  <tr key={booking.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4 text-sm font-mono text-gray-600">{booking.bookingId}</td>
+                  <tr key={booking.id} className="hover:bg-[var(--color-paper)] transition-colors">
+                    <td className="px-6 py-4 text-sm font-mono text-[var(--color-ink-soft)]">{booking.bookingId}</td>
                     <td className="px-6 py-4">
-                      <div className="font-medium text-gray-900">{booking.guestName}</div>
-                      <div className="text-xs text-gray-500">{booking.guestEmail}</div>
+                      <div className="font-medium text-[var(--color-ink)]">{booking.guestName}</div>
+                      <div className="text-xs text-[var(--color-ink-soft)]">{booking.guestEmail}</div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full capitalize">
+                      <span className="text-xs bg-[var(--color-paper)] text-[var(--color-ink-soft)] border border-[var(--color-line)] px-2 py-1 rounded-full capitalize">
                         {booking.serviceType}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{new Date(booking.date).toLocaleDateString()}</td>
-                    <td className="px-6 py-4 text-sm font-medium text-gray-900">₹{booking.finalAmount.toLocaleString()}</td>
+                    <td className="px-6 py-4 text-sm text-[var(--color-ink-soft)]">{new Date(booking.date).toLocaleDateString()}</td>
+                    <td className="px-6 py-4 text-sm font-medium text-[var(--color-ink)]">₹{booking.finalAmount.toLocaleString()}</td>
                     <td className="px-6 py-4">
                       <span
-                        className={`text-xs px-2 py-1 rounded-full capitalize ${statusColors[booking.status] || "bg-gray-100 text-gray-700"}`}
+                        className={`text-xs px-2 py-1 rounded-full capitalize ${statusColors[booking.status] || "bg-[var(--color-paper)] text-[var(--color-ink-soft)] border border-[var(--color-line)]"}`}
                       >
                         {booking.status}
                       </span>
                     </td>
                     <td className="px-6 py-4">
                       <span
-                        className={`text-xs px-2 py-1 rounded-full capitalize ${paymentColors[booking.paymentStatus] || "bg-gray-100 text-gray-700"}`}
+                        className={`text-xs px-2 py-1 rounded-full capitalize ${paymentColors[booking.paymentStatus] || "bg-[var(--color-paper)] text-[var(--color-ink-soft)] border border-[var(--color-line)]"}`}
                       >
                         {booking.paymentStatus}
                       </span>
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-end gap-2">
-                        <button onClick={() => handleEdit(booking)} className="p-1.5 text-gray-400 hover:text-blue-600 transition-colors">
+                        <button onClick={() => handleEdit(booking)} className="p-1.5 text-[var(--color-ink-soft)] hover:text-[var(--color-pine)] hover:bg-[var(--color-pine)]/10 rounded-lg transition-colors">
                           <Edit2 className="w-4 h-4" />
                         </button>
-                        <button onClick={() => setDeleteConfirm(booking.id)} className="p-1.5 text-gray-400 hover:text-red-600 transition-colors">
+                        <button onClick={() => setDeleteConfirm(booking.id)} className="p-1.5 text-[var(--color-ink-soft)] hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -242,50 +243,50 @@ export default function BookingsPage() {
       {/* Add/Edit Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between p-6 border-b border-gray-100">
-              <h2 className="text-lg font-semibold text-gray-900">{editingId ? "Edit Booking" : "Add Booking"}</h2>
-              <button onClick={() => setShowModal(false)} className="p-2 text-gray-400 hover:text-gray-600">
+          <div className="bg-white rounded-lg w-full max-w-lg max-h-[90vh] overflow-y-auto border border-[var(--color-line)]">
+            <div className="flex items-center justify-between p-6 border-b border-[var(--color-line)]">
+              <h2 className="text-lg font-semibold text-[var(--color-ink)]">{editingId ? "Edit Booking" : "Add Booking"}</h2>
+              <button onClick={() => setShowModal(false)} className="p-2 text-[var(--color-ink-soft)] hover:text-[var(--color-ink)]">
                 <X className="w-5 h-5" />
               </button>
             </div>
             <div className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Guest Name *</label>
+                <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Guest Name *</label>
                 <input
                   type="text"
                   value={form.guestName || ""}
                   onChange={(e) => setForm({ ...form, guestName: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                  className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                  <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Email *</label>
                   <input
                     type="email"
                     value={form.guestEmail || ""}
                     onChange={(e) => setForm({ ...form, guestEmail: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                    className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                  <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Phone</label>
                   <input
                     type="text"
                     value={form.guestPhone || ""}
                     onChange={(e) => setForm({ ...form, guestPhone: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                    className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
                   />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Service Type</label>
+                  <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Service Type</label>
                   <select
                     value={form.serviceType || "tour"}
                     onChange={(e) => setForm({ ...form, serviceType: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                    className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
                   >
                     <option value="tour">Tour</option>
                     <option value="adventure">Adventure</option>
@@ -294,43 +295,43 @@ export default function BookingsPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Guests</label>
+                  <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Guests</label>
                   <input
                     type="number"
                     value={form.guests || 1}
                     onChange={(e) => setForm({ ...form, guests: parseInt(e.target.value) || 1 })}
                     min="1"
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                    className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
                   />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Travel Date</label>
+                  <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Travel Date</label>
                   <input
                     type="date"
                     value={form.date || ""}
                     onChange={(e) => setForm({ ...form, date: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                    className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Total Amount (₹)</label>
+                  <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Total Amount (₹)</label>
                   <input
                     type="number"
                     value={form.totalAmount || 0}
                     onChange={(e) => setForm({ ...form, totalAmount: parseFloat(e.target.value) || 0 })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                    className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
                   />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                  <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Status</label>
                   <select
                     value={form.status || "pending"}
                     onChange={(e) => setForm({ ...form, status: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                    className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
                   >
                     <option value="pending">Pending</option>
                     <option value="confirmed">Confirmed</option>
@@ -339,11 +340,11 @@ export default function BookingsPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Payment Status</label>
+                  <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Payment Status</label>
                   <select
                     value={form.paymentStatus || "pending"}
                     onChange={(e) => setForm({ ...form, paymentStatus: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                    className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
                   >
                     <option value="pending">Pending</option>
                     <option value="paid">Paid</option>
@@ -353,17 +354,17 @@ export default function BookingsPage() {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Notes</label>
                 <textarea
                   value={form.notes || ""}
                   onChange={(e) => setForm({ ...form, notes: e.target.value })}
                   rows={3}
-                  className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                  className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
                 />
               </div>
             </div>
-            <div className="flex items-center justify-end gap-3 p-6 border-t border-gray-100">
-              <button onClick={() => setShowModal(false)} className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900">
+            <div className="flex items-center justify-end gap-3 p-6 border-t border-[var(--color-line)]">
+              <button onClick={() => setShowModal(false)} className="px-4 py-2 text-sm text-[var(--color-ink-soft)] hover:text-[var(--color-ink)]">
                 Cancel
               </button>
               <button
@@ -381,11 +382,11 @@ export default function BookingsPage() {
       {/* Delete Confirmation */}
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl w-full max-w-sm p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Delete Booking</h3>
-            <p className="text-sm text-gray-600 mb-6">Are you sure you want to delete this booking? This action cannot be undone.</p>
+          <div className="bg-white rounded-lg w-full max-w-sm p-6 border border-[var(--color-line)]">
+            <h3 className="text-lg font-semibold text-[var(--color-ink)] mb-2">Delete Booking</h3>
+            <p className="text-sm text-[var(--color-ink-soft)] mb-6">Are you sure you want to delete this booking? This action cannot be undone.</p>
             <div className="flex items-center justify-end gap-3">
-              <button onClick={() => setDeleteConfirm(null)} className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900">
+              <button onClick={() => setDeleteConfirm(null)} className="px-4 py-2 text-sm text-[var(--color-ink-soft)] hover:text-[var(--color-ink)]">
                 Cancel
               </button>
               <button

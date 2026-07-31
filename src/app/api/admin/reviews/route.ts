@@ -20,8 +20,8 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
     if (error) throw error;
     return NextResponse.json({ reviews: data });
-  } catch (error) {
-    return NextResponse.json({ error: String(error) }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error?.message || String(error) }, { status: 500 });
   }
 }
 
@@ -31,15 +31,44 @@ export async function POST(request: NextRequest) {
   if ("error" in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
   try {
     const body = await request.json();
+    // reviews.userId is NOT NULL with FK to users(id) — resolve by email via upsert, else fall back to the first user
+    let userId = body.userId || null;
+    if (!userId) {
+      if (body.userEmail) {
+        const { data: created } = await supabaseAdmin
+          .from("users")
+          .upsert(
+            {
+              id: crypto.randomUUID(),
+              name: body.userName || body.userEmail.split("@")[0],
+              email: body.userEmail,
+              role: "user",
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+            },
+            { onConflict: "email" }
+          )
+          .select("id")
+          .single();
+        userId = created?.id || null;
+      }
+      if (!userId) {
+        const { data: first } = await supabaseAdmin.from("users").select("id").limit(1).maybeSingle();
+        userId = first?.id || null;
+      }
+    }
+    if (!userId) {
+      return NextResponse.json({ error: "A reviewer email is required to create a review" }, { status: 400 });
+    }
     const { data, error } = await supabaseAdmin
       .from("reviews")
-      .insert({ ...body, id: crypto.randomUUID(), createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() })
+      .insert({ ...body, userId, id: crypto.randomUUID(), createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() })
       .select()
       .single();
     if (error) throw error;
     return NextResponse.json(data, { status: 201 });
-  } catch (error) {
-    return NextResponse.json({ error: String(error) }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error?.message || String(error) }, { status: 500 });
   }
 }
 
@@ -61,8 +90,8 @@ export async function PUT(request: NextRequest) {
       .single();
     if (error) throw error;
     return NextResponse.json(data);
-  } catch (error) {
-    return NextResponse.json({ error: String(error) }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error?.message || String(error) }, { status: 500 });
   }
 }
 
@@ -78,7 +107,7 @@ export async function DELETE(request: NextRequest) {
     const { error } = await supabaseAdmin.from("reviews").delete().eq("id", id);
     if (error) throw error;
     return NextResponse.json({ success: true });
-  } catch (error) {
-    return NextResponse.json({ error: String(error) }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error?.message || String(error) }, { status: 500 });
   }
 }

@@ -92,6 +92,7 @@ CREATE TABLE IF NOT EXISTS consultations (
   budget TEXT,
   interests TEXT[] DEFAULT '{}',
   message TEXT,
+  notes TEXT,
   status TEXT DEFAULT 'new',
   "createdAt" TIMESTAMPTZ DEFAULT now(),
   "updatedAt" TIMESTAMPTZ DEFAULT now()
@@ -176,6 +177,7 @@ CREATE TABLE IF NOT EXISTS reviews (
   "serviceId" TEXT NOT NULL,
   "userId" TEXT NOT NULL,
   "userName" TEXT NOT NULL,
+  "userEmail" TEXT,
   "userAvatar" TEXT,
   rating INTEGER NOT NULL,
   title TEXT NOT NULL,

@@ -51,7 +51,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (isPending) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-[var(--color-paper)]">
         <Loader2 className="animate-spin h-8 w-8 text-[var(--color-primary)]" />
       </div>
     );
@@ -59,10 +59,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (!isAuthenticated || (user as any)?.role !== "admin") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-[var(--color-paper)]">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Access Denied</h1>
-          <p className="text-gray-500 mb-8">You don&apos;t have permission to access the admin panel.</p>
+          <h1 className="text-4xl font-bold text-[var(--color-ink)] mb-4">Access Denied</h1>
+          <p className="text-[var(--color-ink-soft)] mb-8">You don&apos;t have permission to access the admin panel.</p>
           <Link href="/" className="btn-primary">Go Home</Link>
         </div>
       </div>
@@ -81,7 +81,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[var(--color-paper)]">
       {/* Top bar */}
       <div className="bg-[var(--color-primary-dark)] text-white py-3 sticky top-0 z-40">
         <div className="container-custom flex items-center justify-between">
@@ -105,7 +105,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="grid lg:grid-cols-5 gap-6">
           {/* Sidebar */}
           <aside className={`lg:col-span-1 ${sidebarOpen ? "block" : "hidden lg:block"}`}>
-            <div className="bg-white rounded-xl border border-gray-100 p-3 space-y-1 sticky top-20">
+            <div className="bg-white rounded-lg border border-[var(--color-line)] p-3 space-y-1 sticky top-20">
               {adminLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -114,7 +114,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   className={`flex items-center gap-3 px-4 py-2.5 text-sm rounded-lg transition-colors ${
                     isActive(link.href)
                       ? "bg-[var(--color-primary)] text-white"
-                      : "text-gray-600 hover:bg-gray-50"
+                      : "text-[var(--color-ink-soft)] hover:bg-[var(--color-paper)]"
                   }`}
                 >
                   <link.icon className="w-4 h-4" />

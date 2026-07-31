@@ -23,8 +23,8 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
     if (error) throw error;
     return NextResponse.json({ taxis: data });
-  } catch (error) {
-    return NextResponse.json({ error: String(error) }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error?.message || String(error) }, { status: 500 });
   }
 }
 
@@ -47,8 +47,8 @@ export async function POST(request: NextRequest) {
       .single();
     if (error) throw error;
     return NextResponse.json(data, { status: 201 });
-  } catch (error) {
-    return NextResponse.json({ error: String(error) }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error?.message || String(error) }, { status: 500 });
   }
 }
 
@@ -70,8 +70,8 @@ export async function PUT(request: NextRequest) {
       .single();
     if (error) throw error;
     return NextResponse.json(data);
-  } catch (error) {
-    return NextResponse.json({ error: String(error) }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error?.message || String(error) }, { status: 500 });
   }
 }
 
@@ -87,7 +87,7 @@ export async function DELETE(request: NextRequest) {
     const { error } = await supabaseAdmin.from("taxis").delete().eq("id", id);
     if (error) throw error;
     return NextResponse.json({ success: true });
-  } catch (error) {
-    return NextResponse.json({ error: String(error) }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error?.message || String(error) }, { status: 500 });
   }
 }

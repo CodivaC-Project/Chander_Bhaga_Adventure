@@ -88,7 +88,7 @@ export default function SettingsPage() {
   return (
     <AdminLayout>
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
+        <h1 className="text-2xl font-bold text-[var(--color-ink)]">Settings</h1>
         <button
           onClick={handleSave}
           disabled={saving}
@@ -114,160 +114,160 @@ export default function SettingsPage() {
 
       <div className="space-y-6">
         {/* Site Settings */}
-        <div className="bg-white rounded-xl border border-gray-100 p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Site Settings</h2>
+        <div className="bg-white rounded-lg border border-[var(--color-line)] p-6">
+          <h2 className="text-lg font-semibold text-[var(--color-ink)] mb-4">Site Settings</h2>
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Site Name</label>
+              <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Site Name</label>
               <input
                 type="text"
                 value={settings.siteName || ""}
                 onChange={(e) => updateSetting("siteName", e.target.value)}
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Tagline</label>
+              <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Tagline</label>
               <input
                 type="text"
                 value={settings.tagline || ""}
                 onChange={(e) => updateSetting("tagline", e.target.value)}
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+              <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Phone</label>
               <input
                 type="text"
                 value={settings.phone || ""}
                 onChange={(e) => updateSetting("phone", e.target.value)}
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Email</label>
               <input
                 type="email"
                 value={settings.email || ""}
                 onChange={(e) => updateSetting("email", e.target.value)}
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
               />
             </div>
             <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+              <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Address</label>
               <input
                 type="text"
                 value={settings.address || ""}
                 onChange={(e) => updateSetting("address", e.target.value)}
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
               />
             </div>
           </div>
         </div>
 
         {/* Booking Settings */}
-        <div className="bg-white rounded-xl border border-gray-100 p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Booking Settings</h2>
+        <div className="bg-white rounded-lg border border-[var(--color-line)] p-6">
+          <h2 className="text-lg font-semibold text-[var(--color-ink)] mb-4">Booking Settings</h2>
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Default Currency</label>
+              <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Default Currency</label>
               <select
                 value={settings.currency || "INR"}
                 onChange={(e) => updateSetting("currency", e.target.value)}
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
               >
                 <option value="INR">INR (₹)</option>
                 <option value="USD">USD ($)</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Tax Rate (%)</label>
+              <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Tax Rate (%)</label>
               <input
                 type="number"
                 value={settings.taxRate || "18"}
                 onChange={(e) => updateSetting("taxRate", e.target.value)}
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">WhatsApp Number</label>
+              <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">WhatsApp Number</label>
               <input
                 type="text"
                 value={settings.whatsappNumber || ""}
                 onChange={(e) => updateSetting("whatsappNumber", e.target.value)}
                 placeholder="+91XXXXXXXXXX"
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
               />
             </div>
           </div>
         </div>
 
         {/* Notification Settings */}
-        <div className="bg-white rounded-xl border border-gray-100 p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Notifications</h2>
+        <div className="bg-white rounded-lg border border-[var(--color-line)] p-6">
+          <h2 className="text-lg font-semibold text-[var(--color-ink)] mb-4">Notifications</h2>
           <div className="space-y-3">
             <label className="flex items-center gap-3">
               <input
                 type="checkbox"
                 checked={settings.emailNotificationsBookings === "true"}
                 onChange={(e) => updateSetting("emailNotificationsBookings", String(e.target.checked))}
-                className="rounded border-gray-300 text-[var(--color-primary)]"
+                className="rounded border-[var(--color-line)] text-[var(--color-pine)]"
               />
-              <span className="text-sm text-gray-700">Email notifications for new bookings</span>
+              <span className="text-sm text-[var(--color-ink)]">Email notifications for new bookings</span>
             </label>
             <label className="flex items-center gap-3">
               <input
                 type="checkbox"
                 checked={settings.emailNotificationsConsultations === "true"}
                 onChange={(e) => updateSetting("emailNotificationsConsultations", String(e.target.checked))}
-                className="rounded border-gray-300 text-[var(--color-primary)]"
+                className="rounded border-[var(--color-line)] text-[var(--color-pine)]"
               />
-              <span className="text-sm text-gray-700">Email notifications for new consultations</span>
+              <span className="text-sm text-[var(--color-ink)]">Email notifications for new consultations</span>
             </label>
             <label className="flex items-center gap-3">
               <input
                 type="checkbox"
                 checked={settings.smsNotifications === "true"}
                 onChange={(e) => updateSetting("smsNotifications", String(e.target.checked))}
-                className="rounded border-gray-300 text-[var(--color-primary)]"
+                className="rounded border-[var(--color-line)] text-[var(--color-pine)]"
               />
-              <span className="text-sm text-gray-700">SMS notifications for bookings</span>
+              <span className="text-sm text-[var(--color-ink)]">SMS notifications for bookings</span>
             </label>
           </div>
         </div>
 
         {/* Social Media */}
-        <div className="bg-white rounded-xl border border-gray-100 p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Social Media</h2>
+        <div className="bg-white rounded-lg border border-[var(--color-line)] p-6">
+          <h2 className="text-lg font-semibold text-[var(--color-ink)] mb-4">Social Media</h2>
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Instagram URL</label>
+              <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Instagram URL</label>
               <input
                 type="url"
                 value={settings.instagramUrl || ""}
                 onChange={(e) => updateSetting("instagramUrl", e.target.value)}
                 placeholder="https://instagram.com/..."
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Facebook URL</label>
+              <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Facebook URL</label>
               <input
                 type="url"
                 value={settings.facebookUrl || ""}
                 onChange={(e) => updateSetting("facebookUrl", e.target.value)}
                 placeholder="https://facebook.com/..."
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Twitter/X URL</label>
+              <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Twitter/X URL</label>
               <input
                 type="url"
                 value={settings.twitterUrl || ""}
                 onChange={(e) => updateSetting("twitterUrl", e.target.value)}
                 placeholder="https://twitter.com/..."
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
               />
             </div>
           </div>

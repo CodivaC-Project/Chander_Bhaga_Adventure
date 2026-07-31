@@ -20,8 +20,8 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
     if (error) throw error;
     return NextResponse.json({ users: data });
-  } catch (error) {
-    return NextResponse.json({ error: String(error) }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error?.message || String(error) }, { status: 500 });
   }
 }
 
@@ -31,15 +31,21 @@ export async function POST(request: NextRequest) {
   if ("error" in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
   try {
     const body = await request.json();
+    const emailVerified =
+      typeof body.emailVerified === "boolean"
+        ? body.emailVerified
+          ? new Date().toISOString()
+          : null
+        : body.emailVerified ?? null;
     const { data, error } = await supabaseAdmin
       .from("users")
-      .insert({ ...body, id: crypto.randomUUID(), createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() })
+      .insert({ ...body, emailVerified, id: crypto.randomUUID(), createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() })
       .select()
       .single();
     if (error) throw error;
     return NextResponse.json(data, { status: 201 });
-  } catch (error) {
-    return NextResponse.json({ error: String(error) }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error?.message || String(error) }, { status: 500 });
   }
 }
 
@@ -53,16 +59,22 @@ export async function PUT(request: NextRequest) {
     if (!id) return NextResponse.json({ error: "ID required" }, { status: 400 });
 
     const body = await request.json();
+    const emailVerified =
+      typeof body.emailVerified === "boolean"
+        ? body.emailVerified
+          ? new Date().toISOString()
+          : null
+        : body.emailVerified ?? null;
     const { data, error } = await supabaseAdmin
       .from("users")
-      .update({ ...body, updatedAt: new Date().toISOString() })
+      .update({ ...body, emailVerified, updatedAt: new Date().toISOString() })
       .eq("id", id)
       .select()
       .single();
     if (error) throw error;
     return NextResponse.json(data);
-  } catch (error) {
-    return NextResponse.json({ error: String(error) }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error?.message || String(error) }, { status: 500 });
   }
 }
 
@@ -78,7 +90,7 @@ export async function DELETE(request: NextRequest) {
     const { error } = await supabaseAdmin.from("users").delete().eq("id", id);
     if (error) throw error;
     return NextResponse.json({ success: true });
-  } catch (error) {
-    return NextResponse.json({ error: String(error) }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error?.message || String(error) }, { status: 500 });
   }
 }
