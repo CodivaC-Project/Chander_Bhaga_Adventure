@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { PageHero } from "@/components/ui/PageHero";
 import { CTASection } from "@/components/sections/CTASection";
 import { FileText, CreditCard, MapPin, AlertTriangle, Scale, Users } from "lucide-react";
 
@@ -82,22 +83,12 @@ export default function TermsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="hero-bg py-20">
-        <div className="container-custom relative z-10 text-center">
-          <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-            <FileText className="w-8 h-8 text-white" />
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Terms & Conditions
-          </h1>
-          <p className="text-xl text-white/70 max-w-2xl mx-auto">
-            Please read these terms carefully before booking with us.
-          </p>
-          <p className="text-sm text-white/50 mt-4">
-            Last updated: January 2026
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Legal"
+        title="Terms & conditions"
+        subtitle="Please read these terms carefully before booking with us."
+        meta="Last updated: January 2026"
+      />
 
       {/* Content */}
       <section className="section-padding">

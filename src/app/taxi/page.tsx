@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { PageHero } from "@/components/ui/PageHero";
 import { TaxiCard } from "@/components/cards/TaxiCard";
 import { CTASection } from "@/components/sections/CTASection";
 import { siteConfig } from "@/lib/config";
@@ -31,18 +32,11 @@ export default async function TaxiPage() {
   }));
   return (
     <>
-      {/* Hero */}
-      <section className="hero-bg py-20">
-        <div className="container-custom relative z-10 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Taxi & Cab Service
-          </h1>
-          <p className="text-xl text-white/70 max-w-2xl mx-auto">
-            Reliable and comfortable taxi service across Kashmir. Airport
-            transfers, sightseeing, and outstation trips.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Get around"
+        title="Taxi & cab service"
+        subtitle="Reliable, comfortable taxis across Kashmir — airport transfers, sightseeing, and outstation trips."
+      />
 
       {/* Info section */}
       <section className="section-padding bg-white">

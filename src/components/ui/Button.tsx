@@ -22,19 +22,19 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const baseStyles =
-      "inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]";
+      "inline-flex items-center justify-center gap-2 font-semibold rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.99]";
 
     const variants = {
       primary:
-        "bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-light)] hover:shadow-lg hover:-translate-y-0.5 focus:ring-[var(--color-primary)]/30",
+        "bg-[var(--color-pine)] text-white hover:bg-[var(--color-pine-light)] focus:ring-[var(--color-pine)]/30",
       secondary:
-        "bg-[var(--color-accent)] text-white hover:bg-[var(--color-accent-light)] hover:shadow-lg hover:-translate-y-0.5 focus:ring-[var(--color-accent)]/30",
+        "bg-[var(--color-accent)] text-white hover:bg-[var(--color-accent-light)] focus:ring-[var(--color-accent)]/30",
       outline:
-        "border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white hover:shadow-lg hover:-translate-y-0.5 focus:ring-[var(--color-primary)]/30",
+        "border border-[var(--color-pine)] text-[var(--color-pine)] hover:bg-[var(--color-pine)] hover:text-white focus:ring-[var(--color-pine)]/30",
       ghost:
-        "text-gray-700 hover:bg-gray-100 hover:text-[var(--color-primary)]",
+        "text-[var(--color-ink-soft)] hover:bg-[var(--color-paper)] hover:text-[var(--color-pine)]",
       danger:
-        "bg-red-500 text-white hover:bg-red-600 hover:shadow-lg hover:-translate-y-0.5 focus:ring-red-500/30",
+        "bg-[var(--color-danger)] text-white hover:bg-[#9a3727] focus:ring-[var(--color-danger)]/30",
     };
 
     const sizes = {

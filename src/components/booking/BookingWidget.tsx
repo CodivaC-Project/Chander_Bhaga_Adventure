@@ -28,9 +28,9 @@ export function BookingWidget({
 
   return (
     <div className="sticky top-24">
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-[var(--shadow-medium)] overflow-hidden">
+      <div className="bg-white rounded-lg hairline shadow-[var(--shadow-soft)] overflow-hidden">
         {/* Price header */}
-        <div className="p-6 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-light)] text-white">
+        <div className="p-6 bg-[var(--color-pine)] text-white">
           <div className="flex items-baseline gap-2">
             {originalPrice && (
               <span className="text-lg text-white/50 line-through">
@@ -43,7 +43,7 @@ export function BookingWidget({
             <span className="text-sm text-white/70">/person</span>
           </div>
           {originalPrice && (
-            <span className="inline-block mt-2 px-3 py-1 bg-[var(--color-accent)] text-white text-xs font-bold rounded-full">
+            <span className="inline-block mt-2 px-2.5 py-0.5 bg-[var(--color-accent)] text-white text-xs font-semibold rounded-md">
               Save ₹{(originalPrice - price).toLocaleString("en-IN")}
             </span>
           )}
@@ -57,13 +57,13 @@ export function BookingWidget({
               Travel Date
             </label>
             <div className="relative">
-              <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--color-ink-faint)]" />
               <input
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 min={new Date().toISOString().split("T")[0]}
-                className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)]"
+                className="w-full pl-11 pr-4 py-3 border border-[var(--color-line)] rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]/15 focus:border-[var(--color-pine)]"
               />
             </div>
           </div>
@@ -78,7 +78,7 @@ export function BookingWidget({
               <select
                 value={guests}
                 onChange={(e) => setGuests(Number(e.target.value))}
-                className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] appearance-none"
+                className="w-full pl-11 pr-4 py-3 border border-[var(--color-line)] rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]/15 focus:border-[var(--color-pine)] appearance-none"
               >
                 {Array.from({ length: Math.min(maxGroupSize, 20) }, (_, i) => (
                   <option key={i + 1} value={i + 1}>
@@ -90,7 +90,7 @@ export function BookingWidget({
           </div>
 
           {/* Price breakdown */}
-          <div className="bg-gray-50 rounded-xl p-4 space-y-2">
+          <div className="bg-[var(--color-paper)] border border-[var(--color-line)] rounded-md p-4 space-y-2">
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">
                 ₹{price.toLocaleString("en-IN")} × {guests} guests
@@ -108,9 +108,9 @@ export function BookingWidget({
           </div>
 
           {/* Book button */}
-          <button className="btn-secondary w-full !py-4 text-lg group">
+          <button className="btn-secondary w-full py-4 text-lg group">
             Book Now
-            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-0.5" />
           </button>
 
           {/* Trust signals */}
@@ -125,7 +125,7 @@ export function BookingWidget({
             <div className="flex gap-2">
               <a
                 href={`tel:${siteConfig.phone}`}
-                className="flex-1 flex items-center justify-center gap-2 py-2.5 border border-gray-200 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors"
+                className="flex-1 flex items-center justify-center gap-2 py-2.5 border border-[var(--color-line)] rounded-md text-sm font-medium text-[var(--color-ink-soft)] hover:bg-[var(--color-paper)] transition-colors"
               >
                 <Phone className="w-4 h-4" />
                 Call
@@ -134,7 +134,7 @@ export function BookingWidget({
                 href={`https://wa.me/${siteConfig.whatsapp}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 flex items-center justify-center gap-2 py-2.5 border border-green-200 bg-green-50 rounded-xl text-sm font-medium text-green-700 hover:bg-green-100 transition-colors"
+                className="flex-1 flex items-center justify-center gap-2 py-2.5 border border-[var(--color-pine)] bg-[var(--color-pine)]/5 rounded-md text-sm font-medium text-[var(--color-pine)] hover:bg-[var(--color-pine)] hover:text-white transition-colors"
               >
                 <MessageCircle className="w-4 h-4" />
                 WhatsApp

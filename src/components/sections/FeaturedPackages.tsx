@@ -12,13 +12,8 @@ export async function FeaturedPackages() {
   if (!packages || packages.length === 0) return null;
 
   return (
-    <section className="section-padding relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-[30rem] h-[30rem] bg-[var(--color-accent)]/3 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-[20rem] h-[20rem] bg-[var(--color-primary)]/3 rounded-full blur-3xl" />
-      </div>
-      
-      <div className="container-custom relative z-10">
+    <section className="section-padding">
+      <div className="container-custom">
         <SectionHeader
           title="Popular Tour Packages"
           subtitle="Explore our handcrafted tour packages designed to give you the best of Kashmir and beyond."

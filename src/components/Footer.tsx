@@ -41,11 +41,11 @@ const footerLinks = {
 
 export function Footer() {
   return (
-    <footer className="bg-[var(--color-primary-dark)] text-white">
+    <footer className="bg-[var(--color-pine-deep)] text-white">
       {/* Newsletter section */}
       <div className="border-b border-white/10">
-        <div className="container-custom py-12">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="container-custom py-14">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div>
               <h3 className="text-2xl font-bold">Get Travel Updates</h3>
               <p className="text-white/60 mt-1">
@@ -56,11 +56,11 @@ export function Footer() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 md:w-80 px-5 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]/50 focus:border-[var(--color-accent)]"
+                className="flex-1 md:w-80 px-5 py-3 bg-white/5 border border-white/15 rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]/40 focus:border-[var(--color-accent)]"
               />
               <button
                 type="submit"
-                className="btn-secondary !rounded-xl flex items-center gap-2"
+                className="btn-secondary flex items-center gap-2"
               >
                 <Send className="w-4 h-4" />
                 Subscribe
@@ -124,7 +124,7 @@ export function Footer() {
                 href={siteConfig.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-[var(--color-accent)] transition-colors"
+                className="w-10 h-10 rounded-lg border border-white/15 flex items-center justify-center text-white/70 hover:text-white hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors"
               >
                 <Facebook className="w-4 h-4" />
               </a>
@@ -132,7 +132,7 @@ export function Footer() {
                 href={siteConfig.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-[var(--color-accent)] transition-colors"
+                className="w-10 h-10 rounded-lg border border-white/15 flex items-center justify-center text-white/70 hover:text-white hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors"
               >
                 <Instagram className="w-4 h-4" />
               </a>
@@ -140,7 +140,7 @@ export function Footer() {
                 href={siteConfig.social.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-[var(--color-accent)] transition-colors"
+                className="w-10 h-10 rounded-lg border border-white/15 flex items-center justify-center text-white/70 hover:text-white hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors"
               >
                 <Youtube className="w-4 h-4" />
               </a>
@@ -177,7 +177,7 @@ export function Footer() {
             License: {siteConfig.license}
           </p>
           <p className="text-white/40 text-sm">
-            Built with ❤️ for adventure seekers
+            Katra · Jammu &amp; Kashmir
           </p>
         </div>
       </div>

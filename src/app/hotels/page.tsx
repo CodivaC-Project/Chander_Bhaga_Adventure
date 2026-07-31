@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { PageHero } from "@/components/ui/PageHero";
 import { HotelCard } from "@/components/cards/HotelCard";
 import { CTASection } from "@/components/sections/CTASection";
 import { supabase } from "@/lib/supabase";
@@ -31,18 +32,11 @@ export default async function HotelsPage() {
   }));
   return (
     <>
-      {/* Hero */}
-      <section className="hero-bg py-20">
-        <div className="container-custom relative z-10 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Hotels in Kashmir
-          </h1>
-          <p className="text-xl text-white/70 max-w-2xl mx-auto">
-            From luxurious resorts to charming houseboats — find your perfect
-            stay in paradise.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Stay"
+        title="Hotels across Kashmir"
+        subtitle="From luxurious resorts to charming houseboats — find your perfect stay in paradise."
+      />
 
       {/* Listing */}
       <section className="section-padding">

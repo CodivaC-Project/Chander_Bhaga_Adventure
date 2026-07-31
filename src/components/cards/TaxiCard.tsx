@@ -32,9 +32,9 @@ export function TaxiCard({
   available,
 }: TaxiCardProps) {
   return (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-[var(--shadow-soft)] card-hover h-full flex flex-col">
+    <div className="bg-white rounded-lg overflow-hidden card-hover h-full flex flex-col">
       {/* Image */}
-      <div className="relative h-48 overflow-hidden bg-gray-50">
+      <div className="relative h-48 overflow-hidden bg-[var(--color-paper)]">
         <img
           src={image}
           alt={vehicleName}
@@ -52,28 +52,28 @@ export function TaxiCard({
       {/* Content */}
       <div className="p-5 flex-1 flex flex-col">
         <div className="flex items-center justify-between mb-2">
-          <span className="px-3 py-1 bg-[var(--color-primary)]/10 text-[var(--color-primary)] text-xs font-semibold rounded-full capitalize">
+          <span className="px-3 py-1 bg-[var(--color-accent-soft)] text-[var(--color-accent-deep)] text-xs font-semibold rounded-md capitalize">
             {typeLabels[type] || type}
           </span>
-          <div className="flex items-center gap-1 text-sm text-gray-500">
+          <div className="flex items-center gap-1 text-sm text-[var(--color-ink-soft)]">
             <Users className="w-4 h-4" />
             {capacity} Seats
           </div>
         </div>
 
-        <h3 className="text-lg font-bold text-gray-900 mt-2">{vehicleName}</h3>
+        <h3 className="text-lg font-bold text-[var(--color-ink)] mt-2 !font-sans tracking-normal">{vehicleName}</h3>
 
         {/* Pricing */}
         <div className="grid grid-cols-2 gap-3 mt-4">
-          <div className="bg-gray-50 rounded-xl p-3 text-center">
-            <span className="text-xs text-gray-500 block">Per KM</span>
-            <span className="text-lg font-bold text-[var(--color-primary)]">
+          <div className="bg-[var(--color-paper)] border border-[var(--color-line)] rounded-md p-3 text-center">
+            <span className="text-xs text-[var(--color-ink-faint)] block">Per KM</span>
+            <span className="text-lg font-bold text-[var(--color-pine)]">
               ₹{pricePerKm}
             </span>
           </div>
-          <div className="bg-gray-50 rounded-xl p-3 text-center">
-            <span className="text-xs text-gray-500 block">Per Day</span>
-            <span className="text-lg font-bold text-[var(--color-primary)]">
+          <div className="bg-[var(--color-paper)] border border-[var(--color-line)] rounded-md p-3 text-center">
+            <span className="text-xs text-[var(--color-ink-faint)] block">Per Day</span>
+            <span className="text-lg font-bold text-[var(--color-pine)]">
               ₹{pricePerDay.toLocaleString("en-IN")}
             </span>
           </div>
@@ -84,9 +84,9 @@ export function TaxiCard({
           {features.slice(0, 4).map((feature) => (
             <div
               key={feature}
-              className="flex items-center gap-2 text-sm text-gray-600"
+              className="flex items-center gap-2 text-sm text-[var(--color-ink-soft)]"
             >
-              <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
+              <Check className="w-4 h-4 text-[var(--color-pine)] flex-shrink-0" />
               {feature}
             </div>
           ))}
@@ -95,11 +95,11 @@ export function TaxiCard({
         {/* CTA */}
         <div className="mt-auto pt-4">
           <button
-            className="btn-primary w-full !rounded-xl group"
+            className="btn-primary w-full group"
             disabled={!available}
           >
             Book Now
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
           </button>
         </div>
       </div>

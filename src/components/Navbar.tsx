@@ -72,7 +72,7 @@ export function Navbar() {
   return (
     <>
       {/* Top bar */}
-      <div className="bg-[var(--color-primary-dark)] text-white/80 text-sm py-2 hidden md:block">
+      <div className="bg-[var(--color-pine-deep)] text-white/70 text-sm py-2 hidden md:block">
         <div className="container-custom flex justify-between items-center">
           <div className="flex items-center gap-6">
             <a
@@ -95,10 +95,8 @@ export function Navbar() {
 
       {/* Main navbar */}
       <nav
-        className={`sticky top-0 z-50 transition-all duration-500 ${
-          scrolled
-            ? "bg-white/95 backdrop-blur-xl shadow-[var(--shadow-medium)] py-2"
-            : "bg-white/80 backdrop-blur-sm py-4"
+        className={`sticky top-0 z-50 bg-white transition-all duration-300 border-b ${
+          scrolled ? "border-[var(--color-line-strong)] py-2" : "border-[var(--color-line)] py-4"
         }`}
       >
         <div className="container-custom flex items-center justify-between">
@@ -144,14 +142,14 @@ export function Navbar() {
                 {/* Dropdown */}
                 {link.children && activeDropdown === link.href && (
                   <div className="absolute top-full left-0 pt-2 z-50">
-                    <div className="bg-white rounded-2xl shadow-[var(--shadow-strong)] p-4 min-w-[220px] border border-gray-100">
+                    <div className="bg-white hairline shadow-[var(--shadow-soft)] p-3 min-w-[220px] rounded-lg">
                       {link.children.map((child) => (
                         <Link
                           key={child.href}
                           href={child.href}
-                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-[var(--color-primary)]/5 hover:text-[var(--color-primary)] rounded-xl transition-all"
+                          className="flex items-center gap-3 px-3 py-2.5 text-sm text-[var(--color-ink-soft)] hover:bg-[var(--color-paper)] hover:text-[var(--color-pine)] rounded-md transition-all"
                         >
-                          <span className="text-[var(--color-primary)]/60">
+                          <span className="text-[var(--color-accent)]">
                             {serviceIcons[link.href] || serviceIcons[child.href] || (
                               <ChevronDown className="w-4 h-4" />
                             )}
@@ -192,15 +190,15 @@ export function Navbar() {
 
                     {/* Dropdown menu */}
                     {showUserMenu && (
-                      <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-2xl shadow-[var(--shadow-strong)] border border-gray-100 p-2 z-50">
-                        <div className="px-4 py-3 border-b border-gray-100 mb-1">
-                          <div className="font-medium text-gray-900 text-sm">{user.name}</div>
-                          <div className="text-xs text-gray-500 truncate">{user.email}</div>
+                      <div className="absolute top-full right-0 mt-2 w-56 bg-white hairline shadow-[var(--shadow-soft)] p-2 rounded-lg z-50">
+                        <div className="px-4 py-3 border-b border-[var(--color-line)] mb-1">
+                          <div className="font-medium text-[var(--color-ink)] text-sm">{user.name}</div>
+                          <div className="text-xs text-[var(--color-ink-faint)] truncate">{user.email}</div>
                         </div>
                         <Link
                           href="/dashboard"
                           onClick={() => setShowUserMenu(false)}
-                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-xl transition-colors"
+                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-[var(--color-ink-soft)] hover:bg-[var(--color-paper)] rounded-md transition-colors"
                         >
                           <LayoutDashboard className="w-4 h-4" />
                           Dashboard
@@ -209,16 +207,16 @@ export function Navbar() {
                           <Link
                             href="/admin"
                             onClick={() => setShowUserMenu(false)}
-                            className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-xl transition-colors"
+                            className="flex items-center gap-3 px-4 py-2.5 text-sm text-[var(--color-ink-soft)] hover:bg-[var(--color-paper)] rounded-md transition-colors"
                           >
                             <Shield className="w-4 h-4" />
                             Admin Panel
                           </Link>
                         )}
-                        <hr className="my-1" />
+                        <hr className="my-1 border-[var(--color-line)]" />
                         <button
                           onClick={handleSignOut}
-                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 rounded-xl transition-colors w-full"
+                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-[var(--color-danger)] hover:bg-[var(--color-paper)] rounded-md transition-colors w-full"
                         >
                           <LogOut className="w-4 h-4" />
                           Sign Out
@@ -237,7 +235,7 @@ export function Navbar() {
                     </Link>
                     <Link
                       href="/register"
-                      className="btn-primary text-sm !px-4 !py-2"
+                      className="btn-primary text-sm px-4 py-2"
                     >
                       Sign Up
                     </Link>
@@ -248,7 +246,7 @@ export function Navbar() {
 
             <Link
               href="/consultation"
-              className="hidden sm:inline-flex btn-secondary text-sm !px-4 !py-2"
+              className="hidden sm:inline-flex btn-secondary text-sm px-4 py-2"
             >
               Book Consultation
             </Link>
@@ -301,7 +299,7 @@ export function Navbar() {
                     <Link
                       href="/login"
                       onClick={() => setIsOpen(false)}
-                      className="flex-1 text-center px-4 py-2.5 border border-gray-200 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors"
+                      className="flex-1 text-center px-4 py-2.5 border border-[var(--color-line)] rounded-md text-sm font-medium text-[var(--color-ink-soft)] hover:bg-[var(--color-paper)] transition-colors"
                     >
                       Sign In
                     </Link>

@@ -4,18 +4,17 @@ import { HTMLAttributes, forwardRef } from "react";
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
   hover?: boolean;
-  glass?: boolean;
+  className?: string;
 }
 
 const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ hover = true, glass = false, children, className = "", ...props }, ref) => {
+  ({ hover = true, children, className = "", ...props }, ref) => {
     return (
       <div
         ref={ref}
         className={`
-          bg-white rounded-2xl overflow-hidden
-          ${hover ? "card-hover" : ""}
-          ${glass ? "glass" : "shadow-[var(--shadow-soft)]"}
+          bg-white rounded-lg overflow-hidden
+          ${hover ? "card-hover" : "hairline"}
           ${className}
         `}
         {...props}

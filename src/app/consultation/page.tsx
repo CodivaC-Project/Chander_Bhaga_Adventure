@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { PageHero } from "@/components/ui/PageHero";
 import {
   Calendar,
   Users,
@@ -100,17 +101,11 @@ export default function ConsultationPage() {
   return (
     <>
       {/* Hero */}
-      <section className="hero-bg py-20">
-        <div className="container-custom relative z-10 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Free Travel Consultation
-          </h1>
-          <p className="text-xl text-white/70 max-w-2xl mx-auto">
-            Let our experts plan the perfect Kashmir trip for you. Fill out
-            this form and we&apos;ll create a customized itinerary.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Plan with us"
+        title="Free travel consultation"
+        subtitle="Tell us what you have in mind and our experts will craft a customized Kashmir itinerary — free."
+      />
 
       {/* Form */}
       <section className="section-padding">

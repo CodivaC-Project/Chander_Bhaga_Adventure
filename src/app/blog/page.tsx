@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { PageHero } from "@/components/ui/PageHero";
 import { BlogCard } from "@/components/cards/BlogCard";
 import { CTASection } from "@/components/sections/CTASection";
 import { supabase } from "@/lib/supabase";
@@ -32,18 +33,11 @@ export default async function BlogPage() {
   const categories = ["All", ...new Set(blogs.map((b) => b.category).filter(Boolean))];
   return (
     <>
-      {/* Hero */}
-      <section className="hero-bg py-20">
-        <div className="container-custom relative z-10 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Travel Blog
-          </h1>
-          <p className="text-xl text-white/70 max-w-2xl mx-auto">
-            Expert travel guides, tips, and stories to help you plan the
-            perfect Kashmir adventure.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Journal"
+        title="The Kashmir travel blog"
+        subtitle="Expert guides, tips, and stories to help you plan the perfect Kashmir adventure."
+      />
 
       {/* Categories */}
       <section className="bg-white border-b border-gray-100 sticky top-16 z-30">

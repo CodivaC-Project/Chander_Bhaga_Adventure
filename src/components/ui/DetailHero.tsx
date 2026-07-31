@@ -49,15 +49,14 @@ export function DetailHero({
       if (badgesRef.current) {
         gsap.fromTo(
           badgesRef.current.children,
-          { opacity: 0, y: 15, scale: 0.9 },
+          { opacity: 0, y: 15 },
           {
             opacity: 1,
             y: 0,
-            scale: 1,
             duration: 0.5,
             stagger: 0.1,
             delay: 0.35,
-            ease: "back.out(1.7)",
+            ease: "power2.out",
           }
         );
       }
@@ -76,15 +75,14 @@ export function DetailHero({
 
         gsap.fromTo(
           titleRef.current.querySelectorAll(".char"),
-          { opacity: 0, y: 30, rotationX: -60 },
+          { opacity: 0, y: 30 },
           {
             opacity: 1,
             y: 0,
-            rotationX: 0,
             duration: 0.6,
             stagger: 0.02,
             delay: 0.5,
-            ease: "back.out(1.7)",
+            ease: "power2.out",
           }
         );
       }

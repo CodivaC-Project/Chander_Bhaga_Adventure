@@ -29,6 +29,7 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files
+.env
 .env*.local
 
 # vercel
@@ -37,6 +38,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts.MASTER_PRD_Chander_Bhaga_Adventure_MongoDB.md
+aisplop.md
 
 # Prisma generated
 /src/generated/prisma

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { PageHero } from "@/components/ui/PageHero";
 import {
   Phone,
   Mail,
@@ -38,17 +39,11 @@ export default function ContactPage() {
   return (
     <>
       {/* Hero */}
-      <section className="hero-bg py-20">
-        <div className="container-custom relative z-10 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Contact Us
-          </h1>
-          <p className="text-xl text-white/70 max-w-2xl mx-auto">
-            Have questions? We&apos;d love to hear from you. Send us a message
-            and we&apos;ll respond as soon as possible.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Say hello"
+        title="Contact us"
+        subtitle="Have questions? We'd love to hear from you — send us a message and we'll respond as soon as possible."
+      />
 
       {/* Contact section */}
       <section className="section-padding">

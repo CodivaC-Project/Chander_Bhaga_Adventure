@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { PageHero } from "@/components/ui/PageHero";
 import { siteConfig } from "@/lib/config";
 import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
 import { CTASection } from "@/components/sections/CTASection";
@@ -31,17 +32,11 @@ const team = [
 export default function AboutPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="hero-bg py-20">
-        <div className="container-custom relative z-10 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            About Shri Mata Vaishno Devi
-          </h1>
-          <p className="text-xl text-white/70 max-w-2xl mx-auto">
-            Your gateway to Kashmir&apos;s untouched beauty since 2016
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Since 2016 · Katra"
+        title="About Shri Mata Vaishno Devi"
+        subtitle="Your gateway to Kashmir's untouched beauty."
+      />
 
       {/* Story */}
       <section className="section-padding">

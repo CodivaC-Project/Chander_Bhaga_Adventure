@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { PageHero } from "@/components/ui/PageHero";
 import { CTASection } from "@/components/sections/CTASection";
 
 interface FAQItem {
@@ -26,16 +27,11 @@ export function FAQClient({ categories }: { categories: FAQCategory[] }) {
   return (
     <>
       {/* Hero */}
-      <section className="hero-bg py-20">
-        <div className="container-custom relative z-10 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Frequently Asked Questions
-          </h1>
-          <p className="text-xl text-white/70 max-w-2xl mx-auto">
-            Everything you need to know before your Kashmir adventure
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Help center"
+        title="Frequently asked questions"
+        subtitle="Everything you need to know before your Kashmir adventure."
+      />
 
       {/* FAQ content */}
       <section className="section-padding">

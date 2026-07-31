@@ -17,19 +17,15 @@ export function WhatsAppButton() {
       aria-label="Chat on WhatsApp"
     >
       <div className="relative">
-        {/* Pulse rings */}
-        <div className="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-20" />
-        <div className="absolute inset-0 rounded-full bg-green-500 animate-pulse opacity-10" />
-
         {/* Button */}
-        <div className="relative w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition-all hover:scale-110">
-          <MessageCircle className="w-7 h-7 text-white" />
+        <div className="w-14 h-14 bg-[var(--color-pine)] rounded-full flex items-center justify-center border border-white/20 shadow-[var(--shadow-soft)] hover:bg-[var(--color-pine-light)] transition-colors">
+          <MessageCircle className="w-6 h-6 text-white" />
         </div>
       </div>
 
       {/* Tooltip */}
       <div className="absolute bottom-full right-0 mb-3 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-        <div className="bg-gray-900 text-white text-xs px-3 py-2 rounded-lg whitespace-nowrap">
+        <div className="bg-[var(--color-pine-deep)] text-white text-xs px-3 py-2 rounded-md whitespace-nowrap">
           Chat with us on WhatsApp
         </div>
       </div>

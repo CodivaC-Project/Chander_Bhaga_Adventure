@@ -41,35 +41,32 @@ const features = [
 
 export function WhyChooseUs() {
   return (
-    <section className="section-padding section-bg-pine grain relative overflow-hidden">
-      {/* Decorative accent */}
-      <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-[var(--color-accent)]/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[30rem] h-[30rem] bg-[var(--color-primary)]/5 rounded-full blur-3xl pointer-events-none" />
-      
-      <div className="container-custom relative z-10">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-            Why Choose <span className="text-gradient">Shri Mata Vaishno Devi</span>
+    <section className="section-padding section-bg-pine">
+      <div className="container-custom">
+        <div className="max-w-2xl mb-12">
+          <div className="eyebrow">The difference</div>
+          <h2 className="text-3xl md:text-4xl font-bold text-[var(--color-ink)] mt-3">
+            Why travel with us
           </h2>
-          <p className="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">
-            We don&apos;t just plan trips — we craft unforgettable experiences in
-            the heart of Kashmir.
+          <p className="mt-4 text-lg text-[var(--color-ink-soft)]">
+            We don&apos;t just plan trips — we craft quiet, well-run experiences
+            in the heart of Kashmir.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {features.map((feature) => (
             <div
               key={feature.title}
-              className="bg-white rounded-2xl p-6 border border-gray-100 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-medium)] transition-all duration-300 hover:-translate-y-1 group"
+              className="bg-white hairline rounded-lg p-6 transition-all duration-300 hover:shadow-[var(--shadow-soft)] group"
             >
-              <div className="w-14 h-14 rounded-2xl bg-[var(--color-primary)]/10 flex items-center justify-center mb-5 group-hover:bg-[var(--color-primary)] group-hover:text-white transition-all duration-300">
-                <feature.icon className="w-7 h-7 text-[var(--color-primary)] group-hover:text-white transition-colors" />
+              <div className="w-12 h-12 rounded-md border border-[var(--color-line)] flex items-center justify-center mb-5 bg-[var(--color-paper)] group-hover:border-[var(--color-accent)] transition-colors">
+                <feature.icon className="w-5 h-5 text-[var(--color-accent-deep)]" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">
+              <h3 className="text-lg font-bold text-[var(--color-ink)] mb-2 !font-sans tracking-normal">
                 {feature.title}
               </h3>
-              <p className="text-gray-500 leading-relaxed text-sm">
+              <p className="text-[var(--color-ink-soft)] leading-relaxed text-sm">
                 {feature.description}
               </p>
             </div>

@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { SectionHeader } from "@/components/sections/SectionHeader";
+import { PageHero } from "@/components/ui/PageHero";
 import { TourCard } from "@/components/cards/TourCard";
 import { FilterBar } from "@/components/ui/FilterBar";
 import { CTASection } from "@/components/sections/CTASection";
@@ -35,18 +35,11 @@ export default async function ToursPage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="hero-bg py-20">
-        <div className="container-custom relative z-10 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Tour Packages
-          </h1>
-          <p className="text-xl text-white/70 max-w-2xl mx-auto">
-            Discover handcrafted tour packages for every type of traveler.
-            From spiritual pilgrimages to adrenaline-pumping adventures.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Tour Packages"
+        title="Handcrafted journeys across Kashmir"
+        subtitle="From spiritual pilgrimages to adrenaline-pumping adventures — a package for every kind of traveler."
+      />
 
       {/* Filters */}
       <section className="bg-white border-b border-gray-100 sticky top-16 z-30">

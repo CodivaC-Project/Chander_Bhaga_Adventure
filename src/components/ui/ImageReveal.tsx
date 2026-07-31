@@ -162,7 +162,7 @@ export function ImageReveal({
   }, [animation, delay, duration]);
 
   return (
-    <div ref={containerRef} className={`overflow-hidden rounded-2xl ${className}`}>
+    <div ref={containerRef} className={`overflow-hidden rounded-lg ${className}`}>
       <img
         ref={imgRef}
         className="w-full h-full object-cover"

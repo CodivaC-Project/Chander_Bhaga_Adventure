@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { PageHero } from "@/components/ui/PageHero";
 
 interface GalleryImage {
   src: string;
@@ -40,17 +41,11 @@ export function GalleryClient({ images }: { images: GalleryImage[] }) {
   return (
     <>
       {/* Hero */}
-      <section className="hero-bg py-20">
-        <div className="container-custom relative z-10 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Photo Gallery
-          </h1>
-          <p className="text-xl text-white/70 max-w-2xl mx-auto">
-            Glimpses of the breathtaking beauty of Kashmir and our adventure
-            experiences.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Moments"
+        title="Photo gallery"
+        subtitle="Glimpses of Kashmir's breathtaking beauty and our adventure experiences."
+      />
 
       {/* Categories */}
       <section className="bg-white border-b border-gray-100 sticky top-16 z-30">

@@ -12,29 +12,21 @@ const stats = [
     icon: Users,
     value: "15,000+",
     label: "Happy Travelers",
-    color: "text-blue-500",
-    bg: "bg-blue-50",
   },
   {
     icon: MapPin,
     value: "50+",
     label: "Destinations",
-    color: "text-green-500",
-    bg: "bg-green-50",
   },
   {
     icon: Award,
     value: "8+",
     label: "Years Experience",
-    color: "text-[var(--color-accent)]",
-    bg: "bg-[var(--color-accent)]/10",
   },
   {
     icon: Heart,
     value: "4.9",
     label: "Average Rating",
-    color: "text-red-500",
-    bg: "bg-red-50",
   },
 ];
 
@@ -71,20 +63,27 @@ export function StatsSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-16 bg-white border-y border-gray-100/50">
+    <section ref={sectionRef} className="py-16 bg-white border-y border-[var(--color-line)]">
       <div className="container-custom">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {stats.map((stat) => (
-            <div key={stat.label} className="stat-item text-center group">
-              <div
-                className={`w-16 h-16 ${stat.bg} rounded-2xl flex items-center justify-center mx-auto mb-4 transition-transform duration-300 group-hover:scale-110`}
-              >
-                <stat.icon className={`w-8 h-8 ${stat.color}`} />
+        <div className="grid grid-cols-2 md:grid-cols-4 md:divide-x divide-[var(--color-line)]">
+          {stats.map((stat, i) => (
+            <div
+              key={stat.label}
+              className={`stat-item px-4 md:px-8 py-6 md:py-0 text-center ${
+                i >= 2 ? "border-t md:border-t-0 border-[var(--color-line)]" : ""
+              }`}
+            >
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <div className="w-10 h-10 rounded-md border border-[var(--color-line)] bg-[var(--color-paper)] flex items-center justify-center">
+                  <stat.icon className="w-5 h-5 text-[var(--color-accent-deep)]" />
+                </div>
               </div>
-              <div className="text-3xl md:text-4xl font-bold text-gray-900">
+              <div className="text-3xl md:text-4xl font-bold text-[var(--color-ink)]">
                 {stat.value}
               </div>
-              <div className="text-sm text-gray-500 mt-1">{stat.label}</div>
+              <div className="text-xs uppercase tracking-[0.12em] text-[var(--color-ink-faint)] mt-2">
+                {stat.label}
+              </div>
             </div>
           ))}
         </div>

@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { PageHero } from "@/components/ui/PageHero";
 import { AdventureCard } from "@/components/cards/AdventureCard";
 import { CTASection } from "@/components/sections/CTASection";
 import { FilterBar } from "@/components/ui/FilterBar";
@@ -33,18 +34,11 @@ export default async function AdventuresPage() {
   }));
   return (
     <>
-      {/* Hero */}
-      <section className="hero-bg py-20">
-        <div className="container-custom relative z-10 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Adventure Activities
-          </h1>
-          <p className="text-xl text-white/70 max-w-2xl mx-auto">
-            Push your limits with thrilling adventures in the stunning
-            landscapes of Kashmir. Led by certified professionals.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Adventures"
+        title="Thrills in the high country"
+        subtitle="Push your limits with certified-led adventures across Kashmir's most stunning landscapes."
+      />
 
       {/* Filters */}
       <section className="bg-white border-b border-gray-100 sticky top-16 z-30">

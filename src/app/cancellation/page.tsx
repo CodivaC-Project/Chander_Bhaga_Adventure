@@ -1,6 +1,7 @@
 import { Metadata } from "next";
+import { PageHero } from "@/components/ui/PageHero";
 import { CTASection } from "@/components/sections/CTASection";
-import { XCircle, Clock, AlertTriangle, CreditCard, RefreshCcw, Phone } from "lucide-react";
+import { Clock, AlertTriangle, CreditCard, RefreshCcw, Phone } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Cancellation Policy",
@@ -94,22 +95,12 @@ export default function CancellationPage() {
   return (
     <>
       {/* Hero */}
-      <section className="hero-bg py-20">
-        <div className="container-custom relative z-10 text-center">
-          <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-            <XCircle className="w-8 h-8 text-white" />
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Cancellation Policy
-          </h1>
-          <p className="text-xl text-white/70 max-w-2xl mx-auto">
-            Flexible cancellation options for your peace of mind.
-          </p>
-          <p className="text-sm text-white/50 mt-4">
-            Last updated: January 2026
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Policies"
+        title="Cancellation policy"
+        subtitle="Flexible cancellation options for your peace of mind."
+        meta="Last updated: January 2026"
+      />
 
       {/* Content */}
       <section className="section-padding">

@@ -41,7 +41,7 @@ export function FilterBar({
           placeholder="Search packages..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)]"
+          className="w-full pl-12 pr-4 py-3 border border-[var(--color-line)] rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]/15 focus:border-[var(--color-pine)]"
         />
       </div>
 
@@ -55,10 +55,10 @@ export function FilterBar({
             <button
               key={dest}
               onClick={() => setActiveDestination(dest)}
-              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
                 activeDestination === dest
-                  ? "bg-[var(--color-primary)] text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  ? "bg-[var(--color-pine)] text-white"
+                  : "bg-[var(--color-paper)] border border-[var(--color-line)] text-[var(--color-ink-soft)] hover:border-[var(--color-line-strong)]"
               }`}
             >
               {dest}
@@ -74,10 +74,10 @@ export function FilterBar({
             <button
               key={diff}
               onClick={() => setActiveDifficulty(diff)}
-              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
                 activeDifficulty === diff
                   ? "bg-[var(--color-accent)] text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  : "bg-[var(--color-paper)] border border-[var(--color-line)] text-[var(--color-ink-soft)] hover:border-[var(--color-line-strong)]"
               }`}
             >
               {diff}
