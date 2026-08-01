@@ -60,11 +60,27 @@ export default function ConsultationPage() {
     }));
   };
 
+  const [error, setError] = useState("");
+
   const handleSubmit = async () => {
     setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 1500));
-    setSubmitting(false);
-    setSubmitted(true);
+    setError("");
+    try {
+      const res = await fetch("/api/consultations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Failed to create consultation request");
+      }
+      setSubmitted(true);
+    } catch (err: any) {
+      setError(err?.message || "Failed to submit. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -324,6 +340,13 @@ export default function ConsultationPage() {
                     placeholder="Any special requirements, dietary needs, accessibility needs, or questions..."
                   />
                 </div>
+              </div>
+            )}
+
+            {/* Error */}
+            {error && (
+              <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
+                {error}
               </div>
             )}
 

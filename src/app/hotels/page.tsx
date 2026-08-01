@@ -4,6 +4,10 @@ import { HotelCard } from "@/components/cards/HotelCard";
 import { CTASection } from "@/components/sections/CTASection";
 import { supabase } from "@/lib/supabase";
 
+// Always render fresh data from the DB — admin CRUD should appear immediately
+// without needing a rebuild/redeploy (otherwise the page is statically prerendered).
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Hotels in Kashmir",
   description:

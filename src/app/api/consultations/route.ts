@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import { consultationSchema } from "@/lib/validations";
 
 export async function GET(request: NextRequest) {
   try {
@@ -22,7 +23,18 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { data: consultation, error } = await supabase.from("consultations").insert(body).select().single();
+    const parsed = consultationSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Invalid consultation request", details: parsed.error.flatten().fieldErrors },
+        { status: 400 }
+      );
+    }
+    const { data: consultation, error } = await supabase
+      .from("consultations")
+      .insert({ ...parsed.data, id: crypto.randomUUID() })
+      .select()
+      .single();
     if (error) throw error;
     return NextResponse.json(consultation, { status: 201 });
   } catch (error) {

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import { contactMessageSchema } from "@/lib/validations";
 
 export async function GET() {
   try {
@@ -18,7 +19,18 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { data: message, error } = await supabase.from("contact_messages").insert(body).select().single();
+    const parsed = contactMessageSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Invalid message", details: parsed.error.flatten().fieldErrors },
+        { status: 400 }
+      );
+    }
+    const { data: message, error } = await supabase
+      .from("contact_messages")
+      .insert({ ...parsed.data, id: crypto.randomUUID() })
+      .select()
+      .single();
     if (error) throw error;
     return NextResponse.json(message, { status: 201 });
   } catch (error) {

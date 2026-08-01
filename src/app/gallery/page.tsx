@@ -2,6 +2,10 @@ import { Metadata } from "next";
 import { GalleryClient } from "./GalleryClient";
 import { supabase } from "@/lib/supabase";
 
+// Always render fresh data from the DB — admin CRUD should appear immediately
+// without needing a rebuild/redeploy (otherwise the page is statically prerendered).
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Photo Gallery",
   description:

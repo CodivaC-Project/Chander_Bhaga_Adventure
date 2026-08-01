@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import { bookingSchema } from "@/lib/validations";
 
 export async function GET(request: NextRequest) {
   try {
@@ -25,7 +26,21 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { data: booking, error } = await supabase.from("bookings").insert(body).select().single();
+    const parsed = bookingSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Invalid booking", details: parsed.error.flatten().fieldErrors },
+        { status: 400 }
+      );
+    }
+    const bookingId =
+      parsed.data.bookingId || `BK-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
+    const finalAmount = parsed.data.finalAmount ?? parsed.data.totalAmount;
+    const { data: booking, error } = await supabase
+      .from("bookings")
+      .insert({ ...parsed.data, bookingId, finalAmount, id: crypto.randomUUID() })
+      .select()
+      .single();
     if (error) throw error;
     return NextResponse.json(booking, { status: 201 });
   } catch (error) {

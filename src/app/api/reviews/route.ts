@@ -24,7 +24,11 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { data: review, error } = await supabase.from("reviews").insert(body).select().single();
+    const { data: review, error } = await supabase
+      .from("reviews")
+      .insert({ ...body, id: crypto.randomUUID() })
+      .select()
+      .single();
     if (error) throw error;
     return NextResponse.json(review, { status: 201 });
   } catch (error) {

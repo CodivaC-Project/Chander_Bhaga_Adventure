@@ -105,6 +105,7 @@ export const taxiSchema = z.object({
 
 // Booking
 export const bookingSchema = z.object({
+  bookingId: z.string().optional(),
   serviceType: z.enum(["tour", "adventure", "hotel", "taxi", "consultation"]),
   serviceId: z.string(),
   userId: z.string().optional(),
@@ -116,7 +117,10 @@ export const bookingSchema = z.object({
   endDate: z.string().optional(),
   specialRequests: z.string().optional(),
   totalAmount: z.number().positive(),
+  discountAmount: z.number().nonnegative().optional(),
+  finalAmount: z.number().nonnegative().optional(),
   status: z.enum(["pending", "confirmed", "cancelled", "completed"]).default("pending"),
+  paymentStatus: z.enum(["pending", "paid", "failed", "refunded"]).default("pending"),
 });
 
 // Payment
@@ -186,7 +190,7 @@ export const contactMessageSchema = z.object({
   email: z.string().email(),
   phone: z.string().optional(),
   subject: z.string().min(1),
-  message: z.string().min(10),
+  message: z.string().min(1),
 });
 
 // Coupon

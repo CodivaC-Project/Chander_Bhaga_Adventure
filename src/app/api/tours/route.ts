@@ -33,7 +33,11 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { data: pkg, error } = await supabase.from("tour_packages").insert(body).select().single();
+    const { data: pkg, error } = await supabase
+      .from("tour_packages")
+      .insert({ ...body, id: crypto.randomUUID() })
+      .select()
+      .single();
     if (error) throw error;
     return NextResponse.json(pkg, { status: 201 });
   } catch (error) {

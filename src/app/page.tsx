@@ -11,6 +11,10 @@ import { ScrollReveal } from "@/hooks/useScrollReveal";
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/config";
 
+// Featured sections read from Supabase — keep the homepage fresh so admin
+// content shows up without needing a rebuild/redeploy.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: `${siteConfig.name} — ${siteConfig.tagline}`,
   description: siteConfig.description,
