@@ -1,12 +1,8 @@
 import { betterAuth } from "better-auth";
-import { Pool } from "pg";
 import { sendVerificationEmail, sendPasswordResetEmail } from "./email";
+import { createPool } from "./db";
 
-const pool = new Pool({
-  connectionString: process.env.POSTGRES_URL_NON_POOLING || process.env.DATABASE_URL,
-  // Supabase poolers need rejectUnauthorized: false for their cert chain
-  ssl: { rejectUnauthorized: false },
-});
+const pool = createPool();
 
 export const auth = betterAuth({
   database: pool,

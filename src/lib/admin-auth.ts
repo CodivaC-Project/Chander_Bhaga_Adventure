@@ -1,11 +1,7 @@
 import { NextRequest } from "next/server";
-import { Pool } from "pg";
+import { createPool } from "./db";
 
-const pool = new Pool({
-  connectionString: process.env.POSTGRES_URL_NON_POOLING || process.env.DATABASE_URL,
-  // Supabase poolers need rejectUnauthorized: false for their cert chain
-  ssl: { rejectUnauthorized: false },
-});
+const pool = createPool();
 
 export interface AdminUser {
   userId: string;
