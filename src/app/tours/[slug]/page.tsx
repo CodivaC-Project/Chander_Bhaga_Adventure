@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { cache } from "react";
 import {
   Clock,
   MapPin,
@@ -13,7 +13,12 @@ import { DetailHero } from "@/components/ui/DetailHero";
 import { ImageGallery } from "@/components/ui/ImageReveal";
 import { BookingWidget } from "@/components/booking/BookingWidget";
 import { CTASection } from "@/components/sections/CTASection";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbSchema } from "@/components/seo/breadcrumb";
 import { supabase } from "@/lib/supabase";
+import { siteConfig } from "@/lib/config";
+
+export const revalidate = 60;
 
 const difficultyColors: Record<string, string> = {
   easy: "bg-[var(--color-pine)]/10 text-[var(--color-pine)]",
@@ -21,16 +26,33 @@ const difficultyColors: Record<string, string> = {
   challenging: "bg-red-50 text-red-700",
 };
 
+// Shared by generateMetadata + page so a request hits Supabase once
+const getTour = cache(async (slug: string) => {
+  const { data } = await supabase.from("tour_packages").select("*").eq("slug", slug).single();
+  return data;
+});
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const { data: tour } = await supabase.from("tour_packages").select("*").eq("slug", slug).single();
-  if (!tour) return { title: "Tour Not Found" };
-  return { title: tour.title, description: tour.description };
+  const tour = await getTour(slug);
+  if (!tour) notFound();
+  return {
+    title: tour.title,
+    description: tour.description,
+    alternates: { canonical: `/tours/${slug}` },
+    openGraph: {
+      title: tour.title,
+      description: tour.description,
+      url: `${siteConfig.url}/tours/${slug}`,
+      type: "article",
+      images: (tour.gallery || [])[0] ? [{ url: (tour.gallery || [])[0] }] : undefined,
+    },
+  };
 }
 
 export default async function TourDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const { data: tour } = await supabase.from("tour_packages").select("*").eq("slug", slug).single();
+  const tour = await getTour(slug);
   if (!tour) notFound();
 
   // Itinerary lives in its own table keyed by tourPackageId
@@ -42,6 +64,50 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
 
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbSchema("Tours", "/tours", tour.title, `/tours/${tour.slug}`),
+          {
+          "@context": "https://schema.org",
+          "@type": "TouristTrip",
+          name: tour.title,
+          description: tour.description,
+          url: `${siteConfig.url}/tours/${tour.slug}`,
+          image: (tour.gallery || [])[0],
+          touristType: tour.difficulty,
+          itinerary: {
+            "@type": "ItemList",
+            numberOfItems: (itinerary || []).length,
+            itemListElement: (itinerary || []).map((day: any, i: number) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              item: { "@type": "TouristAttraction", name: day.title, description: day.description },
+            })),
+          },
+          offers: {
+            "@type": "Offer",
+            price: tour.discountPrice || tour.price,
+            priceCurrency: "INR",
+            availability: "https://schema.org/InStock",
+          },
+          aggregateRating:
+            tour.reviewCount > 0
+              ? {
+                  "@type": "AggregateRating",
+                  ratingValue: tour.rating,
+                  reviewCount: tour.reviewCount,
+                }
+              : undefined,
+          provider: {
+            "@type": "TravelAgency",
+            "@id": `${siteConfig.url}/#organization`,
+            name: siteConfig.name,
+            telephone: `+${siteConfig.phone}`,
+            address: siteConfig.address,
+          },
+          },
+        ]}
+      />
       <DetailHero
         image={(tour.gallery || [])[0]}
         title={tour.title}

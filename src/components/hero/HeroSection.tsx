@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { LineReveal } from "@/components/ui/TextReveal";
 import gsap from "gsap";
 import { ArrowRight, Star, MapPin, CalendarDays, Users } from "lucide-react";
@@ -41,9 +42,10 @@ export function HeroSection() {
 
             <LineReveal delay={0.3}>
               <p className="text-lg text-[var(--color-ink-soft)] max-w-xl leading-relaxed">
-                Shri Mata Vaishno Devi — licensed pilgrimage and adventure
-                operators in Katra. We craft quiet, well-run journeys to the
-                shrine and beyond, into the valleys that made Kashmir famous.
+                Licensed Katra travel agency for the Vaishno Devi yatra and
+                Kashmir tour packages — Srinagar, Gulmarg, Pahalgam. Quiet,
+                well-run journeys to the shrine and beyond, run by local
+                operators who know every valley.
               </p>
             </LineReveal>
 
@@ -81,11 +83,14 @@ export function HeroSection() {
           {/* Right — framed image, editorial caption */}
           <div className="lg:col-span-5">
             <figure className="relative">
-              <div className="hairline overflow-hidden rounded-lg bg-white">
-                <img
+              <div className="hairline overflow-hidden rounded-lg bg-white relative h-[420px] lg:h-[520px]">
+                <Image
                   src={HERO_IMAGE}
                   alt="Kashmir valley landscape"
-                  className="w-full h-[420px] lg:h-[520px] object-cover"
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  className="object-cover"
                 />
               </div>
               <figcaption className="flex items-center justify-between gap-4 px-4 py-3 bg-white hairline rounded-lg mt-3">

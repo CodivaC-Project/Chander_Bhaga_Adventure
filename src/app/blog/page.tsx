@@ -1,17 +1,22 @@
 import { Metadata } from "next";
+import Link from "next/link";
 import { PageHero } from "@/components/ui/PageHero";
 import { BlogCard } from "@/components/cards/BlogCard";
 import { CTASection } from "@/components/sections/CTASection";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { siteConfig } from "@/lib/config";
 import { supabase } from "@/lib/supabase";
+import { toSlug } from "@/lib/slug";
 
 // Always render fresh data from the DB — admin CRUD should appear immediately
 // without needing a rebuild/redeploy (otherwise the page is statically prerendered).
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Travel Blog",
+  title: "Kashmir & Vaishno Devi Travel Blog",
   description:
-    "Read travel guides, tips, and stories about Kashmir. Expert advice for planning your perfect trip.",
+    "Kashmir trip guides and Vaishno Devi yatra tips — itineraries, best time to visit, costs, helicopter booking, and first-timer advice from a Katra-based travel team.",
+  alternates: { canonical: "/blog" },
 };
 
 const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800&q=80";
@@ -37,6 +42,20 @@ export default async function BlogPage() {
   const categories = ["All", ...new Set(blogs.map((b) => b.category).filter(Boolean))];
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "The Kashmir Travel Blog",
+          numberOfItems: blogs.length,
+          itemListElement: blogs.map((blog, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            url: `${siteConfig.url}/blog/${blog.slug}`,
+            name: blog.title,
+          })),
+        }}
+      />
       <PageHero
         eyebrow="Journal"
         title="The Kashmir travel blog"
@@ -47,14 +66,24 @@ export default async function BlogPage() {
       <section className="bg-white border-b border-gray-100 sticky top-16 z-30">
         <div className="container-custom py-4">
           <div className="flex flex-wrap gap-2">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                className="px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-600 hover:bg-[var(--color-primary)] hover:text-white transition-all"
-              >
-                {cat}
-              </button>
-            ))}
+            {categories.map((cat) =>
+              cat === "All" ? (
+                <button
+                  key={cat}
+                  className="px-4 py-2 rounded-lg text-sm font-medium bg-[var(--color-primary)] text-white transition-all"
+                >
+                  {cat}
+                </button>
+              ) : (
+                <Link
+                  key={cat}
+                  href={`/blog/category/${toSlug(cat)}`}
+                  className="px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-600 hover:bg-[var(--color-primary)] hover:text-white transition-all"
+                >
+                  {cat}
+                </Link>
+              )
+            )}
           </div>
         </div>
       </section>

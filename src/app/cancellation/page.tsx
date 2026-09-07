@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Cancellation Policy",
   description:
     "Cancellation and refund policy for tours, adventures, and services booked with Shri Mata Vaishno Devi.",
+  alternates: { canonical: "/cancellation" },
 };
 
 const cancellationTiers = [

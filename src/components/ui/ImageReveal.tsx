@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, ImgHTMLAttributes } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -162,11 +163,13 @@ export function ImageReveal({
   }, [animation, delay, duration]);
 
   return (
-    <div ref={containerRef} className={`overflow-hidden rounded-lg ${className}`}>
-      <img
+    <div ref={containerRef} className={`overflow-hidden rounded-lg relative ${className}`}>
+      <Image
         ref={imgRef}
-        className="w-full h-full object-cover"
-        {...imgProps}
+        fill
+        sizes="(max-width: 768px) 100vw, 50vw"
+        className="object-cover"
+        {...(imgProps as any)}
       />
     </div>
   );

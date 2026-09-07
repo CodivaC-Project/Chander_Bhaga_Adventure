@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { MapPin, Star, Wifi, Car, UtensilsCrossed, ArrowRight } from "lucide-react";
 
 const amenityIcons: Record<string, React.ReactNode> = {
@@ -39,10 +40,12 @@ export function HotelCard({
       <div className="bg-white rounded-lg overflow-hidden card-hover h-full flex flex-col">
         {/* Image */}
         <div className="relative h-52 overflow-hidden">
-          <img
+          <Image
             src={image}
             alt={name}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
 

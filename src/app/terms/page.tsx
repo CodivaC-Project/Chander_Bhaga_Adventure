@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Terms & Conditions",
   description:
     "Terms and Conditions for booking tours, adventures, and services with Shri Mata Vaishno Devi in Kashmir.",
+  alternates: { canonical: "/terms" },
 };
 
 const sections = [

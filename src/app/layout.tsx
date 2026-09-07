@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
@@ -11,6 +11,7 @@ import { siteConfig } from "@/lib/config";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
 });
 
 const playfair = Playfair_Display({
@@ -20,20 +21,27 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: {
     default: `${siteConfig.name} — ${siteConfig.tagline}`,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
   keywords: [
-    "Kashmir tourism",
-    "adventure travel",
-    "trekking Kashmir",
-    "Vaishno Devi",
     "Kashmir tour packages",
-    "adventure activities India",
-    "hotel booking Kashmir",
-    "taxi service Jammu",
+    "Vaishno Devi yatra package",
+    "Vaishno Devi tour package",
+    "Kashmir tour package from Delhi",
+    "Srinagar Gulmarg Pahalgam tour",
+    "Katra travel agent",
+    "best hotels in Katra",
+    "Katra taxi booking",
+    "Jammu to Katra taxi",
+    "Kashmir honeymoon package",
+    "Kashmir family tour",
+    "Gulmarg skiing",
+    "Kashmir trekking",
+    "Vaishno Devi helicopter booking",
     "Shri Mata Vaishno Devi",
   ],
   authors: [{ name: siteConfig.name }],
@@ -63,7 +71,29 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GSC_VERIFICATION,
+    other: process.env.NEXT_PUBLIC_BING_VERIFICATION
+      ? { "msvalidate.01": process.env.NEXT_PUBLIC_BING_VERIFICATION }
+      : undefined,
+  },
+  other: {
+    "geo.region": "IN-JK",
+    "geo.placename": "Katra, Jammu & Kashmir",
+    "geo.position": "32.9859;74.9461",
+    ICBM: "32.9859, 74.9461",
+    "format-detection": "telephone=no",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#1a3c34",
 };
 
 export default function RootLayout({

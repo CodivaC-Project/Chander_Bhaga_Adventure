@@ -4,12 +4,13 @@ import { supabase } from "@/lib/supabase";
 
 // Always render fresh data from the DB — admin CRUD should appear immediately
 // without needing a rebuild/redeploy (otherwise the page is statically prerendered).
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Photo Gallery",
   description:
-    "Glimpses of the breathtaking beauty of Kashmir and our adventure experiences.",
+    "Photos from our Kashmir tours, Vaishno Devi yatras and adventure trips — Srinagar, Gulmarg, Pahalgam, Katra and the treks in between.",
+  alternates: { canonical: "/gallery" },
 };
 
 const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=1200&q=80";

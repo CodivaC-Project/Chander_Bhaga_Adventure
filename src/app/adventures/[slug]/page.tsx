@@ -1,11 +1,17 @@
 import { Metadata } from "next";
-import Link from "next/link";
 import { Clock, MapPin, Users, Star, Check, Shield, Calendar } from "lucide-react";
 import { DetailHero } from "@/components/ui/DetailHero";
 import { ImageGallery } from "@/components/ui/ImageReveal";
 import { BookingWidget } from "@/components/booking/BookingWidget";
 import { CTASection } from "@/components/sections/CTASection";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbSchema } from "@/components/seo/breadcrumb";
+import { notFound } from "next/navigation";
+import { cache } from "react";
+import { siteConfig } from "@/lib/config";
 import { supabase } from "@/lib/supabase";
+
+export const revalidate = 60;
 
 const difficultyColors: Record<string, string> = {
   easy: "bg-[var(--color-pine)]/10 text-[var(--color-pine)]",
@@ -14,31 +20,64 @@ const difficultyColors: Record<string, string> = {
   extreme: "bg-red-50 text-red-700",
 };
 
+// Shared by generateMetadata + page so a request hits Supabase once
+const getAdventure = cache(async (slug: string) => {
+  const { data } = await supabase.from("adventures").select("*").eq("slug", slug).single();
+  return data;
+});
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const { data: adventure } = await supabase.from("adventures").select("*").eq("slug", slug).single();
-  if (!adventure) return { title: "Adventure Not Found" };
-  return { title: adventure.title, description: adventure.description };
+  const adventure = await getAdventure(slug);
+  if (!adventure) notFound();
+  return {
+    title: adventure.title,
+    description: adventure.description,
+    alternates: { canonical: `/adventures/${slug}` },
+    openGraph: {
+      title: adventure.title,
+      description: adventure.description,
+      url: `${siteConfig.url}/adventures/${slug}`,
+      images: (adventure.gallery || [])[0] ? [{ url: (adventure.gallery || [])[0] }] : undefined,
+    },
+  };
 }
 
 export default async function AdventureDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const { data: adventure } = await supabase.from("adventures").select("*").eq("slug", slug).single();
+  const adventure = await getAdventure(slug);
 
-  if (!adventure) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Adventure Not Found</h1>
-          <p className="text-gray-500 mb-8">The adventure you&apos;re looking for doesn&apos;t exist.</p>
-          <Link href="/adventures" className="btn-primary">Browse Adventures</Link>
-        </div>
-      </div>
-    );
-  }
+  if (!adventure) notFound();
 
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbSchema("Adventures", "/adventures", adventure.title, `/adventures/${adventure.slug}`),
+          {
+          "@context": "https://schema.org",
+          "@type": "TouristAttraction",
+          name: adventure.title,
+          description: adventure.description,
+          url: `${siteConfig.url}/adventures/${adventure.slug}`,
+          image: (adventure.gallery || [])[0],
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: adventure.location,
+            addressRegion: "Jammu & Kashmir",
+            addressCountry: "IN",
+          },
+          isAccessibleForFree: false,
+          publicAccess: true,
+          offers: {
+            "@type": "Offer",
+            price: adventure.price,
+            priceCurrency: "INR",
+            availability: "https://schema.org/InStock",
+          },
+          },
+        ]}
+      />
       <DetailHero
         image={(adventure.gallery || [])[0]}
         title={adventure.title}

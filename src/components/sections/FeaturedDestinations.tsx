@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { SectionHeader } from "./SectionHeader";
 import { MapPin, ArrowRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
@@ -31,10 +32,12 @@ export async function FeaturedDestinations() {
                 i === 0 ? "col-span-2 row-span-2" : ""
               }`}
             >
-              <img
+              <Image
                 src={dest.image || "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800&q=80"}
                 alt={dest.name}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                fill
+                sizes="(max-width: 768px) 50vw, 25vw"
+                className="object-cover transition-transform duration-700 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
               <div className="absolute inset-0 flex flex-col justify-end p-6">

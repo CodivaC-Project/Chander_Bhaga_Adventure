@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Car, Users, Fuel, Check, ArrowRight } from "lucide-react";
 
 interface TaxiCardProps {
@@ -35,10 +36,12 @@ export function TaxiCard({
     <div className="bg-white rounded-lg overflow-hidden card-hover h-full flex flex-col">
       {/* Image */}
       <div className="relative h-48 overflow-hidden bg-[var(--color-paper)]">
-        <img
+        <Image
           src={image}
           alt={vehicleName}
-          className="w-full h-full object-contain p-4 transition-transform duration-700 group-hover:scale-105"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-contain p-4 transition-transform duration-700 group-hover:scale-105"
         />
         {!available && (
           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">

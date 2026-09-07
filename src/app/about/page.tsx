@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   title: "About Us",
   description:
     "Learn about Shri Mata Vaishno Devi — Kashmir's trusted tourism partner with 8+ years of experience in creating unforgettable travel experiences.",
+  alternates: { canonical: "/about" },
 };
 
 const team = [

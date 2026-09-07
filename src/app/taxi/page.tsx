@@ -2,17 +2,18 @@ import { Metadata } from "next";
 import { PageHero } from "@/components/ui/PageHero";
 import { TaxiCard } from "@/components/cards/TaxiCard";
 import { CTASection } from "@/components/sections/CTASection";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/lib/config";
 import { supabase } from "@/lib/supabase";
 
-// Always render fresh data from the DB — admin CRUD should appear immediately
-// without needing a rebuild/redeploy (otherwise the page is statically prerendered).
-export const dynamic = "force-dynamic";
+// ISR: admin CRUD appears within 60s, pages stay CDN-cacheable.
+export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Taxi & Cab Service",
+  title: "Katra Taxi Booking & Jammu Taxi Service",
   description:
-    "Book reliable taxi and cab services in Kashmir. Sedans, SUVs, Tempo Travellers, and buses available for airport transfers and sightseeing.",
+    "Katra taxi booking for Vaishno Devi yatra — Jammu to Katra taxi, Srinagar airport transfers, sightseeing cabs. Sedans, Innova, Tempo Traveller at fixed fares.",
+  alternates: { canonical: "/taxi" },
 };
 
 const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800&q=80";
@@ -34,8 +35,24 @@ export default async function TaxiPage() {
     image: v.gallery?.[0] || DEFAULT_IMAGE,
     available: v.available,
   }));
+  const taxiServiceSchema = {
+    "@context": "https://schema.org",
+    "@type": "TaxiService",
+    name: `${siteConfig.name} — Taxi & Cab Service`,
+    url: `${siteConfig.url}/taxi`,
+    provider: { "@id": `${siteConfig.url}/#organization` },
+    areaServed: { "@type": "State", name: "Jammu & Kashmir" },
+    priceRange: "₹₹",
+    availableChannel: {
+      "@type": "ServiceChannel",
+      servicePhone: { "@type": "ContactPoint", telephone: `+${siteConfig.phone}`, contactType: "reservations" },
+      serviceUrl: `${siteConfig.url}/taxi`,
+    },
+  };
+
   return (
     <>
+      <JsonLd data={taxiServiceSchema} />
       <PageHero
         eyebrow="Get around"
         title="Taxi & cab service"

@@ -3,16 +3,19 @@ import { PageHero } from "@/components/ui/PageHero";
 import { AdventureCard } from "@/components/cards/AdventureCard";
 import { CTASection } from "@/components/sections/CTASection";
 import { FilterBar } from "@/components/ui/FilterBar";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { siteConfig } from "@/lib/config";
 import { supabase } from "@/lib/supabase";
 
 // Always render fresh data from the DB — admin CRUD should appear immediately
 // without needing a rebuild/redeploy (otherwise the page is statically prerendered).
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Adventure Activities",
+  title: "Kashmir Adventure Activities",
   description:
-    "Experience thrilling adventures in Kashmir — trekking, rafting, skiing, camping, paragliding and more with certified guides.",
+    "Adventure activities in Kashmir with certified guides — Gulmarg skiing and snowboarding, Kashmir trekking routes, river rafting, camping and paragliding across Srinagar, Gulmarg and Pahalgam.",
+  alternates: { canonical: "/adventures" },
 };
 
 const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&q=80";
@@ -38,6 +41,20 @@ export default async function AdventuresPage() {
   }));
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "Adventure Activities",
+          numberOfItems: allAdventures.length,
+          itemListElement: allAdventures.map((adv, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            url: `${siteConfig.url}/adventures/${adv.slug}`,
+            name: adv.title,
+          })),
+        }}
+      />
       <PageHero
         eyebrow="Adventures"
         title="Thrills in the high country"

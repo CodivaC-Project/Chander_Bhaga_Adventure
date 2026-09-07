@@ -1,11 +1,16 @@
 import { Metadata } from "next";
-import Link from "next/link";
 import { Star, MapPin, Wifi, Car, UtensilsCrossed, Waves, Dumbbell, Check } from "lucide-react";
 import { DetailHero } from "@/components/ui/DetailHero";
 import { ImageGallery } from "@/components/ui/ImageReveal";
 import { CTASection } from "@/components/sections/CTASection";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbSchema } from "@/components/seo/breadcrumb";
+import { notFound } from "next/navigation";
+import { cache } from "react";
 import { siteConfig } from "@/lib/config";
 import { supabase } from "@/lib/supabase";
+
+export const revalidate = 60;
 
 const amenityIcons: Record<string, React.ReactNode> = {
   WiFi: <Wifi className="w-5 h-5" />,
@@ -17,27 +22,34 @@ const amenityIcons: Record<string, React.ReactNode> = {
   Gym: <Dumbbell className="w-5 h-5" />,
 };
 
+// Shared by generateMetadata + page so a request hits Supabase once
+const getHotel = cache(async (slug: string) => {
+  const { data } = await supabase.from("hotels").select("*").eq("slug", slug).single();
+  return data;
+});
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const { data: hotel } = await supabase.from("hotels").select("*").eq("slug", slug).single();
-  if (!hotel) return { title: "Hotel Not Found" };
-  return { title: hotel.name, description: hotel.description };
+  const hotel = await getHotel(slug);
+  if (!hotel) notFound();
+  return {
+    title: hotel.name,
+    description: hotel.description,
+    alternates: { canonical: `/hotels/${slug}` },
+    openGraph: {
+      title: hotel.name,
+      description: hotel.description,
+      url: `${siteConfig.url}/hotels/${slug}`,
+      images: (hotel.gallery || [])[0] ? [{ url: (hotel.gallery || [])[0] }] : undefined,
+    },
+  };
 }
 
 export default async function HotelDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const { data: hotel } = await supabase.from("hotels").select("*").eq("slug", slug).single();
+  const hotel = await getHotel(slug);
 
-  if (!hotel) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Hotel Not Found</h1>
-          <Link href="/hotels" className="btn-primary mt-4">Browse Hotels</Link>
-        </div>
-      </div>
-    );
-  }
+  if (!hotel) notFound();
 
   // Room types live in their own table keyed by hotelId
   const { data: roomTypes } = await supabase
@@ -48,6 +60,30 @@ export default async function HotelDetailPage({ params }: { params: Promise<{ sl
 
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbSchema("Hotels", "/hotels", hotel.name, `/hotels/${hotel.slug}`),
+          {
+          "@context": "https://schema.org",
+          "@type": "LodgingBusiness",
+          name: hotel.name,
+          description: hotel.description,
+          url: `${siteConfig.url}/hotels/${hotel.slug}`,
+          image: (hotel.gallery || [])[0],
+          starRating: hotel.stars ? { "@type": "Rating", ratingValue: hotel.stars } : undefined,
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: hotel.location,
+            addressRegion: "Jammu & Kashmir",
+            addressCountry: "IN",
+          },
+          aggregateRating:
+            hotel.reviewCount > 0
+              ? { "@type": "AggregateRating", ratingValue: hotel.rating, reviewCount: hotel.reviewCount }
+              : undefined,
+          },
+        ]}
+      />
       <DetailHero
         image={(hotel.gallery || [])[0]}
         title={hotel.name}

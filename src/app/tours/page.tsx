@@ -1,18 +1,23 @@
 import { Metadata } from "next";
+import Link from "next/link";
 import { PageHero } from "@/components/ui/PageHero";
 import { TourCard } from "@/components/cards/TourCard";
 import { FilterBar } from "@/components/ui/FilterBar";
 import { CTASection } from "@/components/sections/CTASection";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { siteConfig } from "@/lib/config";
 import { supabase } from "@/lib/supabase";
+import { toSlug } from "@/lib/slug";
 
 // Always render fresh data from the DB — admin CRUD should appear immediately
 // without needing a rebuild/redeploy (otherwise the page is statically prerendered).
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Tour Packages",
+  title: "Kashmir & Vaishno Devi Tour Packages",
   description:
-    "Explore our handcrafted tour packages for Kashmir, Vaishno Devi, Leh Ladakh and more. Best prices with comfortable stays.",
+    "Handcrafted Kashmir tour packages from Delhi, Katra & Jammu — Srinagar, Gulmarg, Pahalgam itineraries with hotels, transfers and sightseeing. Vaishno Devi yatra packages with helicopter option.",
+  alternates: { canonical: "/tours" },
 };
 
 const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800&q=80";
@@ -37,8 +42,24 @@ export default async function ToursPage() {
     difficulty: pkg.difficulty,
   }));
 
+  const destinations = [...new Set((allPackages || []).map((pkg) => pkg.destination).filter(Boolean))];
+
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "Tour Packages",
+          numberOfItems: packages.length,
+          itemListElement: packages.map((pkg, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            url: `${siteConfig.url}/tours/${pkg.slug}`,
+            name: pkg.title,
+          })),
+        }}
+      />
       <PageHero
         eyebrow="Tour Packages"
         title="Handcrafted journeys across Kashmir"
@@ -64,6 +85,24 @@ export default async function ToursPage() {
               <TourCard key={pkg.slug} {...pkg} />
             ))}
           </div>
+
+          {/* Programmatic destination hubs */}
+          {destinations.length > 0 && (
+            <div className="mt-12 text-center">
+              <p className="text-sm text-[var(--color-ink-faint)] mb-3">Browse by destination</p>
+              <div className="flex flex-wrap justify-center gap-2">
+                {destinations.map((d) => (
+                  <Link
+                    key={d}
+                    href={`/tours/destination/${toSlug(d)}`}
+                    className="px-4 py-2 rounded-md text-sm font-medium bg-[var(--color-paper)] border border-[var(--color-line)] text-[var(--color-ink-soft)] hover:border-[var(--color-pine)] hover:text-[var(--color-pine)] transition-colors"
+                  >
+                    {d} Tours
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
