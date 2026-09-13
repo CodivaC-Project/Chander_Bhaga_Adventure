@@ -1,8 +1,8 @@
 export const siteConfig = {
   name: "Shri Mata Vaishno Devi",
-  tagline: "Your Gateway to Kashmir's Untouched Beauty",
+  tagline: "Your Katra Team for Vaishno Devi Yatra & Kashmir",
   description:
-    "Katra-based travel agency for Vaishno Devi yatra packages, Kashmir tour packages from Delhi, hotels in Katra, taxi service and guided adventures — Srinagar, Gulmarg, Pahalgam with licensed local operators.",
+    "Licensed Katra travel agency for Vaishno Devi yatra packages — registration, helicopter booking, Katra hotels and Jammu taxi — plus Kashmir tour packages to Srinagar, Gulmarg and Pahalgam with trusted local operators.",
   phone: process.env.NEXT_PUBLIC_PHONE || "916006465184",
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "916006465184",
   email: process.env.NEXT_PUBLIC_EMAIL || "Sharmasidhant129@gmail.com",
@@ -23,6 +23,16 @@ export const siteConfig = {
         { label: "All Packages", href: "/tours" },
         { label: "Kashmir Explorer", href: "/tours/kashmir-explorer" },
         { label: "Vaishno Devi Yatra", href: "/tours/vaishno-devi-yatra" },
+      ],
+    },
+    {
+      label: "Vaishno Devi",
+      href: "/vaishno-devi",
+      children: [
+        { label: "Yatra Guide", href: "/vaishno-devi" },
+        { label: "First-Timer Guide", href: "/blog/vaishno-devi-yatra-first-timer-guide" },
+        { label: "Where to Stay", href: "/blog/vaishno-devi-bhawan-room-booking" },
+        { label: "Katra Hotels", href: "/hotels/location/katra" },
       ],
     },
     {

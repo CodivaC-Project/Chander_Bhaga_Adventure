@@ -75,6 +75,14 @@ export default async function AdventureDetailPage({ params }: { params: Promise<
             priceCurrency: "INR",
             availability: "https://schema.org/InStock",
           },
+          aggregateRating:
+            adventure.reviewCount > 0
+              ? {
+                  "@type": "AggregateRating",
+                  ratingValue: adventure.rating,
+                  reviewCount: adventure.reviewCount,
+                }
+              : undefined,
           },
         ]}
       />

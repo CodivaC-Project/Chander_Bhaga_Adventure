@@ -112,6 +112,8 @@ export default async function TaxiPage() {
                     { route: "Srinagar → Sonmarg", dist: "80 km", sedan: "₹3,000", suv: "₹4,500" },
                     { route: "Jammu Airport → Katra", dist: "50 km", sedan: "₹2,000", suv: "₹3,000" },
                     { route: "Srinagar → Leh", dist: "430 km", sedan: "₹15,000", suv: "₹22,000" },
+                    { route: "Jammu → Vaishno Devi (Katra)", dist: "50 km", sedan: "₹2,000", suv: "₹3,000" },
+                    { route: "Katra → Patnitop", dist: "80 km", sedan: "₹3,000", suv: "₹4,500" },
                   ].map((r) => (
                     <tr key={r.route} className="hover:bg-gray-50 transition-colors">
                       <td className="px-6 py-4 text-sm font-medium text-gray-900">{r.route}</td>
@@ -127,6 +129,27 @@ export default async function TaxiPage() {
               * Prices are approximate and may vary based on season and availability. Contact us for exact quotes.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* Intent-matched copy: pilgrims arriving for Vaishno Devi are the core
+          Katra audience and search "Jammu to Katra taxi" specifically. */}
+      <section className="section-padding bg-[var(--color-surface-alt)]">
+        <div className="container-custom max-w-3xl">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            Taxi for Vaishno Devi yatra &amp; Kashmir trips
+          </h2>
+          <p className="text-gray-500 leading-relaxed mb-4">
+            Based in Katra, we run dedicated transfers for Vaishno Devi pilgrims — Jammu airport or
+            railway station to Katra, plus local drops to the yatra parchi counter and Banganga start
+            point. For Kashmir, we cover Srinagar airport pickups, Gulmarg, Pahalgam, Sonmarg and
+            Leh outstation runs, all with fixed fares and meet-and-greet at any hour.
+          </p>
+          <p className="text-gray-500 leading-relaxed">
+            A sedan from Jammu to Katra costs around ₹3,000, an Innova around ₹5,000, and a Tempo
+            Traveller ₹5,000–7,000 depending on group size. Contact us for exact quotes and
+            multi-day packages that combine taxi with hotels and tours.
+          </p>
         </div>
       </section>
 

@@ -32,34 +32,34 @@ export function HeroSection() {
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left — editorial copy */}
           <div className="lg:col-span-7 space-y-8">
-            <div className="eyebrow">Katra · Jammu &amp; Kashmir</div>
+            <div className="eyebrow">Vaishno Devi · Katra, Jammu &amp; Kashmir</div>
 
             <h1 className="text-4xl md:text-6xl font-bold text-[var(--color-ink)] leading-[1.05]">
-              Sacred Yatra.
+              Your Vaishno Devi
               <br />
-              Untamed <span className="text-[var(--color-accent)] italic">Kashmir</span>.
+              <span className="text-[var(--color-accent)] italic">Yatra</span>, planned in Katra.
             </h1>
 
             <LineReveal delay={0.3}>
               <p className="text-lg text-[var(--color-ink-soft)] max-w-xl leading-relaxed">
-                Licensed Katra travel agency for the Vaishno Devi yatra and
-                Kashmir tour packages — Srinagar, Gulmarg, Pahalgam. Quiet,
-                well-run journeys to the shrine and beyond, run by local
-                operators who know every valley.
+                A licensed Katra agency for the Vaishno Devi yatra — registration, helicopter
+                booking, Katra hotels and Jammu taxi handled end-to-end. We also run Kashmir tour
+                packages to Srinagar, Gulmarg and Pahalgam, so your pilgrimage and your valley trip
+                share one trusted local team.
               </p>
             </LineReveal>
 
-            {/* CTAs — one solid, one quiet */}
+            {/* CTAs — one solid (pilgrim primary), one quiet (Kashmir secondary) */}
             <div className="flex flex-wrap items-center gap-6">
-              <Link href="/tours" className="btn-primary text-base px-7 py-3.5 group">
-                Explore Tour Packages
+              <Link href="/vaishno-devi" className="btn-primary text-base px-7 py-3.5 group">
+                Plan Your Yatra
                 <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-0.5" />
               </Link>
               <Link
-                href="/adventures"
+                href="/tours"
                 className="inline-flex items-center gap-2 text-[var(--color-pine)] font-semibold text-sm tracking-wide hover:text-[var(--color-accent-deep)] transition-colors border-b border-[var(--color-line-strong)] pb-1"
               >
-                Adventure Activities
+                Kashmir Tour Packages
               </Link>
             </div>
 
@@ -86,7 +86,7 @@ export function HeroSection() {
               <div className="hairline overflow-hidden rounded-lg bg-white relative h-[420px] lg:h-[520px]">
                 <Image
                   src={HERO_IMAGE}
-                  alt="Kashmir valley landscape"
+                  alt="Vaishno Devi yatra and Kashmir valley — Katra pilgrimage and Srinagar, Gulmarg, Pahalgam tours"
                   fill
                   priority
                   sizes="(max-width: 1024px) 100vw, 40vw"

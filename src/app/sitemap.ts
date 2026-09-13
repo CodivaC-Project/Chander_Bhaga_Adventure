@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 // Static pages always present in the sitemap
 const staticPages: { path: string; priority: number; changeFrequency: "weekly" | "monthly" | "daily" | "yearly" }[] = [
   { path: "", priority: 1, changeFrequency: "weekly" },
+  { path: "/vaishno-devi", priority: 0.9, changeFrequency: "weekly" },
   { path: "/tours", priority: 0.9, changeFrequency: "weekly" },
   { path: "/adventures", priority: 0.9, changeFrequency: "weekly" },
   { path: "/hotels", priority: 0.8, changeFrequency: "weekly" },

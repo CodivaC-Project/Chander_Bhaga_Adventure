@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { PageHero } from "@/components/ui/PageHero";
 import { HotelCard } from "@/components/cards/HotelCard";
 import { CTASection } from "@/components/sections/CTASection";
@@ -92,6 +93,50 @@ export default async function HotelLocationPage({ params }: { params: Promise<{ 
               <HotelCard key={hotel.slug} {...hotel} />
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Intent-matched guide copy — strengthens ranking for "hotels in <city>" queries. */}
+      <section className="section-padding bg-[var(--color-surface-alt)]">
+        <div className="container-custom max-w-3xl">
+          <h2 className="text-2xl font-bold text-[var(--color-ink)] mb-4">
+            Staying in {label} — what to know
+          </h2>
+          <p className="text-[var(--color-ink-soft)] leading-relaxed mb-4">
+            {label} has options from budget guesthouses to premium heritage resorts. For Vaishno Devi
+            pilgrims, the closest hotels to Banganga let you start the trek before dawn; for Kashmir
+            trips, lakeside and gondola-side stays are the most sought-after. Most rooms are priced per
+            night and include breakfast — book early for Navratri, summer weekends and the December–
+            January snow season, when the town sells out.
+          </p>
+          <p className="text-[var(--color-ink-soft)] leading-relaxed mb-6">
+            We book {label} stays daily and can bundle your hotel with taxi transfers and a tour
+            package so arrival and check-in are handled end-to-end.
+          </p>
+
+          <h3 className="text-xl font-bold text-[var(--color-ink)] mb-3">Explore more</h3>
+          <ul className="space-y-2 text-[var(--color-ink-soft)]">
+            <li>
+              <Link href="/hotels" className="text-[var(--color-pine)] hover:underline font-medium">
+                All hotels &amp; houseboats
+              </Link>
+            </li>
+            <li>
+              <Link href="/tours" className="text-[var(--color-pine)] hover:underline font-medium">
+                Tour packages that include {label} stays
+              </Link>
+            </li>
+            <li>
+              <Link href="/taxi" className="text-[var(--color-pine)] hover:underline font-medium">
+                Taxi &amp; transfers to {label}
+              </Link>
+            </li>
+            <li>
+              <Link href="/faq" className="text-[var(--color-pine)] hover:underline font-medium">
+                FAQs — best areas, prices &amp; booking
+              </Link>
+            </li>
+          </ul>
         </div>
       </section>
 

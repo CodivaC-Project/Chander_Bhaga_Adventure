@@ -18,11 +18,13 @@ function renderContent(content: string) {
   const lines = content.split("\n");
   const blocks: React.ReactNode[] = [];
   let list: React.ReactNode[] = [];
+  let ordered: React.ReactNode[] = [];
   let table: string[][] = [];
 
   const inline = (text: string): React.ReactNode[] =>
-    text.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\)|`[^`]+`)/g).map((part, i) => {
+    text.split(/(\*\*[^*]+\*\*|\*[^*]+\*|\[[^\]]+\]\([^)]+\)|`[^`]+`)/g).map((part, i) => {
       if (part.startsWith("**") && part.endsWith("**")) return <strong key={i}>{part.slice(2, -2)}</strong>;
+      if (part.startsWith("*") && part.endsWith("*") && part.length > 2) return <em key={i}>{part.slice(1, -1)}</em>;
       const link = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
       if (link)
         return link[2].startsWith("/") ? (
@@ -46,6 +48,16 @@ function renderContent(content: string) {
         </ul>
       );
       list = [];
+    }
+  };
+  const flushOrderedList = () => {
+    if (ordered.length) {
+      blocks.push(
+        <ol key={`ol-${blocks.length}`} className="list-decimal pl-6 mb-4 space-y-1.5 text-[var(--color-ink-soft)] leading-relaxed">
+          {ordered}
+        </ol>
+      );
+      ordered = [];
     }
   };
   const flushTable = () => {
@@ -82,16 +94,26 @@ function renderContent(content: string) {
     if (t.startsWith("| ") && t.endsWith("|")) {
       const cells = t.slice(1, -1).split("|").map((c) => c.trim());
       if (cells.every((c) => /^-+$/.test(c))) return; // separator row
+      flushList();
+      flushOrderedList();
       table.push(cells);
       return;
     }
     flushTable();
 
+    const ol = t.match(/^(\d+)\.\s+(.*)$/);
+    if (ol) {
+      flushList();
+      ordered.push(<li key={idx}>{inline(ol[2])}</li>);
+      return;
+    }
     if (t.startsWith("- ") || t.startsWith("* ")) {
+      flushOrderedList();
       list.push(<li key={idx}>{inline(t.slice(2))}</li>);
       return;
     }
     flushList();
+    flushOrderedList();
 
     if (t.startsWith("### ")) {
       blocks.push(<h3 key={idx} className="text-xl font-bold text-[var(--color-ink)] mt-8 mb-3">{inline(t.slice(4))}</h3>);
@@ -106,6 +128,7 @@ function renderContent(content: string) {
     }
   });
   flushList();
+  flushOrderedList();
   flushTable();
 
   return blocks;
@@ -121,6 +144,29 @@ const getPost = cache(async (slug: string) => {
     .eq("published", true)
     .single();
   return data;
+});
+
+// Related posts: latest from the same category, excluding the current one.
+// Keeps readers (and link equity) moving between cluster posts.
+const getRelated = cache(async (slug: string, category: string | null, limit = 3) => {
+  if (!category) return [];
+  const { data } = await supabase
+    .from("blogs")
+    .select("slug, title, excerpt, coverImage, category, publishedAt, createdAt")
+    .eq("published", true)
+    .eq("category", category)
+    .neq("slug", slug)
+    .order("createdAt", { ascending: false })
+    .limit(limit);
+  return (data || []) as {
+    slug: string;
+    title: string;
+    excerpt?: string;
+    coverImage?: string;
+    category?: string;
+    publishedAt?: string;
+    createdAt?: string;
+  }[];
 });
 
 export async function generateMetadata({
@@ -159,6 +205,9 @@ export default async function BlogDetailPage({
 
   // readTime isn't a column — derive it from content length (200 wpm)
   const readTime = Math.max(1, Math.ceil((post.content || "").trim().split(/\s+/).length / 200));
+
+  // Related posts from the same category — internal cross-linking for equity + dwell time.
+  const related = await getRelated(slug, post.category || null);
 
   return (
     <>
@@ -265,6 +314,51 @@ export default async function BlogDetailPage({
           </div>
         </div>
       </section>
+
+      {/* Related reads — internal links to same-cluster posts */}
+      {related.length > 0 && (
+        <section className="section-padding bg-[var(--color-surface-alt)]">
+          <div className="container-custom">
+            <h2 className="text-2xl font-bold text-[var(--color-ink)] mb-6">
+              Related reads
+            </h2>
+            <div className="grid md:grid-cols-3 gap-6">
+              {related.map((r) => (
+                <Link
+                  key={r.slug}
+                  href={`/blog/${r.slug}`}
+                  className="bg-white rounded-2xl border border-[var(--color-line)] overflow-hidden hover:shadow-[var(--shadow-soft)] transition-shadow group"
+                >
+                  {r.coverImage && (
+                    <div className="relative h-44">
+                      <Image
+                        src={r.coverImage}
+                        alt={r.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                  )}
+                  <div className="p-5">
+                    <span className="text-xs font-medium text-[var(--color-pine)] uppercase tracking-wide">
+                      {r.category}
+                    </span>
+                    <h3 className="mt-2 text-lg font-bold text-[var(--color-ink)] leading-snug">
+                      {r.title}
+                    </h3>
+                    {r.excerpt && (
+                      <p className="mt-2 text-sm text-[var(--color-ink-soft)] line-clamp-2">
+                        {r.excerpt}
+                      </p>
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <CTASection />
     </>

@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { SessionProvider } from "@/components/auth/SessionProvider";
 import { PageTransition } from "@/components/PageTransition";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { siteConfig } from "@/lib/config";
 
 const inter = Inter({
@@ -116,6 +117,7 @@ export default function RootLayout({
           <Footer />
           <WhatsAppButton />
         </SessionProvider>
+        <GoogleAnalytics />
       </body>
     </html>
   );

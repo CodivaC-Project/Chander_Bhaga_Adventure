@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { PageHero } from "@/components/ui/PageHero";
 import { AdventureCard } from "@/components/cards/AdventureCard";
 import { CTASection } from "@/components/sections/CTASection";
@@ -106,6 +107,51 @@ export default async function AdventureCategoryPage({ params }: { params: Promis
               <AdventureCard key={adv.slug} {...adv} />
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Intent-matched guide copy — strengthens ranking for activity queries
+          (e.g. "kashmir trekking", "zanskar river rafting") beyond the grid. */}
+      <section className="section-padding bg-[var(--color-surface-alt)]">
+        <div className="container-custom max-w-3xl">
+          <h2 className="text-2xl font-bold text-[var(--color-ink)] mb-4">
+            {l} in Kashmir — what to expect
+          </h2>
+          <p className="text-[var(--color-ink-soft)] leading-relaxed mb-4">
+            Kashmir is one of India&apos;s best adventure destinations. {l} trips run from easy,
+            family-friendly half-days to challenging multi-day routes with certified local guides.
+            Popular bases include Pahalgam and Sonamarg for trekking, the Zanskar and Lidder rivers
+            for rafting, and Gulmarg&apos;s meadows for camping and skiing. All trips include safety
+            gear, experienced guides and transfers from your hotel or taxi pickup point.
+          </p>
+          <p className="text-[var(--color-ink-soft)] leading-relaxed mb-6">
+            Best season depends on the activity: June–August for treks and rafting, December–February
+            for skiing and snow activities, and September–November for clear-sky camping.
+          </p>
+
+          <h3 className="text-xl font-bold text-[var(--color-ink)] mb-3">Explore more</h3>
+          <ul className="space-y-2 text-[var(--color-ink-soft)]">
+            <li>
+              <Link href="/adventures" className="text-[var(--color-pine)] hover:underline font-medium">
+                All adventures in Kashmir
+              </Link>
+            </li>
+            <li>
+              <Link href="/tours" className="text-[var(--color-pine)] hover:underline font-medium">
+                Multi-day tours that include trekking &amp; sightseeing
+              </Link>
+            </li>
+            <li>
+              <Link href="/taxi" className="text-[var(--color-pine)] hover:underline font-medium">
+                Taxi &amp; transfers to trailheads and base camps
+              </Link>
+            </li>
+            <li>
+              <Link href="/faq" className="text-[var(--color-pine)] hover:underline font-medium">
+                FAQs — difficulty, age limits and what to pack
+              </Link>
+            </li>
+          </ul>
         </div>
       </section>
 

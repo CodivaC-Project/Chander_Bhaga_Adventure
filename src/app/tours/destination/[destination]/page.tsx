@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { PageHero } from "@/components/ui/PageHero";
 import { TourCard } from "@/components/cards/TourCard";
 import { CTASection } from "@/components/sections/CTASection";
@@ -93,6 +94,53 @@ export default async function TourDestinationPage({ params }: { params: Promise<
               <TourCard key={pkg.slug} {...pkg} />
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Intent-matched guide copy — gives search engines real, query-relevant
+          text instead of a thin hero + card grid alone. */}
+      <section className="section-padding bg-[var(--color-surface-alt)]">
+        <div className="container-custom max-w-3xl">
+          <h2 className="text-2xl font-bold text-[var(--color-ink)] mb-4">
+            Planning a {label} trip from Katra or Delhi
+          </h2>
+          <p className="text-[var(--color-ink-soft)] leading-relaxed mb-4">
+            Most travellers book a {label} tour as part of a wider Jammu &amp; Kashmir itinerary.
+            The most common plan is 5 nights / 6 days covering Srinagar, Gulmarg and Pahalgam,
+            with an optional houseboat night on Dal Lake. Budget packages start around
+            ₹12,500 per person, standard 5N/6D packages run ₹16,000–29,000, and luxury trips
+            with premium hotels go ₹38,000+. Flights Delhi–Srinagar are typically ₹3,500–9,000
+            one way.
+          </p>
+          <p className="text-[var(--color-ink-soft)] leading-relaxed mb-6">
+            The best time to visit depends on what you want: March–May for tulip gardens and
+            spring, June–August for green meadows and trekking, September–November for autumn
+            colours and fewer crowds, and December–February for snow and Gulmarg skiing.
+          </p>
+
+          <h3 className="text-xl font-bold text-[var(--color-ink)] mb-3">Related trips &amp; stays</h3>
+          <ul className="space-y-2 text-[var(--color-ink-soft)]">
+            <li>
+              <Link href="/tours" className="text-[var(--color-pine)] hover:underline font-medium">
+                All Kashmir &amp; Vaishno Devi tour packages
+              </Link>
+            </li>
+            <li>
+              <Link href="/hotels" className="text-[var(--color-pine)] hover:underline font-medium">
+                Hotels &amp; houseboats in Srinagar, Gulmarg and Katra
+              </Link>
+            </li>
+            <li>
+              <Link href="/taxi" className="text-[var(--color-pine)] hover:underline font-medium">
+                Taxi &amp; cab service from Jammu, Srinagar and Katra
+              </Link>
+            </li>
+            <li>
+              <Link href="/faq" className="text-[var(--color-pine)] hover:underline font-medium">
+                FAQs — helicopter booking, registration &amp; best time to visit
+              </Link>
+            </li>
+          </ul>
         </div>
       </section>
 
