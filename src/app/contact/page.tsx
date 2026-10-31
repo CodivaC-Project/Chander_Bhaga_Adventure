@@ -199,7 +199,12 @@ export default function ContactPage() {
                     </button>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-5">
+                  <form
+                    onSubmit={handleSubmit}
+                    className="space-y-5"
+                    toolname="send_contact_message"
+                    tooldescription="Send a contact message to Shri Mata Vaishno Devi Travels. Submits through the same /api/contact endpoint as this form. A human confirms before anything is sent."
+                  >
                     {error && (
                       <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
                         {error}
@@ -329,17 +334,22 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Map */}
+      {/* Above-fold click-to-call — #3 local pack signal */}
+      <section className="container-custom -mt-4 mb-6 flex flex-wrap gap-3">
+        <a href={`tel:+${siteConfig.phone}`} className="btn-primary">Call now: +91 {siteConfig.phone.replace("91","")}</a>
+        <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer" className="btn-secondary">Chat on WhatsApp</a>
+      </section>
+
+      {/* Map — lazy, exact geo from siteConfig */}
       <section className="h-96 bg-gray-200 relative">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3357.0!2d74.9!3d32.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzLCsDU0JzAwLjAiTiA3NMKwNTQnMDAuMCJF!5e0!3m2!1sen!2sin!4v1234567890"
+          src={`https://www.google.com/maps?q=${(siteConfig as any).geo?.latitude ?? 32.98590},${(siteConfig as any).geo?.longitude ?? 74.94610}&z=15&output=embed`}
           width="100%"
           height="100%"
           style={{ border: 0 }}
-          allowFullScreen
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
-          title="Shri Mata Vaishno Devi Location"
+          title={`${siteConfig.name} — ${siteConfig.address}`}
         />
       </section>
     </>

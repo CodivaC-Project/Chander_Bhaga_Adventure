@@ -20,6 +20,7 @@ const footerLinks = {
     { label: "Hotels", href: "/hotels" },
     { label: "Taxi Service", href: "/taxi" },
     { label: "Gallery", href: "/gallery" },
+    { label: "Comparisons", href: "/compare" },
   ],
   "Adventures": [
     { label: "Trekking", href: "/adventures?category=trekking" },
@@ -55,6 +56,10 @@ export function Footer() {
             <form className="flex w-full md:w-auto gap-2">
               <input
                 type="email"
+                name="email"
+                aria-label="Email address"
+                autoComplete="email"
+                required
                 placeholder="Enter your email"
                 className="flex-1 md:w-80 px-5 py-3 bg-white/5 border border-white/15 rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]/40 focus:border-[var(--color-accent)]"
               />
@@ -124,6 +129,7 @@ export function Footer() {
                 href={siteConfig.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Facebook"
                 className="w-10 h-10 rounded-lg border border-white/15 flex items-center justify-center text-white/70 hover:text-white hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors"
               >
                 <Facebook className="w-4 h-4" />
@@ -132,6 +138,7 @@ export function Footer() {
                 href={siteConfig.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Instagram"
                 className="w-10 h-10 rounded-lg border border-white/15 flex items-center justify-center text-white/70 hover:text-white hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors"
               >
                 <Instagram className="w-4 h-4" />
@@ -140,6 +147,7 @@ export function Footer() {
                 href={siteConfig.social.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="YouTube"
                 className="w-10 h-10 rounded-lg border border-white/15 flex items-center justify-center text-white/70 hover:text-white hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors"
               >
                 <Youtube className="w-4 h-4" />

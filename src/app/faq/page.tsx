@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Link from "next/link";
 import { FAQClient } from "./FAQClient";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { supabase } from "@/lib/supabase";
@@ -103,6 +104,39 @@ export default async function FAQPage() {
         }}
       />
       <FAQClient categories={displayCategories} />
+
+      {/* Comparisons hub */}
+      <section className="section-padding pt-0">
+        <div className="container-custom">
+          <div className="max-w-3xl mx-auto p-6 rounded-2xl bg-[var(--color-paper)] border border-[var(--color-line)] text-center">
+            <h2 className="text-lg font-bold text-[var(--color-ink)] mb-2">Still comparing your options?</h2>
+            <p className="text-sm text-[var(--color-ink-soft)] mb-4">
+              Side-by-side guides with sourced 2026 prices: helicopter vs trek vs ropeway at Vaishno Devi,
+              IRCTC vs a private operator, group tour vs private cab, and the best licensed Katra agencies.
+            </p>
+            <div className="flex flex-wrap justify-center gap-2">
+              <Link
+                href="/compare/vaishno-devi-helicopter-vs-trek-vs-ropeway"
+                className="px-4 py-2 rounded-md text-sm font-medium bg-white border border-[var(--color-line)] text-[var(--color-ink-soft)] hover:border-[var(--color-pine)] hover:text-[var(--color-pine)] transition-colors"
+              >
+                Helicopter vs trek vs ropeway
+              </Link>
+              <Link
+                href="/compare/best-katra-travel-agencies-2026"
+                className="px-4 py-2 rounded-md text-sm font-medium bg-white border border-[var(--color-line)] text-[var(--color-ink-soft)] hover:border-[var(--color-pine)] hover:text-[var(--color-pine)] transition-colors"
+              >
+                Best Katra agencies 2026
+              </Link>
+              <Link
+                href="/compare"
+                className="px-4 py-2 rounded-md text-sm font-medium bg-white border border-[var(--color-line)] text-[var(--color-ink-soft)] hover:border-[var(--color-pine)] hover:text-[var(--color-pine)] transition-colors"
+              >
+                All comparisons
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /notes/
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+Sitemap: https://www.shrimatavaishnodevitravels.in/sitemap.xml

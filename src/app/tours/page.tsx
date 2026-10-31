@@ -103,6 +103,34 @@ export default async function ToursPage() {
               </div>
             </div>
           )}
+
+          {/* Comparisons hub */}
+          <div className="mt-12 max-w-3xl mx-auto p-6 rounded-2xl bg-[var(--color-paper)] border border-[var(--color-line)]">
+            <h2 className="text-lg font-bold text-gray-900 mb-2">Not sure which option fits your group?</h2>
+            <p className="text-sm text-gray-500 mb-4">
+              Read our side-by-side guides with sourced 2026 prices before you book:
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <Link
+                href="/compare/irctc-vaishno-devi-package-vs-private-tour-operator"
+                className="px-4 py-2 rounded-md text-sm font-medium bg-white border border-[var(--color-line)] text-[var(--color-ink-soft)] hover:border-[var(--color-pine)] hover:text-[var(--color-pine)] transition-colors"
+              >
+                IRCTC vs private operator
+              </Link>
+              <Link
+                href="/compare/kashmir-group-tour-vs-private-cab"
+                className="px-4 py-2 rounded-md text-sm font-medium bg-white border border-[var(--color-line)] text-[var(--color-ink-soft)] hover:border-[var(--color-pine)] hover:text-[var(--color-pine)] transition-colors"
+              >
+                Group tour vs private cab
+              </Link>
+              <Link
+                href="/compare"
+                className="px-4 py-2 rounded-md text-sm font-medium bg-white border border-[var(--color-line)] text-[var(--color-ink-soft)] hover:border-[var(--color-pine)] hover:text-[var(--color-pine)] transition-colors"
+              >
+                All comparisons
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 

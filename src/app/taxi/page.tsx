@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Link from "next/link";
 import { PageHero } from "@/components/ui/PageHero";
 import { TaxiCard } from "@/components/cards/TaxiCard";
 import { CTASection } from "@/components/sections/CTASection";
@@ -130,6 +131,32 @@ export default async function TaxiPage() {
         </div>
       </section>
 
+
+      {/* Compare before booking */}
+      <section className="section-padding pt-0 bg-[var(--color-surface-alt)]">
+        <div className="container-custom">
+          <div className="max-w-3xl mx-auto p-6 rounded-2xl bg-white border border-gray-100 text-center">
+            <h2 className="text-lg font-bold text-gray-900 mb-2">Private cab or group tour for your Kashmir trip?</h2>
+            <p className="text-sm text-gray-500 mb-4">
+              Our taxi fares above are for private vehicles — see how they compare with fixed-departure group packages.
+            </p>
+            <div className="flex flex-wrap justify-center gap-2">
+              <Link
+                href="/compare/kashmir-group-tour-vs-private-cab"
+                className="px-4 py-2 rounded-md text-sm font-medium bg-[var(--color-paper)] border border-[var(--color-line)] text-[var(--color-ink-soft)] hover:border-[var(--color-pine)] hover:text-[var(--color-pine)] transition-colors"
+              >
+                Group tour vs private cab
+              </Link>
+              <Link
+                href="/compare"
+                className="px-4 py-2 rounded-md text-sm font-medium bg-[var(--color-paper)] border border-[var(--color-line)] text-[var(--color-ink-soft)] hover:border-[var(--color-pine)] hover:text-[var(--color-pine)] transition-colors"
+              >
+                All comparisons
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
       <CTASection />
     </>
   );

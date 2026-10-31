@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Parent dir CRM/ also has a lockfile; without this, Turbopack infers it as
+  // the workspace root and writes .next there instead of here.
+  turbopack: { root: import.meta.dirname },
+  outputFileTracingRoot: import.meta.dirname,
   images: {
     remotePatterns: [
       {

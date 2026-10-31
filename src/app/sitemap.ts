@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/config";
 import { supabase } from "@/lib/supabase";
+import { comparisons } from "@/lib/comparisons";
 
 // Static pages always present in the sitemap
 const staticPages: { path: string; priority: number; changeFrequency: "weekly" | "monthly" | "daily" | "yearly" }[] = [
@@ -14,6 +15,7 @@ const staticPages: { path: string; priority: number; changeFrequency: "weekly" |
   { path: "/contact", priority: 0.7, changeFrequency: "monthly" },
   { path: "/about", priority: 0.7, changeFrequency: "monthly" },
   { path: "/faq", priority: 0.6, changeFrequency: "monthly" },
+  { path: "/compare", priority: 0.8, changeFrequency: "weekly" },
   { path: "/consultation", priority: 0.7, changeFrequency: "monthly" },
   { path: "/privacy", priority: 0.3, changeFrequency: "yearly" },
   { path: "/terms", priority: 0.3, changeFrequency: "yearly" },
@@ -113,6 +115,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticSitemap,
     ...categoryEntries,
     ...programmaticEntries,
+    ...comparisons.map((c) => ({
+      url: `${baseUrl}/compare/${c.slug}`,
+      priority: 0.7,
+      changeFrequency: "weekly" as const,
+    })),
     ...detailEntries(tours, "/tours", 0.9),
     ...detailEntries(adventures, "/adventures", 0.8),
     ...detailEntries(hotels, "/hotels", 0.8),

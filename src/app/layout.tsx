@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { SessionProvider } from "@/components/auth/SessionProvider";
 import { PageTransition } from "@/components/PageTransition";
+import { WebMcpTools } from "@/components/WebMcpTools";
 import { siteConfig } from "@/lib/config";
 
 const inter = Inter({
@@ -86,8 +87,8 @@ export const metadata: Metadata = {
   other: {
     "geo.region": "IN-JK",
     "geo.placename": "Katra, Jammu & Kashmir",
-    "geo.position": "32.9859;74.9461",
-    ICBM: "32.9859, 74.9461",
+    "geo.position": "32.98590;74.94610",
+    ICBM: "32.98590, 74.94610",
     "format-detection": "telephone=no",
   },
 };
@@ -115,6 +116,7 @@ export default function RootLayout({
           </main>
           <Footer />
           <WhatsAppButton />
+          <WebMcpTools />
         </SessionProvider>
       </body>
     </html>

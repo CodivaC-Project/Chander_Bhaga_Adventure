@@ -18,7 +18,7 @@ export const revalidate = 60;
 
 export const metadata: Metadata = {
   description: siteConfig.description,
-  alternates: { canonical: "/" },
+  alternates: { canonical: "/", types: { "text/markdown": "/index.md" } },
   openGraph: {
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
@@ -43,13 +43,23 @@ const travelAgencySchema = {
     streetAddress: siteConfig.address,
     addressLocality: "Katra",
     addressRegion: "Jammu & Kashmir",
+    postalCode: (siteConfig as any).postalCode || "182301",
     addressCountry: "IN",
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: 32.9859,
-    longitude: 74.9461,
+    latitude: (siteConfig as any).geo?.latitude ?? 32.98590,
+    longitude: (siteConfig as any).geo?.longitude ?? 74.94610,
   },
+  areaServed: ((siteConfig as any).areaServed || []).map((a: string) => ({ "@type": "City", name: a })),
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: (siteConfig as any).openingHours?.days || ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+      opens: (siteConfig as any).openingHours?.opens || "09:00",
+      closes: (siteConfig as any).openingHours?.closes || "20:00",
+    },
+  ],
   sameAs: [siteConfig.social.facebook, siteConfig.social.instagram, siteConfig.social.youtube],
 };
 
