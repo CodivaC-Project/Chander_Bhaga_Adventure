@@ -37,7 +37,7 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts.MASTER_PRD_Chander_Bhaga_Adventure_MongoDB.md
+next-env.d.ts
 aisplop.md
 
 # Prisma generated

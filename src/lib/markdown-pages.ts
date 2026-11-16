@@ -25,7 +25,7 @@ ${siteConfig.description}
 - [Book a Consultation](${base}/consultation)
 - [FAQs](${base}/faq)
 
-Contact: +91 ${siteConfig.phone.replace("91", "")}, ${siteConfig.email}, ${siteConfig.address}. Open ${siteConfig.openingHours.opens}–${siteConfig.openingHours.closes} daily.`,
+Contact: +91 ${siteConfig.phone.replace("91", "")}, ${siteConfig.email}, ${siteConfig.address}. Hours: ${siteConfig.workingHours}.`,
 
   "/about": `# About ${siteConfig.name}
 
@@ -89,7 +89,7 @@ Travel guides, yatra tips and Kashmir itineraries from ${siteConfig.name}.
 - Phone / WhatsApp: +91 ${siteConfig.phone.replace("91", "")}
 - Email: ${siteConfig.email}
 - Address: ${siteConfig.address}
-- Hours: ${siteConfig.openingHours.opens}–${siteConfig.openingHours.closes}, ${siteConfig.openingHours.days.join(", ")}
+- Hours: ${siteConfig.workingHours}
 
 Send a message via [the contact form](${base}/contact) or [book a consultation](${base}/consultation).`,
 

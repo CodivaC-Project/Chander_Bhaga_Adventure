@@ -2,7 +2,7 @@
 
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useEffect, useState } from "react";
-import { Loader2, Search, Calendar, Plus, Edit2, Trash2, X } from "lucide-react";
+import { Loader2, Search, Calendar, Plus, Edit2, Trash2, X, Download } from "lucide-react";
 
 interface Booking {
   id: string;
@@ -47,6 +47,7 @@ export default function BookingsPage() {
   const [form, setForm] = useState<Partial<Booking>>(emptyForm);
   const [saving, setSaving] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchBookings();
@@ -114,6 +115,39 @@ export default function BookingsPage() {
       fetchBookings();
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const handleDownloadInvoice = async (booking: Booking) => {
+    setDownloadingId(booking.id);
+    try {
+      const res = await fetch(`/api/admin/bookings/invoice?id=${booking.id}`);
+      if (!res.ok) {
+        let message = "Failed to generate invoice";
+        try {
+          const data = await res.json();
+          message = data?.error || message;
+        } catch {
+          // ignore
+        }
+        throw new Error(message);
+      }
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const disposition = res.headers.get("Content-Disposition") || "";
+      const match = disposition.match(/filename="?([^"]+)"?/i);
+      a.href = url;
+      a.download = match?.[1] || `INV-${booking.bookingId || booking.id}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Failed to download invoice:", err);
+      alert(err instanceof Error ? err.message : "Failed to download invoice");
+    } finally {
+      setDownloadingId(null);
     }
   };
 
@@ -224,6 +258,14 @@ export default function BookingsPage() {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-end gap-2">
+                        <button
+                          onClick={() => handleDownloadInvoice(booking)}
+                          disabled={downloadingId === booking.id}
+                          title="Download invoice (PDF)"
+                          className="p-1.5 text-[var(--color-ink-soft)] hover:text-[var(--color-pine)] hover:bg-[var(--color-pine)]/10 rounded-lg transition-colors disabled:opacity-50"
+                        >
+                          {downloadingId === booking.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+                        </button>
                         <button onClick={() => handleEdit(booking)} className="p-1.5 text-[var(--color-ink-soft)] hover:text-[var(--color-pine)] hover:bg-[var(--color-pine)]/10 rounded-lg transition-colors">
                           <Edit2 className="w-4 h-4" />
                         </button>

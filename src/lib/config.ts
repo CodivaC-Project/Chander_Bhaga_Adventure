@@ -2,22 +2,32 @@ export const siteConfig = {
   name: "Shri Mata Vaishno Devi Travels",
   tagline: "Your Gateway to Kashmir's Untouched Beauty",
   description:
-    "Katra-based travel agency for Vaishno Devi yatra packages, Kashmir tour packages from Delhi, hotels in Katra, taxi service and guided adventures — Srinagar, Gulmarg, Pahalgam with licensed local operators.",
-  phone: process.env.NEXT_PUBLIC_PHONE || "916006465184",
-  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "916006465184",
-  email: process.env.NEXT_PUBLIC_EMAIL || "Sharmasidhant129@gmail.com",
-  address: "Katra Main Market, Katra, Vaishno Devi, Jammu & Kashmir 182301",
-  postalCode: "182301",
-  // ponytail: add hours/areaServed here so schema + UI stay single-source
-  openingHours: { opens: "09:00", closes: "20:00", days: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"] as const },
-  areaServed: ["Katra","Jammu","Srinagar","Gulmarg","Pahalgam","Sonmarg"] as const,
-  geo: { latitude: 32.98590, longitude: 74.94610 } as const,
+    "Katra-based travel agency for Vaishno Devi yatra packages, Kashmir tour packages from Delhi, hotels in Katra, taxi service and guided adventures across Srinagar, Gulmarg, Pahalgam and Sonmarg with licensed local operators.",
+  url: "https://www.shrimatavaishnodevitravels.in",
+  phone: "916006465184",
+  whatsapp: "916006465184",
+  email: "Sharmasidhant129@gmail.com",
+  address: "Katra, Vaishno Devi, Jammu & Kashmir",
   license: "JKAT00003494",
-  url: process.env.NEXT_PUBLIC_APP_URL || "https://shrimatavaishnodevitravels.in",
+  workingHours: "7:00 AM - 10:00 PM (7 days a week)",
   social: {
-    facebook: process.env.NEXT_PUBLIC_FACEBOOK_URL || "https://facebook.com/shrimatavaishnodevi",
-    instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://instagram.com/shrimatavaishnodevi",
-    youtube: process.env.NEXT_PUBLIC_YOUTUBE_URL || "https://youtube.com/@shrimatavaishnodevi",
+    facebook: "https://facebook.com/chanderbhagaadventure",
+    instagram: "https://instagram.com/chanderbhagaadventure",
+    youtube: "https://youtube.com/@chanderbhagaadventure",
+  },
+  seo: {
+    defaultTitle: "Shri Mata Vaishno Devi Travels — Vaishno Devi Yatra & Kashmir Tour Packages",
+    titleTemplate: "%s | Shri Mata Vaishno Devi Travels",
+    keywords: [
+      "Vaishno Devi yatra package",
+      "Kashmir tour package from Delhi",
+      "Katra travel agent",
+      "Vaishno Devi helicopter booking",
+      "Katra hotel booking",
+      "Srinagar Gulmarg Pahalgam tour",
+      "Jammu to Katra taxi",
+      "Kashmir honeymoon package",
+    ],
   },
   navLinks: [
     { label: "Home", href: "/" },
@@ -25,20 +35,19 @@ export const siteConfig = {
       label: "Tours",
       href: "/tours",
       children: [
-        { label: "All Packages", href: "/tours" },
-        { label: "Kashmir Explorer", href: "/tours/kashmir-explorer" },
-        { label: "Vaishno Devi Yatra", href: "/tours/vaishno-devi-yatra" },
+        { label: "Kashmir", href: "/tours?category=kashmir" },
+        { label: "Pilgrimage", href: "/tours?category=pilgrimage" },
+        { label: "Ladakh", href: "/tours?category=ladakh" },
       ],
     },
     {
       label: "Adventures",
       href: "/adventures",
       children: [
-        { label: "All Activities", href: "/adventures" },
         { label: "Trekking", href: "/adventures/category/trekking" },
-        { label: "Rafting", href: "/adventures/category/rafting" },
         { label: "Camping", href: "/adventures/category/camping" },
         { label: "Skiing", href: "/adventures/category/skiing" },
+        { label: "Rafting", href: "/adventures/category/rafting" },
       ],
     },
     { label: "Hotels", href: "/hotels" },
@@ -48,4 +57,33 @@ export const siteConfig = {
     { label: "Compare", href: "/compare" },
     { label: "Contact", href: "/contact" },
   ],
+  stats: {
+    happyTravelers: "5000+",
+    toursOrganized: "500+",
+    destinations: "25+",
+    yearsExperience: "10+",
+  },
 };
+
+export const adventureCategories = [
+  { name: "Trekking", slug: "trekking", icon: "Mountain", description: "Guided treks through breathtaking Himalayan trails" },
+  { name: "Camping", slug: "camping", icon: "Tent", description: "Starlit nights in the lap of nature" },
+  { name: "Skiing", slug: "skiing", icon: "Snowflake", description: "World-class slopes in Gulmarg and beyond" },
+  { name: "Rafting", slug: "rafting", icon: "Waves", description: "Thrilling white water rafting experiences" },
+  { name: "Sightseeing", slug: "sightseeing", icon: "Camera", description: "Explore stunning landscapes and hidden gems" },
+  { name: "Pilgrimage", slug: "pilgrimage", icon: "Church", description: "Sacred journeys to holy destinations" },
+] as const;
+
+export const stats = [
+  { value: "5000+", label: "Happy Travelers", suffix: "" },
+  { value: "500+", label: "Tours Organized", suffix: "" },
+  { value: "50+", label: "Destinations", suffix: "" },
+  { value: "4.9", label: "Average Rating", suffix: "★" },
+] as const;
+
+export const featureFlags = {
+  showPlaceholderBanners: false,
+  enableBookingPayments: false,
+  enableNewsletter: true,
+  enableChatWidget: false,
+} as const;
