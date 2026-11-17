@@ -2,7 +2,7 @@
 
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useEffect, useState } from "react";
-import { Loader2, Search, Calendar, Plus, Edit2, Trash2, X, Download } from "lucide-react";
+import { Loader2, Search, Calendar, Plus, Edit2, Trash2, X, Download, ReceiptText } from "lucide-react";
 
 interface Booking {
   id: string;
@@ -48,6 +48,7 @@ export default function BookingsPage() {
   const [saving, setSaving] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [downloadingReceiptId, setDownloadingReceiptId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchBookings();
@@ -148,6 +149,39 @@ export default function BookingsPage() {
       alert(err instanceof Error ? err.message : "Failed to download invoice");
     } finally {
       setDownloadingId(null);
+    }
+  };
+
+  const handleDownloadReceipt = async (booking: Booking) => {
+    setDownloadingReceiptId(booking.id);
+    try {
+      const res = await fetch(`/api/admin/bookings/receipt?id=${booking.id}`);
+      if (!res.ok) {
+        let message = "Failed to generate receipt";
+        try {
+          const data = await res.json();
+          message = data?.error || message;
+        } catch {
+          // ignore
+        }
+        throw new Error(message);
+      }
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const disposition = res.headers.get("Content-Disposition") || "";
+      const match = disposition.match(/filename="?([^"]+)"?/i);
+      a.href = url;
+      a.download = match?.[1] || `RCP-${booking.bookingId || booking.id}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Failed to download receipt:", err);
+      alert(err instanceof Error ? err.message : "Failed to download receipt");
+    } finally {
+      setDownloadingReceiptId(null);
     }
   };
 
@@ -265,6 +299,14 @@ export default function BookingsPage() {
                           className="p-1.5 text-[var(--color-ink-soft)] hover:text-[var(--color-pine)] hover:bg-[var(--color-pine)]/10 rounded-lg transition-colors disabled:opacity-50"
                         >
                           {downloadingId === booking.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+                        </button>
+                        <button
+                          onClick={() => handleDownloadReceipt(booking)}
+                          disabled={downloadingReceiptId === booking.id}
+                          title="Download receipt (PDF)"
+                          className="p-1.5 text-[var(--color-ink-soft)] hover:text-[var(--color-pine)] hover:bg-[var(--color-pine)]/10 rounded-lg transition-colors disabled:opacity-50"
+                        >
+                          {downloadingReceiptId === booking.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <ReceiptText className="w-4 h-4" />}
                         </button>
                         <button onClick={() => handleEdit(booking)} className="p-1.5 text-[var(--color-ink-soft)] hover:text-[var(--color-pine)] hover:bg-[var(--color-pine)]/10 rounded-lg transition-colors">
                           <Edit2 className="w-4 h-4" />

@@ -7,7 +7,7 @@ export default async function proxy(request: NextRequest) {
     request.cookies.get("better-auth.session_token") ||
     request.cookies.get("__Secure-better-auth.session_token");
 
-  const protectedRoutes = ["/dashboard", "/admin"];
+  const protectedRoutes = ["/admin"];
   const isProtectedRoute = protectedRoutes.some((route) =>
     request.nextUrl.pathname.startsWith(route)
   );

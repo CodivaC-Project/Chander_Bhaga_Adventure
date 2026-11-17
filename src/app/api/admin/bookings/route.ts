@@ -9,9 +9,16 @@ export async function GET(request: NextRequest) {
   try {
 
     const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
     const limit = parseInt(searchParams.get("limit") || "50");
     const search = searchParams.get("search");
     const status = searchParams.get("status");
+
+    if (id) {
+      const { data, error } = await supabaseAdmin.from("bookings").select("*").eq("id", id).single();
+      if (error) throw error;
+      return NextResponse.json({ booking: data });
+    }
 
     let query = supabaseAdmin.from("bookings").select("*").order("createdAt", { ascending: false }).limit(limit);
 

@@ -43,7 +43,7 @@ export default function RegisterPage() {
       if (signUpError) {
         setError(signUpError.message || "Failed to create account");
       } else {
-        router.push("/dashboard");
+        router.push("/");
         router.refresh();
       }
     } catch (err) {

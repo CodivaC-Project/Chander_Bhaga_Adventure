@@ -22,7 +22,6 @@ import {
   MessageCircle,
   User,
   LogOut,
-  LayoutDashboard,
   Shield,
 } from "lucide-react";
 
@@ -195,14 +194,6 @@ export function Navbar() {
                           <div className="font-medium text-[var(--color-ink)] text-sm">{user.name}</div>
                           <div className="text-xs text-[var(--color-ink-faint)] truncate">{user.email}</div>
                         </div>
-                        <Link
-                          href="/dashboard"
-                          onClick={() => setShowUserMenu(false)}
-                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-[var(--color-ink-soft)] hover:bg-[var(--color-paper)] rounded-md transition-colors"
-                        >
-                          <LayoutDashboard className="w-4 h-4" />
-                          Dashboard
-                        </Link>
                         {user.role === "admin" && (
                           <Link
                             href="/admin"
@@ -314,14 +305,6 @@ export function Navbar() {
                 )}
                 {!isPending && isAuthenticated && (
                   <>
-                    <Link
-                      href="/dashboard"
-                      onClick={() => setIsOpen(false)}
-                      className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-xl transition-colors"
-                    >
-                      <LayoutDashboard className="w-5 h-5" />
-                      Dashboard
-                    </Link>
                     <button
                       onClick={(e) => {
                         handleSignOut(e);
