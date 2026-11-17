@@ -11,9 +11,9 @@ export const siteConfig = {
   license: "JKAT00003494",
   workingHours: "7:00 AM - 10:00 PM (7 days a week)",
   social: {
-    facebook: "https://facebook.com/chanderbhagaadventure",
-    instagram: "https://instagram.com/chanderbhagaadventure",
-    youtube: "https://youtube.com/@chanderbhagaadventure",
+    facebook: "https://facebook.com/shrimatavaishnodevitravels",
+    instagram: "https://instagram.com/shrimatavaishnodevitravels",
+    youtube: "https://youtube.com/@shrimatavaishnodevitravels",
   },
   seo: {
     defaultTitle: "Shri Mata Vaishno Devi Travels — Vaishno Devi Yatra & Kashmir Tour Packages",
