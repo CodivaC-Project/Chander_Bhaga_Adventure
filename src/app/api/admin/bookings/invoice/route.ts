@@ -25,6 +25,12 @@ function safeText(v: unknown, fallback = "-") {
   return String(v);
 }
 
+function pdfSafe(text: string): string {
+  return String(text ?? "")
+    .replace(/₹/g, "Rs. ")
+    .replace(/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/g, "?");
+}
+
 function drawRight(page: PDFPage, text: string, xRight: number, y: number, font: PDFFont, size: number, color = rgb(0.1, 0.1, 0.1)) {
   const width = font.widthOfTextAtSize(text, size);
   page.drawText(text, { x: xRight - width, y, size, font, color });
