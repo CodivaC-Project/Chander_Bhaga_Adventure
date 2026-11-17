@@ -16,6 +16,7 @@ interface Booking {
   date: string;
   totalAmount: number;
   finalAmount: number;
+  receivedAmount: number;
   status: string;
   paymentStatus: string;
   notes: string;
@@ -32,6 +33,7 @@ const emptyForm: Partial<Booking> = {
   date: new Date().toISOString().split("T")[0],
   totalAmount: 0,
   finalAmount: 0,
+  receivedAmount: 0,
   status: "pending",
   paymentStatus: "pending",
   notes: "",
@@ -79,7 +81,12 @@ export default function BookingsPage() {
   const handleEdit = (booking: Booking) => {
     setEditingId(booking.id);
     // DB stores specialRequests; the form uses notes
-    setForm({ ...booking, notes: (booking as any).specialRequests || booking.notes || "" });
+    setForm({
+      ...booking,
+      receivedAmount: Number((booking as any).receivedAmount ?? 0),
+      finalAmount: Number((booking as any).finalAmount ?? (booking as any).totalAmount ?? 0),
+      notes: (booking as any).specialRequests || booking.notes || "",
+    });
     setShowModal(true);
   };
 
@@ -256,6 +263,8 @@ export default function BookingsPage() {
                   <th className="text-left px-6 py-3 text-xs font-semibold text-[var(--color-ink-soft)] uppercase">Service</th>
                   <th className="text-left px-6 py-3 text-xs font-semibold text-[var(--color-ink-soft)] uppercase">Date</th>
                   <th className="text-left px-6 py-3 text-xs font-semibold text-[var(--color-ink-soft)] uppercase">Amount</th>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-[var(--color-ink-soft)] uppercase">Received</th>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-[var(--color-ink-soft)] uppercase">Balance</th>
                   <th className="text-left px-6 py-3 text-xs font-semibold text-[var(--color-ink-soft)] uppercase">Status</th>
                   <th className="text-left px-6 py-3 text-xs font-semibold text-[var(--color-ink-soft)] uppercase">Payment</th>
                   <th className="text-right px-6 py-3 text-xs font-semibold text-[var(--color-ink-soft)] uppercase">Actions</th>
@@ -275,7 +284,9 @@ export default function BookingsPage() {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-sm text-[var(--color-ink-soft)]">{new Date(booking.date).toLocaleDateString()}</td>
-                    <td className="px-6 py-4 text-sm font-medium text-[var(--color-ink)]">₹{booking.finalAmount.toLocaleString()}</td>
+                    <td className="px-6 py-4 text-sm font-medium text-[var(--color-ink)]">₹{Number(booking.finalAmount || 0).toLocaleString()}</td>
+                    <td className="px-6 py-4 text-sm text-[var(--color-pine)] font-medium">₹{Number((booking as any).receivedAmount || 0).toLocaleString()}</td>
+                    <td className="px-6 py-4 text-sm text-[var(--color-ink)]">₹{Math.max(0, Number(booking.finalAmount || 0) - Number((booking as any).receivedAmount || 0)).toLocaleString()}</td>
                     <td className="px-6 py-4">
                       <span
                         className={`text-xs px-2 py-1 rounded-full capitalize ${statusColors[booking.status] || "bg-[var(--color-paper)] text-[var(--color-ink-soft)] border border-[var(--color-line)]"}`}
@@ -404,9 +415,64 @@ export default function BookingsPage() {
                   <input
                     type="number"
                     value={form.totalAmount || 0}
-                    onChange={(e) => setForm({ ...form, totalAmount: parseFloat(e.target.value) || 0 })}
+                    onChange={(e) => {
+                      const totalAmount = parseFloat(e.target.value) || 0;
+                      const finalAmount = form.finalAmount ?? totalAmount;
+                      setForm((prev) => {
+                        const next: Partial<Booking> = { ...prev, totalAmount };
+                        if (!editingId || prev.finalAmount === prev.totalAmount) {
+                          next.finalAmount = totalAmount;
+                        }
+                        if (prev.paymentStatus === "paid") {
+                          next.receivedAmount = next.finalAmount ?? finalAmount;
+                        }
+                        return next;
+                      });
+                    }}
                     className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
                   />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Final Amount (₹)</label>
+                  <input
+                    type="number"
+                    value={form.finalAmount ?? 0}
+                    onChange={(e) => {
+                      const finalAmount = parseFloat(e.target.value) || 0;
+                      setForm((prev) => {
+                        const next: Partial<Booking> = { ...prev, finalAmount };
+                        if (prev.paymentStatus === "paid") next.receivedAmount = finalAmount;
+                        return next;
+                      });
+                    }}
+                    className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Received Amount (₹)</label>
+                  <input
+                    type="number"
+                    value={form.receivedAmount ?? 0}
+                    onChange={(e) => {
+                      const receivedAmount = parseFloat(e.target.value) || 0;
+                      setForm((prev) => {
+                        const next: Partial<Booking> = { ...prev, receivedAmount };
+                        const due = Number(prev.finalAmount ?? prev.totalAmount ?? 0);
+                        if (due > 0 && receivedAmount >= due && prev.paymentStatus === "pending") {
+                          next.paymentStatus = "paid";
+                        } else if (receivedAmount < due && prev.paymentStatus === "paid") {
+                          next.paymentStatus = "pending";
+                        }
+                        return next;
+                      });
+                    }}
+                    className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
+                  />
+                  <p className="mt-1 text-xs text-[var(--color-ink-soft)]">
+                    Balance: ₹{Math.max(0, Number(form.finalAmount ?? form.totalAmount ?? 0) - Number(form.receivedAmount ?? 0)).toLocaleString()}
+                  </p>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -427,7 +493,16 @@ export default function BookingsPage() {
                   <label className="block text-sm font-medium text-[var(--color-ink)] mb-1">Payment Status</label>
                   <select
                     value={form.paymentStatus || "pending"}
-                    onChange={(e) => setForm({ ...form, paymentStatus: e.target.value })}
+                    onChange={(e) => {
+                      const paymentStatus = e.target.value;
+                      setForm((prev) => {
+                        const next: Partial<Booking> = { ...prev, paymentStatus };
+                        const due = Number(prev.finalAmount ?? prev.totalAmount ?? 0);
+                        if (paymentStatus === "paid") next.receivedAmount = due;
+                        if (paymentStatus === "pending" && Number(prev.receivedAmount || 0) >= due) next.receivedAmount = 0;
+                        return next;
+                      });
+                    }}
                     className="w-full px-4 py-2 border border-[var(--color-line)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-pine)]"
                   >
                     <option value="pending">Pending</option>

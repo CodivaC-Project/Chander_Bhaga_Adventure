@@ -8,7 +8,7 @@ export const runtime = "nodejs";
 type Settings = Record<string, string>;
 
 function formatCurrency(amount: number, currency = "INR") {
-  const symbol = currency === "USD" ? "$" : "₹";
+  const symbol = currency === "USD" ? "$" : "Rs. ";
   const n = Number.isFinite(amount) ? amount : 0;
   return `${symbol}${n.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
@@ -105,7 +105,7 @@ export async function GET(request: NextRequest) {
     ]);
 
     const currency = settings.currency || "INR";
-    const siteName = settings.siteName || "Chander Bhaga Adventure";
+    const siteName = settings.siteName || "Shri Mata Vaishno Devi Travels";
     const companyPhone = settings.phone || "";
     const companyEmail = settings.email || "";
     const companyAddress = settings.address || "";
@@ -223,6 +223,8 @@ export async function GET(request: NextRequest) {
     const totalAmount = Number(booking.totalAmount || 0);
     const discountAmount = Number(booking.discountAmount || 0);
     const finalAmount = Number(booking.finalAmount ?? totalAmount - discountAmount);
+    const receivedAmount = Number(booking.receivedAmount ?? 0);
+    const balanceDue = Math.max(0, finalAmount - receivedAmount);
     const rate = qty > 0 ? totalAmount / qty : totalAmount;
 
     const desc = serviceLabel;
@@ -233,7 +235,7 @@ export async function GET(request: NextRequest) {
       page.drawText(dl, { x: colDesc, y: descY, size: 10, font, color: ink });
       descY -= 14;
     }
-    page.drawText(String(qty), { x: colQty, y, size: 10, font, color: ink });
+    page.drawText(pdfSafe(String(qty)), { x: colQty, y, size: 10, font, color: ink });
     drawRight(page, formatCurrency(rate, currency), colRate + 30, y, font, 10, ink);
     drawRight(page, formatCurrency(totalAmount, currency), colAmtRight, y, font, 10, ink);
     y -= rowHeight;
@@ -255,6 +257,8 @@ export async function GET(request: NextRequest) {
     }
     page.drawLine({ start: { x: totalsLabelX - 6, y: y + 10 }, end: { x: tableX + tableW, y: y + 10 }, thickness: 0.8, color: line });
     drawTotalRow("Grand Total", formatCurrency(finalAmount, currency), true, accent);
+    drawTotalRow("Amount Received", formatCurrency(receivedAmount, currency), true, ink);
+    drawTotalRow("Balance Due", formatCurrency(balanceDue, currency), false, balanceDue > 0 ? rgb(0.6, 0.1, 0.1) : ink);
 
     y -= 10;
     page.drawText(`Payment Status: ${safeText(booking.paymentStatus, "pending")}`, { x: margin, y, size: 10, font: fontBold, color: muted });

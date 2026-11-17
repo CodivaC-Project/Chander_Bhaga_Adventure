@@ -49,3 +49,6 @@ aisplop.md
 .freebuff/
 .windsurf/
 skills-lock.json
+
+# Supabase local temp
+supabase/.temp/

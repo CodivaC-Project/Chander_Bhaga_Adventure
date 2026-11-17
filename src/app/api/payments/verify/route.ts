@@ -39,9 +39,10 @@ export async function POST(request: NextRequest) {
       }
 
       // Update booking and payment status in Supabase
+      const paidAmount = booking?.finalAmount ?? booking?.totalAmount ?? 0;
       await supabase
         .from("bookings")
-        .update({ paymentStatus: "paid", status: "confirmed" })
+        .update({ paymentStatus: "paid", status: "confirmed", receivedAmount: paidAmount })
         .eq("bookingId", bookingId);
 
       await supabase.from("payments").insert({
@@ -51,7 +52,7 @@ export async function POST(request: NextRequest) {
         razorpayPaymentId: razorpay_payment_id,
         razorpaySignature: razorpay_signature,
         status: "captured",
-        amount: booking?.finalAmount ?? booking?.totalAmount ?? 0,
+        amount: paidAmount,
       });
 
       return NextResponse.json({ verified: true, message: "Payment verified successfully" });

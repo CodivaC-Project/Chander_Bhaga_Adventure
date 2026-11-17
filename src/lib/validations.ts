@@ -119,6 +119,7 @@ export const bookingSchema = z.object({
   totalAmount: z.number().positive(),
   discountAmount: z.number().nonnegative().optional(),
   finalAmount: z.number().nonnegative().optional(),
+  receivedAmount: z.number().nonnegative().optional(),
   status: z.enum(["pending", "confirmed", "cancelled", "completed"]).default("pending"),
   paymentStatus: z.enum(["pending", "paid", "failed", "refunded"]).default("pending"),
 });
