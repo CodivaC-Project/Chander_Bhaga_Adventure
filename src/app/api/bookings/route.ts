@@ -35,10 +35,25 @@ export async function POST(request: NextRequest) {
     }
     const bookingId =
       parsed.data.bookingId || `BK-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
-    const finalAmount = parsed.data.finalAmount ?? parsed.data.totalAmount;
+    const totalAmount = Number(parsed.data.totalAmount ?? 0);
+    const finalAmount = Number(parsed.data.finalAmount ?? totalAmount);
+    const receivedAmount =
+      parsed.data.paymentStatus === "paid"
+        ? finalAmount
+        : 0;
+    const now = new Date().toISOString();
     const { data: booking, error } = await supabase
       .from("bookings")
-      .insert({ ...parsed.data, bookingId, finalAmount, id: crypto.randomUUID() })
+      .insert({
+        ...parsed.data,
+        id: crypto.randomUUID(),
+        bookingId,
+        totalAmount,
+        finalAmount,
+        receivedAmount,
+        createdAt: now,
+        updatedAt: now,
+      })
       .select()
       .single();
     if (error) throw error;

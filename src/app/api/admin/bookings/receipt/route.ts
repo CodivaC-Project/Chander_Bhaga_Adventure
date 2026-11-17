@@ -8,7 +8,7 @@ export const runtime = "nodejs";
 type Settings = Record<string, string>;
 
 function formatCurrency(amount: number, currency = "INR") {
-  const symbol = currency === "USD" ? "$" : "₹";
+  const symbol = currency === "USD" ? "$" : "Rs. ";
   const n = Number.isFinite(amount) ? amount : 0;
   return `${symbol}${n.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
@@ -148,7 +148,7 @@ export async function GET(request: NextRequest) {
     const boxY = height - margin - boxH + 10;
     page.drawRectangle({ x: boxX, y: boxY, width: boxW, height: boxH, borderColor: line, borderWidth: 1, color: rgb(0.985, 0.985, 0.98) });
     page.drawText("PAYMENT RECEIPT", { x: boxX + 12, y: boxY + boxH - 20, size: 13, font: fontBold, color: accent });
-    page.drawText(`Receipt No: ${receiptNo}`, { x: boxX + 12, y: boxY + boxH - 38, size: 9.5, font, color: ink });
+    page.drawText(pdfSafe(`Receipt No: ${receiptNo}`), { x: boxX + 12, y: boxY + boxH - 38, size: 9.5, font, color: ink });
     page.drawText(`Receipt Date: ${receiptDate}`, { x: boxX + 12, y: boxY + boxH - 52, size: 9.5, font, color: ink });
 
     y = Math.min(y, boxY - 18);
@@ -211,7 +211,7 @@ export async function GET(request: NextRequest) {
     y -= 14;
     const serviceLines = wrapText(serviceLabel || "Service booking", font, 10, width - margin * 2);
     for (const sl of serviceLines) {
-      page.drawText(sl, { x: margin, y, size: 10, font, color: ink });
+      page.drawText(pdfSafe(sl), { x: margin, y, size: 10, font, color: ink });
       y -= 13;
     }
     y -= 8;
@@ -220,8 +220,9 @@ export async function GET(request: NextRequest) {
     const totalAmount = Number(booking.totalAmount || 0);
     const discountAmount = Number(booking.discountAmount || 0);
     const finalAmount = Number(booking.finalAmount ?? totalAmount - discountAmount);
-    const amountReceived = isPaid ? finalAmount : 0;
-    const balanceDue = isPaid ? 0 : finalAmount;
+    const recordedReceived = Number(booking.receivedAmount ?? 0);
+    const amountReceived = recordedReceived > 0 ? recordedReceived : (isPaid ? finalAmount : 0);
+    const balanceDue = Math.max(0, finalAmount - amountReceived);
 
     const totalsLabelX = margin + (width - margin * 2) * 0.55;
     const valueRight = width - margin;
